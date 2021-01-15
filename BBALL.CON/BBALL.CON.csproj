@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Models\BaseParameter.cs~RF8b2ec182.TMP" />
+    <None Remove="Models\ClutchPlayerParameters.cs~RF115cc3.TMP" />
+    <None Remove="Models\PlayerShotParameters.cs~RF19c3a4.TMP" />
+    <None Remove="Services\CumeStatsService.cs~RF1a5e8c.TMP" />
+    <None Remove="Services\PlayersService.cs~RF1fb7cf.TMP" />
+    <None Remove="Services\ScopeService.cs~RF8b2060d8.TMP" />
+    <None Remove="Services\ShotChartService.cs~RFf68d3.TMP" />
+    <None Remove="Services\ve-8A5.tmp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.11.5" />
+    <PackageReference Include="MongoDB.Driver" Version="2.11.5" />
+    <PackageReference Include="MongoDB.Driver.Core" Version="2.11.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+</Project>
