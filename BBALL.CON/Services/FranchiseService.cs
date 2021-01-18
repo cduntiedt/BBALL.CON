@@ -20,5 +20,32 @@ namespace BBALL.CON.Services
         {
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchisehistory/", "franchisehistory", parameters);
         }
+
+        public static void FranchiseLeaders(int TeamID, string LeagueID = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            FranchiseLeaders(parameters);
+        }
+
+        public static void FranchiseLeaders(JArray parameters) {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchiseleaders/", "franchiseleaders", parameters);
+        }
+
+        public static void FranchisePlayers(string LeagueID, string PerMode, string SeasonType, int TeamID)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
+            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
+            FranchisePlayers(parameters);
+        }
+
+        public static void FranchisePlayers(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchiseplayers/", "franchiseplayers", parameters);
+        }
     }
 }

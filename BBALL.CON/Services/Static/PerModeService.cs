@@ -25,5 +25,23 @@ namespace BBALL.CON.Services
             perModes.Add("PerGame");
             return perModes;
         }
+
+        public static List<string> FranchisePerModes { get { return _FranchisePerModes(); } }
+        private static List<string> _FranchisePerModes()
+        {
+            List<string> perModes = new List<string>();
+            perModes.Add("Totals");
+            perModes.Add("PerGame");
+            perModes.Add("MinutesPer");
+            perModes.Add("Per48");
+            perModes.Add("Per40");
+            perModes.Add("Per36");
+            perModes.Add("PerMinute");
+            perModes.Add("PerPossession");
+            perModes.Add("PerPlay");
+            perModes.Add("Per100Possessions");
+            perModes.Add("Per100Plays");
+            return perModes;
+        }
     }
 }
