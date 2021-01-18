@@ -19,7 +19,12 @@ namespace BBALL.CON.Services
 
             return seasonTypes;
         }
-        
+
+        //TODO: Verify endpoints
+        /// <summary>
+        /// Team Scopes. 
+        /// Works with HomePageService.
+        /// </summary>
         public static List<string> TeamSeasonTypes { get { return _TeamSeasonTypes(); } }
         private static List<string> _TeamSeasonTypes()
         {

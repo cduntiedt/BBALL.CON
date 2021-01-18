@@ -208,5 +208,19 @@ namespace BBALL.CON.Services
         {
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoreusagev2/", "boxscoreusagev2", parameters);
         }
+
+        public static void HustleStatsBoxScore(
+           int GameID
+       )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
+            HustleStatsBoxScore(parameters);
+        }
+
+        public static void HustleStatsBoxScore(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/hustlestatsboxscore/", "hustlestatsboxscore", parameters);
+        }
     }
 }

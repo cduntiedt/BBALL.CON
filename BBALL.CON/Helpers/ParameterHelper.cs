@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace BBALL.CON.Helpers
@@ -14,14 +15,6 @@ namespace BBALL.CON.Helpers
             Int,
             Bool
         }
-
-        /// <summary>
-        /// Connect to the StatsService
-        /// </summary>
-        private static StatsHelper _stats = new StatsHelper();
-
-        public static JObject LeagueID = CreateParameterObject("LeagueID", _stats.LeagueID, ParameterType.String);
-        public static JObject IsOnlyCurrentSeason = CreateParameterObject("IsOnlyCurrentSeason", 1, ParameterType.Int);
 
         /// <summary>
         /// Create the parameter object

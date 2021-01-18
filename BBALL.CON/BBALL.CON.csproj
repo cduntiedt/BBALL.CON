@@ -13,6 +13,9 @@
     <None Remove="Services\PlayersService.cs~RF1fb7cf.TMP" />
     <None Remove="Services\ScopeService.cs~RF8b2060d8.TMP" />
     <None Remove="Services\ShotChartService.cs~RFf68d3.TMP" />
+    <None Remove="Services\Static\PlayerOrTeamService.cs~RF55666d.TMP" />
+    <None Remove="Services\Static\PlayerScopesService.cs~RF56a4e8.TMP" />
+    <None Remove="Services\Static\PlayerScopesService.cs~RF570298.TMP" />
     <None Remove="Services\ve-8A5.tmp" />
   </ItemGroup>
 

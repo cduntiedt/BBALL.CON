@@ -14,7 +14,6 @@ namespace BBALL.CON.Helpers
     {
         public string LeagueID = "00";
         public string BaseURL = "https://stats.nba.com/stats/";
-
         public async Task<string> API(string url)
         {
             HttpClient client = new HttpClient();
