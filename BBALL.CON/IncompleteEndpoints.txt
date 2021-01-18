@@ -1,0 +1,6 @@
+﻿The following are endpoints that have been skipped:
+
+DefenseHub (need to verify any missing endpoints before this one)
+FantasyWidget
+GLAlumBoxScoreSimilarityScore
+InfographicFanDuelPlayer
