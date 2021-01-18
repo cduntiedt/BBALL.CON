@@ -4,3 +4,5 @@ DefenseHub (need to verify any missing endpoints before this one)
 FantasyWidget
 GLAlumBoxScoreSimilarityScore
 InfographicFanDuelPlayer
+
+(Source: https://github.com/swar/nba_api/blob/master/docs/table_of_contents.md)
