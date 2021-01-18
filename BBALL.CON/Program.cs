@@ -117,13 +117,13 @@ namespace BBALL.CON
             {
                 parameters = null;
             }
-            var gameDocuments = GameService.ImportGames(parameters);
+            var gameDocuments = _OldGameService.ImportGames(parameters);
             foreach (var gameDocument in gameDocuments)
             {
                 foreach (var game in (BsonArray)gameDocument["Games"])
                 {
                     Wait(500);
-                    GameService.LoadGameData(game["Game_ID"].ToString());
+                    _OldGameService.LoadGameData(game["Game_ID"].ToString());
                 }
             }
         }
