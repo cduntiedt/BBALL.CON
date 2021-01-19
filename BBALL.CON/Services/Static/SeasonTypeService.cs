@@ -35,5 +35,17 @@ namespace BBALL.CON.Services
 
             return seasonTypes;
         }
+
+        public static List<string> LeagueSeasonTypes { get { return _LeagueSeasonTypes(); } }
+        private static List<string> _LeagueSeasonTypes()
+        {
+            List<string> seasonTypes = new List<string>();
+            seasonTypes.Add("Regular Season");
+            seasonTypes.Add("Pre Season");
+            seasonTypes.Add("Playoffs");
+            seasonTypes.Add("All Star");
+
+            return seasonTypes;
+        }
     }
 }

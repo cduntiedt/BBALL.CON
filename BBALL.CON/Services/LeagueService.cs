@@ -9,6 +9,69 @@ namespace BBALL.CON.Services
 {
     public static class LeagueService
     {
+        public static void LeagueDashLineups(
+            string Season,
+            string LeagueID,
+            string SeasonType = "Regular Season",
+            string MeasureType = "Base",
+            string GroupQuantity = "5",
+            string LastNGames = "0",
+            string Month = "0",
+            string OpponentTeamID = "0",
+            string PaceAdjust = "N",
+            string PerMode = "Totals",
+            string Period = "0",
+            string PlusMinus = "N",
+            string Rank = "N",
+            string VsConference = null,
+            string VsDivision = null,
+            string TeamID = null,
+            string ShotClockRange = null,
+            string Conference = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string Division = null,
+            string GameSegment = null,
+            string Location = null,
+            string Outcome = null,
+            string PORound = null
+        )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
+            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType, ParameterType.String));
+            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
+            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
+            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
+            parameters.Add(CreateParameterObject("GroupQuantity", GroupQuantity, ParameterType.String));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.String));
+            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
+            parameters.Add(CreateParameterObject("Month", Month, ParameterType.String));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.String));
+            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust, ParameterType.String));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus, ParameterType.String));
+            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.String));
+            parameters.Add(CreateParameterObject("Period", Period, ParameterType.String));
+            parameters.Add(CreateParameterObject("Rank", Rank, ParameterType.String));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
+            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.String));
+            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
+
+            LeagueDashLineups(parameters);
+        }
+
+        public static void LeagueDashLineups(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashlineups/", "leaguedashlineups", parameters);
+        }
+
         public static void LeagueDashPlayerBioStats(
            string LeagueID,
            string Season,

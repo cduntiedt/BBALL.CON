@@ -32,5 +32,23 @@ namespace BBALL.CON.Services
             measureTypes.Add("Opponent");
             return measureTypes;
         }
+
+        /// <summary>
+        /// Used with LeagueService.
+        /// </summary>
+        public static List<string> LeagueMeasureTypes { get { return _LeagueMeasureTypes(); } }
+        private static List<string> _LeagueMeasureTypes()
+        {
+            List<string> measureTypes = new List<string>();
+            measureTypes.Add("Base"); //traditional
+            measureTypes.Add("Advanced");
+            measureTypes.Add("Misc");
+            measureTypes.Add("Four Factors");
+            measureTypes.Add("Scoring");
+            measureTypes.Add("Opponent");
+            measureTypes.Add("Usage");
+            measureTypes.Add("Defense");
+            return measureTypes;
+        }
     }
 }
