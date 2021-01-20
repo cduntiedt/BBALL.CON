@@ -48,6 +48,20 @@ namespace BBALL.CON.Helpers
             return obj;
         }
 
+        /// <summary>
+        /// All parameters end up being strings anyways.
+        /// </summary>
+        /// <param name="key">The key of the object.</param>
+        /// <param name="value">The value of the object.</param>
+        /// <returns>The key/value pairing.</returns>
+        public static JObject CreateParameterObject(string key, string value)
+        {
+            JObject obj = new JObject();
+            obj.Add("Key", key);
+            obj.Add("Value", value);
+            return obj;
+        }
+
         public static JArray CreateBaseParameterArray(
            string leagueID,
            string season,

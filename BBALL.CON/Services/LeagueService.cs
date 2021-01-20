@@ -10,8 +10,8 @@ namespace BBALL.CON.Services
     public static class LeagueService
     {
         public static void LeagueDashLineups(
-            string Season,
-            string LeagueID,
+            string Season = null,
+            string LeagueID = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string GroupQuantity = "5",
@@ -38,31 +38,31 @@ namespace BBALL.CON.Services
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("MeasureType", MeasureType, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("GroupQuantity", GroupQuantity, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.String));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.String));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.String));
-            parameters.Add(CreateParameterObject("Period", Period, ParameterType.String));
-            parameters.Add(CreateParameterObject("Rank", Rank, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("GroupQuantity", GroupQuantity));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
 
             LeagueDashLineups(parameters);
         }
@@ -73,8 +73,8 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashPlayerBioStats(
-           string LeagueID,
-           string Season,
+           string LeagueID = null,
+           string Season = null,
            string PerMode = "PerGame",
            string SeasonType = "Regular Season",
            string College = null,
@@ -88,57 +88,55 @@ namespace BBALL.CON.Services
            string GameScope = null,
            string GameSegment = null,
            string Height = null,
-           int LastNGames = 0,
+           string LastNGames = null,
            string Location = null,
-           int Month = 0,
-           int OpponentTeamID = 0,
+           string Month = null,
+           string OpponentTeamID = null,
            string Outcome = null,
-           int PORound = 0,
-           int Period = 0,
+           string PORound = null,
+           string Period = null,
            string PlayerExperience = null,
            string PlayerPosition = null,
            string SeasonSegment = null,
            string ShotClockRange = null,
            string StarterBench = null,
-           int TeamID = 0,
-           int TwoWay = 0,
+           string TeamID = null,
            string VsConference = null,
            string VsDivision = null,
            string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Period", Period, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("TwoWay", TwoWay, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPlayerBioStats(parameters);
         }
@@ -150,11 +148,11 @@ namespace BBALL.CON.Services
 
         //Players > Clutch
         public static void LeagueDashPlayerClutch(
-            string LeagueID,
-            string MeasureType,
-            string PerMode,
-            string Season,
-            string SeasonType,
+            string LeagueID = null,
+            string Season = null,
+            string SeasonType = "Regular Season",
+            string MeasureType = "Base",
+            string PerMode = "Totals",
             string AheadBehind = "Ahead or Behind",
             string ClutchTime = "Last 5 Minutes",
             string College = null,
@@ -168,68 +166,66 @@ namespace BBALL.CON.Services
             string GameScope = null,
             string GameSegment = null,
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PaceAdjust = "N",
-            int Period = 0,
+            string Period = "0",
             string PlayerExperience = null,
             string PlayerPosition = null,
             string PlusMinus = "N",
-            int PointDiff = 5,
+            string PostringDiff = "5",
             string Rank = "N",
             string SeasonSegment = null,
             string ShotClockRange = null,
             string StarterBench = null,
-            int TeamID = 0,
-            int TwoWay = 0,
+            string TeamID = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("MeasureType", MeasureType, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("AheadBehind", AheadBehind, ParameterType.String));
-            parameters.Add(CreateParameterObject("ClutchTime", ClutchTime, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust, ParameterType.String));
-            parameters.Add(CreateParameterObject("Period", Period, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus, ParameterType.String));
-            parameters.Add(CreateParameterObject("PointDiff", PointDiff, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Rank", Rank, ParameterType.Int));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("TwoWay", TwoWay, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("AheadBehind", AheadBehind));
+            parameters.Add(CreateParameterObject("ClutchTime", ClutchTime));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("PostringDiff", PostringDiff));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPlayerClutch(parameters);
         }
@@ -240,11 +236,11 @@ namespace BBALL.CON.Services
         }
 
         //Players > Shot Dashboard
-        public static void LeagueDashPlayerPTShot(
-            string LeagueID,
-            string PerMode,
-            string Season,
-            string SeasonType,
+        public static void LeagueDashOppPtShot(
+            string LeagueID = null,
+            string Season = null,
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
             string CloseDefDistRange = null,
             string College = null,
             string Conference = null,
@@ -258,14 +254,14 @@ namespace BBALL.CON.Services
             string GameSegment = null,
             string GeneralRange = "Overall",
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PaceAdjust = "N",
-            int Period = 0,
+            string Period = "0",
             string PlayerExperience = null,
             string PlayerPosition = null,
             string PlusMinus = "N",
@@ -274,51 +270,140 @@ namespace BBALL.CON.Services
             string ShotClockRange = null,
             string ShotDistRange = null,
             string StarterBench = null,
-            int TeamID = 0,
+            string TeamID = "0",
             string TouchTimeRange = null,
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("CloseDefDistRange", CloseDefDistRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("DribbleRange", DribbleRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("GeneralRange", GeneralRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust, ParameterType.String));
-            parameters.Add(CreateParameterObject("Period", Period, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus, ParameterType.String));
-            parameters.Add(CreateParameterObject("Rank", Rank, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotDistRange", ShotDistRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("TouchTimeRange", TouchTimeRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("CloseDefDistRange", CloseDefDistRange));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("DribbleRange", DribbleRange));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("GeneralRange", GeneralRange));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("ShotDistRange", ShotDistRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("TouchTimeRange", TouchTimeRange));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
+
+            LeagueDashOppPtShot(parameters);
+        }
+
+        public static void LeagueDashOppPtShot(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashoppptshot/", "leaguedashoppptshot", parameters);
+        }
+
+        //Players > Shot Dashboard
+        public static void LeagueDashPlayerPTShot(
+            string LeagueID = null,
+            string Season = null,
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
+            string CloseDefDistRange = null,
+            string College = null,
+            string Conference = null,
+            string Country = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string Division = null,
+            string DraftPick = null,
+            string DraftYear = null,
+            string DribbleRange = null,
+            string GameSegment = null,
+            string GeneralRange = "Overall",
+            string Height = null,
+            string LastNGames = "0",
+            string Location = null,
+            string Month = "0",
+            string OpponentTeamID = "0",
+            string Outcome = null,
+            string PORound = "0",
+            string PaceAdjust = "N",
+            string Period = "0",
+            string PlayerExperience = null,
+            string PlayerPosition = null,
+            string PlusMinus = "N",
+            string Rank = "N",
+            string SeasonSegment = null,
+            string ShotClockRange = null,
+            string ShotDistRange = null,
+            string StarterBench = null,
+            string TeamID = "0",
+            string TouchTimeRange = null,
+            string VsConference = null,
+            string VsDivision = null,
+            string Weight = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("CloseDefDistRange", CloseDefDistRange));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("DribbleRange", DribbleRange));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("GeneralRange", GeneralRange));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("ShotDistRange", ShotDistRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("TouchTimeRange", TouchTimeRange));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPlayerPTShot(parameters);
         }
@@ -330,12 +415,12 @@ namespace BBALL.CON.Services
 
         //Players > Shooting
         public static void LeagueDashPlayerShotLocations(
-            string LeagueID,
-            string Season,
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "PerGame",
-            string DistanceRange = "5ft Range",
+            string DistanceRange = "By Zone",
             string College = null,
             string Conference = null,
             string Country = null,
@@ -346,54 +431,54 @@ namespace BBALL.CON.Services
             string DraftYear = null,
             string GameScope = null,
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PlayerExperience = null,
             string PLayerOrTeam = "Player",
             string PlayerPosition = null,
             string SeasonSegment = null,
             string StarterBench = null,
-            int TeamID = 0,
+            string TeamID = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("MeasureType", MeasureType, ParameterType.String));
-            parameters.Add(CreateParameterObject("DistanceRange", DistanceRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("DistanceRange", DistanceRange));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPlayerShotLocations(parameters);
         }
@@ -405,11 +490,11 @@ namespace BBALL.CON.Services
 
         //Players > Traditional Stats
         public static void LeagueDashPlayerStats(
-            string LeagueID,
-            string MeasureType,
-            string PerMode,
-            string Season,
-            string SeasonType,
+            string LeagueID = null,
+            string Season = null,
+            string MeasureType = "Base",
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
             string College = null,
             string Conference = null,
             string Country = null,
@@ -421,14 +506,14 @@ namespace BBALL.CON.Services
             string GameScope = null,
             string GameSegment = null,
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PaceAdjust = "N",
-            int Period = 0,
+            string Period = "0",
             string PlayerExperience = null,
             string PlayerPosition = null,
             string PlusMinus = "N",
@@ -436,49 +521,49 @@ namespace BBALL.CON.Services
             string SeasonSegment = null,
             string ShotClockRange = null,
             string StarterBench = null,
-            int TeamID = 0,
-            int TwoWay = 0,
+            string TeamID = "0",
+            string TwoWay = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("MeasureType", MeasureType, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust, ParameterType.String));
-            parameters.Add(CreateParameterObject("Period", Period, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus, ParameterType.String));
-            parameters.Add(CreateParameterObject("Rank", Rank, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("TwoWay", TwoWay, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("TwoWay", TwoWay));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPlayerStats(parameters);
         }
@@ -490,10 +575,10 @@ namespace BBALL.CON.Services
 
         //Players > Defensive Dashboard
         public static void LeagueDashPTDefend(
-            string LeagueID,
-            string PerMode,
-            string Season,
-            string SeasonType,
+            string LeagueID = null,
+            string Season = null,
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
             string DefenseCategory = "Overall",
             string College = null,
             string Conference = null,
@@ -506,14 +591,14 @@ namespace BBALL.CON.Services
             string GameScope = null,
             string GameSegment = null,
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PaceAdjust = "N",
-            int Period = 0,
+            string Period = "0",
             string PlayerExperience = null,
             string PlayerPosition = null,
             string PlusMinus = "N",
@@ -521,49 +606,49 @@ namespace BBALL.CON.Services
             string SeasonSegment = null,
             string ShotClockRange = null,
             string StarterBench = null,
-            int TeamID = 0,
-            int TwoWay = 0,
+            string TeamID = "0",
+            string TwoWay = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("DefenseCategory", DefenseCategory, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameSegment", GameSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust, ParameterType.String));
-            parameters.Add(CreateParameterObject("Period", Period, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus, ParameterType.String));
-            parameters.Add(CreateParameterObject("Rank", Rank, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("TwoWay", TwoWay, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("DefenseCategory", DefenseCategory));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("TwoWay", TwoWay));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPTDefend(parameters);
         }
@@ -575,10 +660,10 @@ namespace BBALL.CON.Services
 
         //Players > Tracking
         public static void LeagueDashPTStats(
-            string LeagueID,
-            string PerMode,
-            string Season,
-            string SeasonType,
+            string LeagueID = null,
+            string Season = null,
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
             string PtMeasureType = "CatchShoot",
             string College = null,
             string Conference = null,
@@ -590,53 +675,53 @@ namespace BBALL.CON.Services
             string DraftYear = null,
             string GameScope = null,
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PlayerExperience = null,
             string PLayerOrTeam = "Player",
             string PlayerPosition = null,
             string SeasonSegment = null,
             string StarterBench = null,
-            int TeamID = 0,
+            string TeamID = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("PtMeasureType", PtMeasureType, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("PtMeasureType", PtMeasureType));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPTStats(parameters);
         }
@@ -646,14 +731,357 @@ namespace BBALL.CON.Services
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashptstats/", "leaguedashptstats", parameters);
         }
 
-        //Players > Opponent Shooting
-        public static void LeagueDashOpponentShotLocations(
-            string LeagueID,
-            string Season,
+        public static void LeagueDashPTTeamDefend(
+            string LeagueID = null,
+            string Season = null,
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
+            string DefenseCategory = "Overall",
+            string Conference = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string Division = null,
+            string GameSegment = null,
+            string LastNGames = "0",
+            string Location = null,
+            string Month = "0",
+            string OpponentTeamID = "0",
+            string Outcome = null,
+            string PORound = "0",
+            string Period = "0",
+            string SeasonSegment = null,
+            string TeamID = "0",
+            string VsConference = null,
+            string VsDivision = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("DefenseCategory", DefenseCategory));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            LeagueDashPTTeamDefend(parameters);
+        }
+
+        public static void LeagueDashPTTeamDefend(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashptteamdefend/", "leaguedashptteamdefend", parameters);
+        }
+
+        public static void LeagueDashTeamClutch(
+            string LeagueID = null,
+            string Season = null,
+            string SeasonType = "Regular Season",
+            string MeasureType = "Base",
+            string PerMode = "Totals",
+            string AheadBehind = "Ahead or Behind",
+            string ClutchTime = "Last 5 Minutes",
+            string Conference = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string Division = null,
+            string GameScope = null,
+            string GameSegment = null,
+            string LastNGames = "0",
+            string Location = null,
+            string Month = "0",
+            string OpponentTeamID = "0",
+            string Outcome = null,
+            string PORound = "0",
+            string PaceAdjust = "N",
+            string Period = "0",
+            string PlayerExperience = null,
+            string PlayerPosition = null,
+            string PlusMinus = "N",
+            string PointDiff = "5",
+            string Rank = "N",
+            string SeasonSegment = null,
+            string ShotClockRange = null,
+            string StarterBench = null,
+            string TeamID = "0",
+            string VsConference = null,
+            string VsDivision = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("AheadBehind", AheadBehind));
+            parameters.Add(CreateParameterObject("ClutchTime", ClutchTime));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("PointDiff", PointDiff));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            LeagueDashTeamClutch(parameters);
+        }
+
+        public static void LeagueDashTeamClutch(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashteamclutch/", "leaguedashteamclutch", parameters);
+        }
+
+        public static void LeagueDashTeamPtShot(
+            string LeagueID = null,
+            string Season = null,
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
+            string CloseDefDistRange = null,
+            string Conference = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string Division = null,
+            string DribbleRange = null,
+            string GameSegment = null,
+            string GeneralRange = "Overall",
+            string LastNGames = "0",
+            string Location = null,
+            string Month = "0",
+            string OpponentTeamID = "0",
+            string Outcome = null,
+            string PORound = "0",
+            string Period = "0",
+            string SeasonSegment = null,
+            string ShotClockRange = null,
+            string ShotDistRange = null,
+            string TeamID = "0",
+            string TouchTimeRange = null,
+            string VsConference = null,
+            string VsDivision = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("CloseDefDistRange", CloseDefDistRange));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DribbleRange", DribbleRange));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("GeneralRange", GeneralRange));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("ShotDistRange", ShotDistRange));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("TouchTimeRange", TouchTimeRange));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            LeagueDashTeamPtShot(parameters);
+        }
+
+        public static void LeagueDashTeamPtShot(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashteamptshot/", "leaguedashteamptshot", parameters);
+        }
+
+        public static void LeagueDashTeamShotLocations(
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Opponent",
             string PerMode = "PerGame",
-            string DistanceRange = "5ft Range",
+            string DistanceRange = "By Zone",
+            string Conference = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string Division = null,
+            string GameScope = null,
+            string GameSegment = null,
+            string LastNGames = "0",
+            string Location = null,
+            string Month = "0",
+            string OpponentTeamID = "0",
+            string Outcome = null,
+            string PaceAdjust = "N",
+            string Period = "0",
+            string PORound = "0",
+            string PlusMinus = "N",
+            string Rank = "N",
+            string PlayerExperience = null,
+            string PLayerOrTeam = "Player",
+            string PlayerPosition = null,
+            string SeasonSegment = null,
+            string ShotClockRange = null,
+            string StarterBench = null,
+            string TeamID = "0",
+            string VsConference = null,
+            string VsDivision = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("DistanceRange", DistanceRange));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            LeagueDashTeamShotLocations(parameters);
+        }
+
+        public static void LeagueDashTeamShotLocations(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashteamshotlocations/", "leaguedashteamshotlocations", parameters);
+        }
+
+        public static void LeagueDashTeamStats(
+           string LeagueID = null,
+           string Season = null,
+           string MeasureType = "Base",
+           string PerMode = "Totals",
+           string SeasonType = "Regular Season",
+           string Conference = null,
+           string DateFrom = null,
+           string DateTo = null,
+           string Division = null,
+           string GameScope = null,
+           string GameSegment = null,
+           string Height = null,
+           string LastNGames = "0",
+           string Location = null,
+           string Month = "0",
+           string OpponentTeamID = "0",
+           string Outcome = null,
+           string PORound = null,
+           string PaceAdjust = "N",
+           string Period = "0",
+           string PlayerExperience = null,
+           string PlayerPosition = null,
+           string PlusMinus = "N",
+           string Rank = "N",
+           string SeasonSegment = null,
+           string ShotClockRange = null,
+           string StarterBench = null,
+           string TeamID = null,
+           string TwoWay = null,
+           string VsConference = null,
+           string VsDivision = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("TwoWay", TwoWay));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            LeagueDashTeamStats(parameters);
+        }
+
+        public static void LeagueDashTeamStats(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leaguedashteamstats/", "leaguedashteamstats", parameters);
+        }
+
+
+        //Players > Opponent Shooting
+        public static void LeagueDashOpponentShotLocations(
+            string LeagueID = null,
+            string Season = null,
+            string SeasonType = "Regular Season",
+            string MeasureType = "Opponent",
+            string PerMode = "PerGame",
+            string DistanceRange = "By Zone",
             string College = null,
             string Conference = null,
             string Country = null,
@@ -664,62 +1092,62 @@ namespace BBALL.CON.Services
             string DraftYear = null,
             string GameScope = null,
             string Height = null,
-            int LastNGames = 0,
+            string LastNGames = "0",
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PlayerExperience = null,
             string PLayerOrTeam = "Player",
             string PlayerPosition = null,
             string SeasonSegment = null,
             string StarterBench = null,
-            int TeamID = 0,
+            string TeamID = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("MeasureType", MeasureType, ParameterType.String));
-            parameters.Add(CreateParameterObject("DistanceRange", DistanceRange, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("LastNGames", LastNGames, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("StarterBench", StarterBench, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("DistanceRange", DistanceRange));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("StarterBench", StarterBench));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueDashPlayerShotLocations(parameters);
         }
 
         //Players > Hustle or Players > Box Outs
         public static void LeagueHustleStatsPlayer(
-            string LeagueID,
-            string Season,
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
             string College = null,
@@ -732,44 +1160,44 @@ namespace BBALL.CON.Services
             string DraftYear = null,
             string Height = null,
             string Location = null,
-            int Month = 0,
-            int OpponentTeamID = 0,
+            string Month = "0",
+            string OpponentTeamID = "0",
             string Outcome = null,
-            int PORound = 0,
+            string PORound = "0",
             string PlayerExperience = null,
             string PlayerPosition = null,
             string SeasonSegment = null,
-            int TeamID = 0,
+            string TeamID = "0",
             string VsConference = null,
             string VsDivision = null,
             string Weight = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
-            parameters.Add(CreateParameterObject("Conference", Conference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Country", Country, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Division", Division, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftPick", DraftPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("DraftYear", DraftYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("Height", Height, ParameterType.String));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
-            parameters.Add(CreateParameterObject("Month", Month, ParameterType.Int));
-            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("PORound", PORound, ParameterType.Int));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("Weight", Weight, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("College", College));
+            parameters.Add(CreateParameterObject("Conference", Conference));
+            parameters.Add(CreateParameterObject("Country", Country));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Division", Division));
+            parameters.Add(CreateParameterObject("DraftPick", DraftPick));
+            parameters.Add(CreateParameterObject("DraftYear", DraftYear));
+            parameters.Add(CreateParameterObject("Height", Height));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("Weight", Weight));
 
             LeagueHustleStatsPlayer(parameters);
         }
@@ -781,10 +1209,10 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueGameLog(
-            string LeagueID,
-            string Season,
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season",
-            int Counter = 1000,
+            string Counter = "1000",
             string DateFrom = null,
             string DateTo = null,
             string Direction = "DESC",
@@ -793,15 +1221,15 @@ namespace BBALL.CON.Services
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("Counter", Counter, ParameterType.Int));
-            parameters.Add(CreateParameterObject("DateFrom", DateFrom, ParameterType.String));
-            parameters.Add(CreateParameterObject("DateTo", DateTo, ParameterType.String));
-            parameters.Add(CreateParameterObject("Direction", Direction, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("Sorter", Sorter, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("Counter", Counter));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("Direction", Direction));
+            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
+            parameters.Add(CreateParameterObject("Sorter", Sorter));
 
             LeagueGameLog(parameters);
         }
