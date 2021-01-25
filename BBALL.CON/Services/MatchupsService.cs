@@ -12,17 +12,17 @@ namespace BBALL.CON.Services
         public static void LeagueSeasonMatchups(
            string LeagueID,
            string Season,
-           int DefPlayerID,
            string PerMode = "Totals",
            string SeasonType = "Regular Season",
+           string DefPlayerID = null,
            string DefTeamID = null,
            string OffPlayerID = null,
            string OffTeamID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
+            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID, ParameterType.String));
             parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
             parameters.Add(CreateParameterObject("DefTeamID", DefTeamID, ParameterType.String));
@@ -39,17 +39,17 @@ namespace BBALL.CON.Services
         public static void MatchupsRollup(
             string LeagueID,
             string Season,
-            int DefPlayerID,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
+            string DefPlayerID = null,
             string DefTeamID = null,
             string OffPlayerID = null,
             string OffTeamID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
+            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID, ParameterType.String));
             parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
             parameters.Add(CreateParameterObject("DefTeamID", DefTeamID, ParameterType.String));

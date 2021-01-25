@@ -18,5 +18,14 @@ namespace BBALL.CON.Services.Static
             playerOrTeam.Add("Team");
             return playerOrTeam;
         }
+
+        public static List<string> PorT { get { return _PorT(); } }
+        private static List<string> _PorT()
+        {
+            List<string> playerOrTeam = new List<string>();
+            playerOrTeam.Add("P");
+            playerOrTeam.Add("T");
+            return playerOrTeam;
+        }
     }
 }
