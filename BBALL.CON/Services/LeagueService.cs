@@ -10,8 +10,6 @@ namespace BBALL.CON.Services
     public static class LeagueService
     {
         public static void LeagueDashLineups(
-            string Season = null,
-            string LeagueID = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string GroupQuantity = "5",
@@ -23,6 +21,8 @@ namespace BBALL.CON.Services
             string Period = "0",
             string PlusMinus = "N",
             string Rank = "N",
+            string Season = null,
+            string LeagueID = null,
             string VsConference = null,
             string VsDivision = null,
             string TeamID = null,
@@ -73,10 +73,10 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashPlayerBioStats(
-           string LeagueID = null,
-           string Season = null,
            string PerMode = "PerGame",
            string SeasonType = "Regular Season",
+           string LeagueID = null,
+           string Season = null,
            string TeamID = null,
            string College = null,
            string Conference = null,
@@ -148,13 +148,13 @@ namespace BBALL.CON.Services
 
         //Players > Clutch
         public static void LeagueDashPlayerClutch(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
             string AheadBehind = "Ahead or Behind",
             string ClutchTime = "Last 5 Minutes",
+            string LeagueID = null,
+            string Season = null,
             string TeamID = "0",
             string College = null,
             string Conference = null,
@@ -237,11 +237,11 @@ namespace BBALL.CON.Services
 
         //Players > Shot Dashboard
         public static void LeagueDashOppPtShot(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string CloseDefDistRange = null,
             string College = null,
             string Conference = null,
@@ -326,11 +326,11 @@ namespace BBALL.CON.Services
 
         //Players > Shot Dashboard
         public static void LeagueDashPlayerPTShot(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string CloseDefDistRange = null,
             string College = null,
             string Conference = null,
@@ -415,13 +415,13 @@ namespace BBALL.CON.Services
 
         //Players > Shooting
         public static void LeagueDashPlayerShotLocations(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "PerGame",
             string DistanceRange = "By Zone",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -490,12 +490,12 @@ namespace BBALL.CON.Services
 
         //Players > Traditional Stats
         public static void LeagueDashPlayerStats(
-            string LeagueID = null,
-            string Season = null,
             string MeasureType = "Base",
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -575,12 +575,12 @@ namespace BBALL.CON.Services
 
         //Players > Defensive Dashboard
         public static void LeagueDashPTDefend(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string DefenseCategory = "Overall",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -660,12 +660,12 @@ namespace BBALL.CON.Services
 
         //Players > Tracking
         public static void LeagueDashPTStats(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string PtMeasureType = "CatchShoot",
             string TeamID = "0",
+           string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -732,12 +732,12 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashPTTeamDefend(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string DefenseCategory = "Overall",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string Conference = null,
             string DateFrom = null,
             string DateTo = null,
@@ -786,14 +786,14 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashTeamClutch(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
             string AheadBehind = "Ahead or Behind",
             string ClutchTime = "Last 5 Minutes",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string Conference = null,
             string DateFrom = null,
             string DateTo = null,
@@ -862,11 +862,11 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashTeamPtShot(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string CloseDefDistRange = null,
             string Conference = null,
             string DateFrom = null,
@@ -926,13 +926,13 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashTeamShotLocations(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Opponent",
             string PerMode = "PerGame",
             string DistanceRange = "By Zone",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string Conference = null,
             string DateFrom = null,
             string DateTo = null,
@@ -1000,12 +1000,12 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueDashTeamStats(
-           string LeagueID = null,
-           string Season = null,
            string MeasureType = "Base",
            string PerMode = "Totals",
            string SeasonType = "Regular Season",
            string TeamID = null,
+           string LeagueID = null,
+           string Season = null,
            string Conference = null,
            string DateFrom = null,
            string DateTo = null,
@@ -1076,13 +1076,13 @@ namespace BBALL.CON.Services
 
         //Players > Opponent Shooting
         public static void LeagueDashOpponentShotLocations(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Opponent",
             string PerMode = "PerGame",
             string DistanceRange = "By Zone",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -1146,11 +1146,11 @@ namespace BBALL.CON.Services
 
         //Players > Hustle or Players > Box Outs
         public static void LeagueHustleStatsPlayer(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -1209,11 +1209,11 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueHustleStatsPlayerLeaders(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -1271,11 +1271,11 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueHustleStatsTeam(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -1334,11 +1334,11 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueHustleStatsTeamLeaders(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -1397,12 +1397,12 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueGameLog(
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string Counter = "1000",
             string DateFrom = null,
             string DateTo = null,
+            string LeagueID = null,
+            string Season = null,
             string Direction = "DESC",
             string PlayerOrTeam = "P",
             string Sorter = "Date"
@@ -1428,12 +1428,12 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueLineupViz(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string GroupQuantity = "5",
             string MinutesMin = "10",
             string Conference = null,
@@ -1492,12 +1492,12 @@ namespace BBALL.CON.Services
         }
 
         public static void LeaguePlayerOnDetails(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string TeamID = "0",
+            string LeagueID = null,
+            string Season = null,
             string Conference = null,
             string DateFrom = null,
             string DateTo = null,
@@ -1552,10 +1552,10 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueSeasonMatchups(
-            string LeagueID = null,
-            string Season = null,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
+            string LeagueID = null,
+            string Season = null,
             string OffTeamID = null,
             string OffPlayerID = null,
             string DefTeamID = null,
@@ -1580,9 +1580,9 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueStandings(
+           string SeasonType = "Regular Season",
            string LeagueID = null,
            string Season = null,
-           string SeasonType = "Regular Season",
            string SeasonYear = null)
         {
             JArray parameters = new JArray();
@@ -1600,9 +1600,9 @@ namespace BBALL.CON.Services
         }
 
         public static void LeagueStandingsV3(
+           string SeasonType = "Regular Season",
            string LeagueID = null,
            string Season = null,
-           string SeasonType = "Regular Season",
            string SeasonYear = null)
         {
             JArray parameters = new JArray();

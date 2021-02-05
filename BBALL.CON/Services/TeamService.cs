@@ -65,11 +65,11 @@ namespace BBALL.CON
             string VsPlayerID4,
             string VsPlayerID5,
             string VsTeamID,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
+            string LeagueID = null,
+            string Season = null,
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -137,11 +137,11 @@ namespace BBALL.CON
 
         public static void TeamDashLineups(
             string TeamID,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
+            string LeagueID = null,
+            string Season = null,
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -200,10 +200,10 @@ namespace BBALL.CON
 
         public static void TeamDashPtPass(
             string TeamID,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "Totals",
+            string LeagueID = null,
+            string Season = null,
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -243,10 +243,10 @@ namespace BBALL.CON
 
         public static void TeamDashPtReb(
            string TeamID,
-           string LeagueID = null,
-           string Season = null,
            string SeasonType = "Regular Season",
            string PerMode = "Totals",
+           string LeagueID = null,
+           string Season = null,
            string LastNGames = "0",
            string Month = "0",
            string OpponentTeamID = "0",
@@ -290,10 +290,10 @@ namespace BBALL.CON
 
         public static void TeamDashPtShots(
            string TeamID,
-           string LeagueID = null,
-           string Season = null,
            string SeasonType = "Regular Season",
            string PerMode = "Totals",
+           string LeagueID = null,
+           string Season = null,
            string LastNGames = "0",
            string Month = "0",
            string OpponentTeamID = "0",
@@ -337,11 +337,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByClutch(
             string TeamID,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
+            string LeagueID = null,
+            string Season = null,
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -396,11 +396,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByGameSplits(
               string TeamID,
-              string LeagueID = null,
-              string Season = null,
               string SeasonType = "Regular Season",
               string MeasureType = "Base",
               string PerMode = "Totals",
+              string LeagueID = null,
+              string Season = null,
               string LastNGames = "0",
               string Month = "0",
               string OpponentTeamID = "0",
@@ -455,11 +455,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByGeneralSplits(
               string TeamID,
-              string LeagueID = null,
-              string Season = null,
               string SeasonType = "Regular Season",
               string MeasureType = "Base",
               string PerMode = "Totals",
+              string LeagueID = null,
+              string Season = null,
               string LastNGames = "0",
               string Month = "0",
               string OpponentTeamID = "0",
@@ -514,11 +514,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByLastNGames(
              string TeamID,
-             string LeagueID = null,
-             string Season = null,
              string SeasonType = "Regular Season",
              string MeasureType = "Base",
              string PerMode = "Totals",
+             string LeagueID = null,
+             string Season = null,
              string LastNGames = "0",
              string Month = "0",
              string OpponentTeamID = "0",
@@ -573,11 +573,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByOpponent(
             string TeamID,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
+            string LeagueID = null,
+            string Season = null,
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -632,11 +632,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByShootingSplits(
             string TeamID,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = "Regular Season",
             string MeasureType = "Base",
             string PerMode = "Totals",
+            string LeagueID = null,
+            string Season = null,
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -691,11 +691,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByTeamPerformance(
                 string TeamID,
-                string LeagueID = null,
-                string Season = null,
                 string SeasonType = "Regular Season",
                 string MeasureType = "Base",
                 string PerMode = "Totals",
+                string LeagueID = null,
+                string Season = null,
                 string LastNGames = "0",
                 string Month = "0",
                 string OpponentTeamID = "0",
@@ -750,11 +750,11 @@ namespace BBALL.CON
 
         public static void TeamDashboardByYearOverYear(
                 string TeamID,
-                string LeagueID = null,
-                string Season = null,
                 string SeasonType = "Regular Season",
                 string MeasureType = "Base",
                 string PerMode = "Totals",
+                string LeagueID = null,
+                string Season = null,
                 string LastNGames = "0",
                 string Month = "0",
                 string OpponentTeamID = "0",
@@ -820,9 +820,9 @@ namespace BBALL.CON
         }
 
         public static void TeamEstimatedMetrics(
+            string SeasonType = "Regular Season",
             string LeagueID = null,
-            string Season = null,
-            string SeasonType = "Regular Season"
+            string Season = null
             )
         {
             JArray parameters = new JArray();
@@ -839,11 +839,11 @@ namespace BBALL.CON
 
         public static void TeamGameLog(
             string TeamID, 
-            string Season = null, 
-            string LeagueID = null,
             string SeasonType = "Regular Season",
             string DateTo = null,
-            string DateFrom = null
+            string DateFrom = null,
+            string Season = null,
+            string LeagueID = null
             )
         {
             JArray parameters = new JArray();
@@ -863,11 +863,10 @@ namespace BBALL.CON
 
         public static void TeamGameLogs(
             string TeamID = null,
-            string LeagueID = null,
-            string Season = null,
             string SeasonType = null,
             string MeasureType = null,
             string PerMode = null,
+            string Season = null,
             string LastNGames = null,
             string Month = null,
             string OppTeamID = null,
@@ -882,7 +881,8 @@ namespace BBALL.CON
             string SeasonSegment = null,
             string ShotClockRange = null,
             string VsConference = null,
-            string VsDivision = null
+            string VsDivision = null,
+            string LeagueID = null
            )
         {
             JArray parameters = new JArray();
@@ -936,9 +936,9 @@ namespace BBALL.CON
 
         public static void TeamInfoCommon(
             string TeamID,
+            string SeasonType = "Regular Season",
             string Season = null,
-            string LeagueID = null,
-            string SeasonType = "Regular Season"
+            string LeagueID = null
         )
         {
             JArray parameters = new JArray();
@@ -958,11 +958,10 @@ namespace BBALL.CON
 
         public static void TeamPlayerDashboard(
            string TeamID,
-           string LeagueID = null,
-           string Season = null,
            string SeasonType = "Regular Season",
            string MeasureType = "Base",
            string PerMode = "Totals",
+           string Season = null,
            string LastNGames = "0",
            string Month = "0",
            string OpponentTeamID = "0",
@@ -979,7 +978,8 @@ namespace BBALL.CON
            string SeasonSegment = null,
            string ShotClockRange = null,
            string VsConference = null,
-           string VsDivision = null
+           string VsDivision = null,
+           string LeagueID = null
           )
         {
             JArray parameters = new JArray();
@@ -1017,11 +1017,10 @@ namespace BBALL.CON
 
         public static void TeamPlayerOnOffDetails(
            string TeamID,
-           string LeagueID = null,
-           string Season = null,
            string SeasonType = "Regular Season",
            string MeasureType = "Base",
            string PerMode = "Totals",
+           string Season = null,
            string LastNGames = "0",
            string Month = "0",
            string OpponentTeamID = "0",
@@ -1037,7 +1036,8 @@ namespace BBALL.CON
            string PORound = null,
            string SeasonSegment = null,
            string VsConference = null,
-           string VsDivision = null
+           string VsDivision = null,
+           string LeagueID = null
           )
         {
             JArray parameters = new JArray();
@@ -1075,11 +1075,10 @@ namespace BBALL.CON
 
         public static void TeamPlayerOnOffSummary(
            string TeamID,
-           string LeagueID = null,
-           string Season = null,
            string SeasonType = "Regular Season",
            string MeasureType = "Base",
            string PerMode = "Totals",
+           string Season = null,
            string LastNGames = "0",
            string Month = "0",
            string OpponentTeamID = "0",
@@ -1095,7 +1094,8 @@ namespace BBALL.CON
            string PORound = null,
            string SeasonSegment = null,
            string VsConference = null,
-           string VsDivision = null
+           string VsDivision = null,
+           string LeagueID = null
           )
         {
             JArray parameters = new JArray();
@@ -1133,11 +1133,10 @@ namespace BBALL.CON
         public static void TeamVsPlayer(
           string TeamID,
           string VsPlayerID,
-          string LeagueID = null,
-          string Season = null,
           string SeasonType = "Regular Season",
           string MeasureType = "Base",
           string PerMode = "Totals",
+          string Season = null,
           string LastNGames = "0",
           string Month = "0",
           string OpponentTeamID = "0",
@@ -1154,7 +1153,8 @@ namespace BBALL.CON
           string PORound = null,
           string SeasonSegment = null,
           string VsConference = null,
-          string VsDivision = null
+          string VsDivision = null,
+          string LeagueID = null
          )
         {
             JArray parameters = new JArray();
@@ -1193,9 +1193,10 @@ namespace BBALL.CON
 
         public static void TeamYearByYearStats(
             string TeamID,
-            string LeagueID = null, 
             string SeasonType = "Regular Season", 
-            string PerMode = "Totals")
+            string PerMode = "Totals",
+            string LeagueID = null
+            )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));

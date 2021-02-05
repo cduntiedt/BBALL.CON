@@ -11,22 +11,23 @@ namespace BBALL.CON.Services
     {
         //Players > Playtype
         public static void SynergyPlayType(
-            string LeagueID,
             string PerMode,
-            string SeasonType,
-            string SeasonYear,
+            string SeasonType = "Regular Season",
             string PlayType = "Transition",
             string PlayerOrTeam = "P",
-            string TypeGrouping = "offensive")
+            string TypeGrouping = "offensive",
+            string SeasonYear = null,
+            string LeagueID = null
+            )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonYear, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayType", PlayType, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("TypeGrouping", TypeGrouping, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID));
+            parameters.Add(CreateParameterObject("PerMode", PerMode);
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType);
+            parameters.Add(CreateParameterObject("PlayType", PlayType);
+            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam);
+            parameters.Add(CreateParameterObject("TypeGrouping", TypeGrouping);
 
             SynergyPlayType(parameters);
         }

@@ -18,8 +18,8 @@ namespace BBALL.CON
             DraftCombineStats(LeagueID, SeasonYear);
         }
         public static void DraftBoard(
-            string LeagueID, 
-            string Season,
+            string LeagueID = null, 
+            string Season = null,
             string TopX = null,
             string TeamID = null,
             string RoundPick = null,
@@ -28,14 +28,14 @@ namespace BBALL.CON
             string College= null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("TopX", TopX, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("RoundPick", RoundPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("RoundNum", RoundNum, ParameterType.String));
-            parameters.Add(CreateParameterObject("OverallPick", OverallPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("TopX", TopX));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("RoundPick", RoundPick));
+            parameters.Add(CreateParameterObject("RoundNum", RoundNum));
+            parameters.Add(CreateParameterObject("OverallPick", OverallPick));
+            parameters.Add(CreateParameterObject("College", College));
             DraftBoard(parameters);
         }
 
@@ -44,11 +44,11 @@ namespace BBALL.CON
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftboard/", "draftboard", parameters);
         }
 
-        public static void DraftCombineDrillResults(string LeagueID, string SeasonYear)
+        public static void DraftCombineDrillResults(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonYear, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
             DraftCombineDrillResults(parameters);
         }
 
@@ -57,11 +57,11 @@ namespace BBALL.CON
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinedrillresults/", "draftcombinedrillresults", parameters);
         }
 
-        public static void DraftCombineStationaryShooting(string LeagueID, string SeasonYear)
+        public static void DraftCombineStationaryShooting(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonYear, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(Season)));
             DraftCombineStationaryShooting(parameters);
         }
 
@@ -70,11 +70,11 @@ namespace BBALL.CON
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinenonstationaryshooting/", "draftcombinenonstationaryshooting", parameters);
         }
 
-        public static void DraftCombinePlayerAnthro(string LeagueID, string SeasonYear)
+        public static void DraftCombinePlayerAnthro(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonYear, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
             DraftCombinePlayerAnthro(parameters);
         }
 
@@ -83,11 +83,11 @@ namespace BBALL.CON
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombineplayeranthro/", "draftcombineplayeranthro", parameters);
         }
 
-        public static void DraftCombineSpotShooting(string LeagueID, string SeasonYear)
+        public static void DraftCombineSpotShooting(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonYear, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
             DraftCombineSpotShooting(parameters);
         }
 
@@ -96,11 +96,11 @@ namespace BBALL.CON
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinespotshooting/", "draftcombinespotshooting", parameters);
         }
 
-        public static void DraftCombineStats(string LeagueID, string SeasonYear)
+        public static void DraftCombineStats(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonYear, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
             DraftCombineStats(parameters);
         }
 
@@ -110,7 +110,7 @@ namespace BBALL.CON
         }
 
         public static void DraftHistory(
-            string LeagueID,
+            string LeagueID = null
             string Season = null,
             string TopX = null,
             string TeamID = null,
@@ -120,14 +120,14 @@ namespace BBALL.CON
             string College = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("TopX", TopX, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("RoundPick", RoundPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("RoundNum", RoundNum, ParameterType.String));
-            parameters.Add(CreateParameterObject("OverallPick", OverallPick, ParameterType.String));
-            parameters.Add(CreateParameterObject("College", College, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("TopX", TopX));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("RoundPick", RoundPick));
+            parameters.Add(CreateParameterObject("RoundNum", RoundNum));
+            parameters.Add(CreateParameterObject("OverallPick", OverallPick));
+            parameters.Add(CreateParameterObject("College", College));
             DraftHistory(parameters);
         }
 

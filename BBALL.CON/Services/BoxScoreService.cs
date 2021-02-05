@@ -10,21 +10,21 @@ namespace BBALL.CON.Services
     public static class BoxScoreService
     {
         public static void BoxScoreAdvancedV2(
-            int GameID,
-            int EndPeriod = 10, 
-            int EndRange = 28800, 
-            int RangeType = 0,
-            int StartPeriod = 0,
-            int StartRange = 0
+            string GameID,
+            string EndPeriod = "10", 
+            string EndRange = "28800", 
+            string RangeType = "0",
+            string StartPeriod = "0",
+            string StartRange = "0"
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndRange", EndRange, ParameterType.Int));
-            parameters.Add(CreateParameterObject("RangeType", RangeType, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartRange", StartRange, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
+            parameters.Add(CreateParameterObject("EndRange", EndRange));
+            parameters.Add(CreateParameterObject("RangeType", RangeType));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("StartRange", StartRange));
             BoxScoreAdvancedV2(parameters);
         }
 
@@ -34,11 +34,11 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreDefensive(
-            int GameID
+            string GameID
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
             BoxScoreDefensive(parameters);
         }
 
@@ -48,21 +48,21 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreFourFactorsV2(
-            int GameID,
-            int EndPeriod = 10,
-            int EndRange = 28800,
-            int RangeType = 0,
-            int StartPeriod = 0,
-            int StartRange = 0
+            string GameID,
+            string EndPeriod = "10",
+            string EndRange = "28800",
+            string RangeType = "0",
+            string StartPeriod = "0",
+            string StartRange = "0"
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndRange", EndRange, ParameterType.Int));
-            parameters.Add(CreateParameterObject("RangeType", RangeType, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartRange", StartRange, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
+            parameters.Add(CreateParameterObject("EndRange", EndRange));
+            parameters.Add(CreateParameterObject("RangeType", RangeType));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("StartRange", StartRange));
             BoxScoreFourFactorsV2(parameters);
         }
 
@@ -72,11 +72,11 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreMatchups(
-           int GameID
+           string GameID
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
             BoxScoreMatchups(parameters);
         }
 
@@ -86,21 +86,21 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreMiscV2(
-            int GameID,
-            int EndPeriod = 10,
-            int EndRange = 28800,
-            int RangeType = 0,
-            int StartPeriod = 0,
-            int StartRange = 0
+            string GameID,
+            string EndPeriod = "10",
+            string EndRange = "28800",
+            string RangeType = "0",
+            string StartPeriod = "0",
+            string StartRange = "0"
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndRange", EndRange, ParameterType.Int));
-            parameters.Add(CreateParameterObject("RangeType", RangeType, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartRange", StartRange, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
+            parameters.Add(CreateParameterObject("EndRange", EndRange));
+            parameters.Add(CreateParameterObject("RangeType", RangeType));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("StartRange", StartRange));
             BoxScoreMiscV2(parameters);
         }
 
@@ -110,11 +110,11 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScorePlayerTrackV2(
-           int GameID
+           string GameID
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
             BoxScorePlayerTrackV2(parameters);
         }
 
@@ -124,21 +124,21 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreScoringV2(
-            int GameID,
-            int EndPeriod = 10,
-            int EndRange = 28800,
-            int RangeType = 0,
-            int StartPeriod = 0,
-            int StartRange = 0
+            string GameID,
+            string EndPeriod = "10",
+            string EndRange = "28800",
+            string RangeType = "0",
+            string StartPeriod = "0",
+            string StartRange = "0"
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndRange", EndRange, ParameterType.Int));
-            parameters.Add(CreateParameterObject("RangeType", RangeType, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartRange", StartRange, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
+            parameters.Add(CreateParameterObject("EndRange", EndRange));
+            parameters.Add(CreateParameterObject("RangeType", RangeType));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("StartRange", StartRange));
             BoxScoreScoringV2(parameters);
         }
 
@@ -148,11 +148,11 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreSummaryV2(
-           int GameID
+           string GameID
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
             BoxScoreSummaryV2(parameters);
         }
 
@@ -162,21 +162,21 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreTraditionalV2(
-            int GameID,
-            int EndPeriod = 10,
-            int EndRange = 28800,
-            int RangeType = 0,
-            int StartPeriod = 0,
-            int StartRange = 0
+            string GameID,
+            string EndPeriod = "10",
+            string EndRange = "28800",
+            string RangeType = "0",
+            string StartPeriod = "0",
+            string StartRange = "0"
         )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndRange", EndRange, ParameterType.Int));
-            parameters.Add(CreateParameterObject("RangeType", RangeType, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartRange", StartRange, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
+            parameters.Add(CreateParameterObject("EndRange", EndRange));
+            parameters.Add(CreateParameterObject("RangeType", RangeType));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("StartRange", StartRange));
             BoxScoreTraditionalV2(parameters);
         }
 
@@ -186,21 +186,21 @@ namespace BBALL.CON.Services
         }
 
         public static void BoxScoreUsageV2(
-           int GameID,
-           int EndPeriod = 10,
-           int EndRange = 28800,
-           int RangeType = 0,
-           int StartPeriod = 0,
-           int StartRange = 0
+           string GameID,
+           string EndPeriod = "10",
+           string EndRange = "28800",
+           string RangeType = "0",
+           string StartPeriod = "0",
+           string StartRange = "0"
        )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("EndRange", EndRange, ParameterType.Int));
-            parameters.Add(CreateParameterObject("RangeType", RangeType, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.Int));
-            parameters.Add(CreateParameterObject("StartRange", StartRange, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
+            parameters.Add(CreateParameterObject("EndRange", EndRange));
+            parameters.Add(CreateParameterObject("RangeType", RangeType));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("StartRange", StartRange));
             BoxScoreUsageV2(parameters);
         }
 
@@ -210,11 +210,11 @@ namespace BBALL.CON.Services
         }
 
         public static void HustleStatsBoxScore(
-           int GameID
+           string GameID
        )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
             HustleStatsBoxScore(parameters);
         }
 

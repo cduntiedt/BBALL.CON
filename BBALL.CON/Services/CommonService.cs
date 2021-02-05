@@ -9,12 +9,12 @@ namespace BBALL.CON.Services
 {
     public static class CommonService
     {
-        public static void CommonAllPlayers(string LeagueID, string Season, int IsOnlyCurrentSeason)
+        public static void CommonAllPlayers(string LeagueID, string Season, string IsOnlyCurrentSeason)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("IsOnlyCurrentSeason", IsOnlyCurrentSeason, ParameterType.Int));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("IsOnlyCurrentSeason", IsOnlyCurrentSeason));
             CommonAllPlayers(parameters);
         }
 
@@ -23,10 +23,10 @@ namespace BBALL.CON.Services
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/commonallplayers/", "commonallplayers", parameters);
         }
 
-        public static void CommonPlayerInfo(int PlayerID)
+        public static void CommonPlayerInfo(string PlayerID)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("PlayerID", PlayerID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             CommonPlayerInfo(parameters);
         }
 
@@ -35,12 +35,12 @@ namespace BBALL.CON.Services
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/commonplayerinfo/", "commonplayerinfo", parameters);
         }
 
-        public static void CommonTeamRoster(string Season, int TeamID, string LeagueID = null)
+        public static void CommonTeamRoster(string Season, string TeamID, string LeagueID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
 
             CommonTeamRoster(parameters);
         }
@@ -53,7 +53,7 @@ namespace BBALL.CON.Services
         public static void CommonTeamYears(string LeagueID)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             CommonTeamYears(parameters);
         }
 

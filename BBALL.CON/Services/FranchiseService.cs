@@ -9,10 +9,10 @@ namespace BBALL.CON.Services
 {
     public static class FranchiseService
     {
-        public static void FranchiseHistory(string LeagueID)
+        public static void FranchiseHistory(string LeagueID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             FranchiseHistory(parameters);
         }
 
@@ -21,11 +21,11 @@ namespace BBALL.CON.Services
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchisehistory/", "franchisehistory", parameters);
         }
 
-        public static void FranchiseLeaders(int TeamID, string LeagueID = null)
+        public static void FranchiseLeaders(string TeamID, string LeagueID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             FranchiseLeaders(parameters);
         }
 
@@ -33,13 +33,18 @@ namespace BBALL.CON.Services
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchiseleaders/", "franchiseleaders", parameters);
         }
 
-        public static void FranchisePlayers(string LeagueID, string PerMode, string SeasonType, int TeamID)
+        public static void FranchisePlayers(
+            string TeamID,
+            string PerMode = "Totals", 
+            string SeasonType = "Regular Season",
+            string LeagueID = null
+            )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
             FranchisePlayers(parameters);
         }
 

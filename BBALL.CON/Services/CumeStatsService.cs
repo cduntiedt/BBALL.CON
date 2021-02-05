@@ -11,18 +11,18 @@ namespace BBALL.CON.Services
     {
         public static void CumeStatsPlayer(
             string GameIDs,
-            string LeagueID,
-            int PlayerID,
-            string Season,
+            string PlayerID,
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season"
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameIDs", GameIDs, ParameterType.String));
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerID", PlayerID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
+            parameters.Add(CreateParameterObject("GameIDs", GameIDs));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PlayerID", PlayerID));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             CumStatsPlayer(parameters);
         }
 
@@ -32,9 +32,9 @@ namespace BBALL.CON.Services
         }
 
         public static void CumeStatsPlayerGames(
-            string LeagueID,
-            int PlayerID,
-            string Season,
+            string PlayerID,
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season",
             string VsTeamID = null,
             string VsDivision = null,
@@ -44,15 +44,15 @@ namespace BBALL.CON.Services
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerID", PlayerID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsTeamID", VsTeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PlayerID", PlayerID));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("VsTeamID", VsTeamID));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("Location", Location));
             CumeStatsPlayerGames(parameters);
         }
 
@@ -63,18 +63,18 @@ namespace BBALL.CON.Services
 
         public static void CumeStatsTeam(
             string GameIDs,
-            string LeagueID,
-            int TeamID,
-            string Season,
+            string TeamID,
+            string LeagueID = null,
+            string Season = null,
             string SeasonType = "Regular Season"
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameIDs", GameIDs, ParameterType.String));
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
+            parameters.Add(CreateParameterObject("GameIDs", GameIDs));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             CumeStatsTeam(parameters);
         }
 
@@ -84,9 +84,9 @@ namespace BBALL.CON.Services
         }
 
         public static void CumeStatsTeamGames(
+            string TeamID,
             string LeagueID,
-            int TeamID,
-            string Season,
+            string Season = null,
             string SeasonType = "Regular Season",
             string VsTeamID = null,
             string VsDivision = null,
@@ -96,15 +96,15 @@ namespace BBALL.CON.Services
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", TeamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsTeamID", VsTeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsDivision", VsDivision, ParameterType.String));
-            parameters.Add(CreateParameterObject("VsConference", VsConference, ParameterType.String));
-            parameters.Add(CreateParameterObject("Outcome", Outcome, ParameterType.String));
-            parameters.Add(CreateParameterObject("Location", Location, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("VsTeamID", VsTeamID));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("Location", Location));
             CumeStatsTeamGames(parameters);
         }
 

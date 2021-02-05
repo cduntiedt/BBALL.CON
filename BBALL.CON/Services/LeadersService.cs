@@ -11,17 +11,17 @@ namespace BBALL.CON.Services
     {
         //Players > All Time Summary
         public static void AllTimeLeadersGrid(
-            string LeagueID,
-            string PerMode,
-            string SeasonType,
-            string TopX = "10"
+            string PerMode = "Totals",
+            string SeasonType = "Regular Season",
+            string TopX = "10",
+            string LeagueID = null
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("TopX", TopX, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("TopX", TopX));
 
             AllTimeLeadersGrid(parameters);
         }
@@ -34,23 +34,23 @@ namespace BBALL.CON.Services
 
         //Players > Official Leaders
         public static void LeagueLeaders(
-           string LeagueID,
-           string Season,
            string PerMode = "PerGame",
            string SeasonType = "Regular Season",
            string ActiveFlag = null,
            string Scope = "S",
-           string StatCategory = "PTS"
+           string StatCategory = "PTS",
+            string LeagueID = null,
+           string Season = null
            )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", Season, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("ActiveFlag", ActiveFlag, ParameterType.String));
-            parameters.Add(CreateParameterObject("Scope", Scope, ParameterType.String));
-            parameters.Add(CreateParameterObject("StatCategory", StatCategory, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("ActiveFlag", ActiveFlag));
+            parameters.Add(CreateParameterObject("Scope", Scope));
+            parameters.Add(CreateParameterObject("StatCategory", StatCategory));
             LeagueLeaders(parameters);
         }
 

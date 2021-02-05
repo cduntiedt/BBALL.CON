@@ -15,9 +15,9 @@ namespace BBALL.CON.Services
           string EndPeriod = "10")
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.String));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.String));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
             PlayByPlay(parameters);
         }
 
@@ -32,9 +32,9 @@ namespace BBALL.CON.Services
           string EndPeriod = "10")
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.String));
-            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod, ParameterType.String));
-            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod, ParameterType.Int));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
+            parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
             PlayByPlayV2(parameters);
         }
 

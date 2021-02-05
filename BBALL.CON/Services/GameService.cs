@@ -82,11 +82,11 @@ namespace BBALL.CON.Services
             }
         }
 
-        public static void GameRotation(string GameID, string LeagueID)
+        public static void GameRotation(string GameID, string LeagueID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("GameID", GameID, ParameterType.String));
-            parameters.Add(CreateParameterObject("LeagueID", LeagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("GameID", GameID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             GameRotation(parameters);
         }
 

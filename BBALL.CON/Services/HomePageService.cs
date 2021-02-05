@@ -12,23 +12,23 @@ namespace BBALL.CON.Services
     public static class HomePageService
     {
         public static void HomePageLeaders(
-            string LeagueID = null,
-            string Season = null,
             string GameScope = "Season", 
             string PlayerOrTeam = "Player", 
             string PlayerScope = "All Players",
             string SeasonType = "Regular Season",
-            string StatCategory = "Points"
+            string StatCategory = "Points",
+            string LeagueID = null,
+            string Season = null
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerScope", PlayerScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("StatCategory", StatCategory, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerScope", PlayerScope));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("StatCategory", StatCategory));
             HomePageLeaders(parameters);
         }
 
@@ -38,23 +38,23 @@ namespace BBALL.CON.Services
         }
 
         public static void HomePageV2(
-           string LeagueID = null,
-           string Season = null,
            string GameScope = "Season",
            string PlayerOrTeam = "Player",
            string PlayerScope = "All Players",
            string SeasonType = "Regular Season",
-           string StatType = "Points"
+           string StatType = "Points",
+           string LeagueID = null,
+           string Season = null
            )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
-            parameters.Add(CreateParameterObject("GameScope", GameScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam, ParameterType.String));
-            parameters.Add(CreateParameterObject("PlayerScope", PlayerScope, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("StatType", StatType, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("GameScope", GameScope));
+            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerScope", PlayerScope));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("StatType", StatType));
             HomePageV2(parameters);
         }
 

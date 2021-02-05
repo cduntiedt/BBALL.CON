@@ -10,24 +10,24 @@ namespace BBALL.CON.Services
     public static class MatchupsService
     {
         public static void LeagueSeasonMatchups(
-           string LeagueID,
-           string Season,
            string PerMode = "Totals",
            string SeasonType = "Regular Season",
+           string LeagueID = null,
+           string Season = null,
            string DefPlayerID = null,
            string DefTeamID = null,
            string OffPlayerID = null,
            string OffTeamID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
-            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("DefTeamID", DefTeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID, ParameterType.String));
-            parameters.Add(CreateParameterObject("OffTeamID", OffTeamID, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("DefTeamID", DefTeamID));
+            parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID));
+            parameters.Add(CreateParameterObject("OffTeamID", OffTeamID));
             LeagueSeasonMatchups(parameters);
         }
 
@@ -37,24 +37,24 @@ namespace BBALL.CON.Services
         }
 
         public static void MatchupsRollup(
-            string LeagueID,
-            string Season,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
+            string LeagueID = null,
+            string Season = null,
             string DefPlayerID = null,
             string DefTeamID = null,
             string OffPlayerID = null,
             string OffTeamID = null)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID), ParameterType.String));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season), ParameterType.String));
-            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", PerMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("DefTeamID", DefTeamID, ParameterType.String));
-            parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID, ParameterType.String));
-            parameters.Add(CreateParameterObject("OffTeamID", OffTeamID, ParameterType.String));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("DefTeamID", DefTeamID));
+            parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID));
+            parameters.Add(CreateParameterObject("OffTeamID", OffTeamID));
             MatchupsRollup(parameters);
         }
 
