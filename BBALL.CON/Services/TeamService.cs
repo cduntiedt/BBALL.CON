@@ -807,58 +807,410 @@ namespace BBALL.CON
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamdashboardbyyearoveryear/", "teamdashboardbyyearoveryear", parameters);
         }
 
-        public static void TeamDetails()
-        {
-
-        }
-
-        public static void TeamGameLog(int teamID, string season, string seasonType)
+        public static void TeamDetails(string TeamID)
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("TeamID", teamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Season", season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", seasonType, ParameterType.String));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            TeamDetails(parameters);
+        }
 
+        public static void TeamDetails(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamdetails/", "teamdetails", parameters);
+        }
+
+        public static void TeamEstimatedMetrics(
+            string LeagueID = null,
+            string Season = null,
+            string SeasonType = "Regular Season"
+            )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            TeamEstimatedMetrics(parameters);
+        }
+
+        public static void TeamEstimatedMetrics(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamestimatedmetrics/", "teamestimatedmetrics", parameters);
+        }
+
+        public static void TeamGameLog(
+            string TeamID, 
+            string Season = null, 
+            string LeagueID = null,
+            string SeasonType = "Regular Season",
+            string DateTo = null,
+            string DateFrom = null
+            )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            TeamGameLog(parameters);
+        }
+
+        public static void TeamGameLog(JArray parameters)
+        {
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamgamelog/", "teamgamelog", parameters);
         }
 
-        public static void TeamInfoCommon(int teamID, string season, string seasonType, string leagueID)
+        public static void TeamGameLogs(
+            string TeamID = null,
+            string LeagueID = null,
+            string Season = null,
+            string SeasonType = null,
+            string MeasureType = null,
+            string PerMode = null,
+            string LastNGames = null,
+            string Month = null,
+            string OppTeamID = null,
+            string Period = null,
+            string PlayerID = null,
+            string DateFrom = null,
+            string DateTo = null,
+            string GameSegment = null,
+            string Location = null,
+            string Outcome = null,
+            string PORound = null,
+            string SeasonSegment = null,
+            string ShotClockRange = null,
+            string VsConference = null,
+            string VsDivision = null
+           )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("TeamID", teamID, ParameterType.Int));
-            parameters.Add(CreateParameterObject("Season", season, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", seasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("LeagueID", leagueID, ParameterType.String));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OppTeamID", OppTeamID));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerID", PlayerID));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
 
+            TeamGameLogs(parameters);
+        }
+
+        public static void TeamGameLogs(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamgamelogs/", "teamgamelogs", parameters);
+        }
+
+        public static void TeamHistoricalLeaders(
+         string TeamID,
+         string Season = null,
+         string LeagueID = null
+         )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            TeamHistoricalLeaders(parameters);
+        }
+
+        public static void TeamHistoricalLeaders(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamhistoricalleaders/", "teamhistoricalleaders", parameters);
+        }
+
+        public static void TeamInfoCommon(
+            string TeamID,
+            string Season = null,
+            string LeagueID = null,
+            string SeasonType = "Regular Season"
+        )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+
+            TeamInfoCommon(parameters);
+        }
+
+        public static void TeamInfoCommon(JArray parameters)
+        {
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teaminfocommon/", "teaminfocommon", parameters);
-        }
-
-        public static void TeamPlayerDashboar()
-        {
 
         }
 
-        public static void TeamPlayerOnOffDetails()
-        {
-
-        }
-
-        public static void TeamPlayerOnOffSummary()
-        {
-
-        }
-        public static void TeamYearByYearStats(string leagueID, string seasonType, string perMode, int teamID)
+        public static void TeamPlayerDashboard(
+           string TeamID,
+           string LeagueID = null,
+           string Season = null,
+           string SeasonType = "Regular Season",
+           string MeasureType = "Base",
+           string PerMode = "Totals",
+           string LastNGames = "0",
+           string Month = "0",
+           string OpponentTeamID = "0",
+           string PaceAdjust = "N",
+           string Period = "0",
+           string PlusMinus = "N",
+           string Rank = "N",
+           string DateFrom = null,
+           string DateTo = null,
+           string GameSegment = null,
+           string Location = null,
+           string Outcome = null,
+           string PORound = null,
+           string SeasonSegment = null,
+           string ShotClockRange = null,
+           string VsConference = null,
+           string VsDivision = null
+          )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", leagueID, ParameterType.String));
-            parameters.Add(CreateParameterObject("SeasonType", seasonType, ParameterType.String));
-            parameters.Add(CreateParameterObject("PerMode", perMode, ParameterType.String));
-            parameters.Add(CreateParameterObject("TeamID", teamID, ParameterType.Int));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            TeamPlayerDashboard(parameters);
+        }
+
+        public static void TeamPlayerDashboard(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamplayerdashboard/", "teamplayerdashboard", parameters);
+        }
+
+        public static void TeamPlayerOnOffDetails(
+           string TeamID,
+           string LeagueID = null,
+           string Season = null,
+           string SeasonType = "Regular Season",
+           string MeasureType = "Base",
+           string PerMode = "Totals",
+           string LastNGames = "0",
+           string Month = "0",
+           string OpponentTeamID = "0",
+           string PaceAdjust = "N",
+           string Period = "0",
+           string PlusMinus = "N",
+           string Rank = "N",
+           string DateFrom = null,
+           string DateTo = null,
+           string GameSegment = null,
+           string Location = null,
+           string Outcome = null,
+           string PORound = null,
+           string SeasonSegment = null,
+           string VsConference = null,
+           string VsDivision = null
+          )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            TeamPlayerOnOffDetails(parameters);
+        }
+
+        public static void TeamPlayerOnOffDetails(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamplayeronoffdetails/", "teamplayeronoffdetails", parameters);
+
+        }
+
+        public static void TeamPlayerOnOffSummary(
+           string TeamID,
+           string LeagueID = null,
+           string Season = null,
+           string SeasonType = "Regular Season",
+           string MeasureType = "Base",
+           string PerMode = "Totals",
+           string LastNGames = "0",
+           string Month = "0",
+           string OpponentTeamID = "0",
+           string PaceAdjust = "N",
+           string Period = "0",
+           string PlusMinus = "N",
+           string Rank = "N",
+           string DateFrom = null,
+           string DateTo = null,
+           string GameSegment = null,
+           string Location = null,
+           string Outcome = null,
+           string PORound = null,
+           string SeasonSegment = null,
+           string VsConference = null,
+           string VsDivision = null
+          )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            TeamPlayerOnOffSummary(parameters);
+        }
+
+        public static void TeamPlayerOnOffSummary(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamplayeronoffsummary/", "teamplayeronoffsummary", parameters);
+        }
+
+        public static void TeamVsPlayer(
+          string TeamID,
+          string VsPlayerID,
+          string LeagueID = null,
+          string Season = null,
+          string SeasonType = "Regular Season",
+          string MeasureType = "Base",
+          string PerMode = "Totals",
+          string LastNGames = "0",
+          string Month = "0",
+          string OpponentTeamID = "0",
+          string PaceAdjust = "N",
+          string Period = "0",
+          string PlusMinus = "N",
+          string Rank = "N",
+          string DateFrom = null,
+          string DateTo = null,
+          string GameSegment = null,
+          string Location = null,
+          string Outcome = null,
+          string PlayerID = null,
+          string PORound = null,
+          string SeasonSegment = null,
+          string VsConference = null,
+          string VsDivision = null
+         )
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            parameters.Add(CreateParameterObject("VsPlayerID", VsPlayerID));
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("MeasureType", MeasureType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("LastNGames", LastNGames));
+            parameters.Add(CreateParameterObject("Month", Month));
+            parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
+            parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
+            parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
+            parameters.Add(CreateParameterObject("Rank", Rank));
+            parameters.Add(CreateParameterObject("DateFrom", DateFrom));
+            parameters.Add(CreateParameterObject("DateTo", DateTo));
+            parameters.Add(CreateParameterObject("GameSegment", GameSegment));
+            parameters.Add(CreateParameterObject("Location", Location));
+            parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PlayerID", PlayerID));
+            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
+            parameters.Add(CreateParameterObject("VsConference", VsConference));
+            parameters.Add(CreateParameterObject("VsDivision", VsDivision));
+
+            TeamVsPlayer(parameters);
+        }
+
+        public static void TeamVsPlayer(JArray parameters)
+        {
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamvsplayer/", "teamvsplayer", parameters);
+        }
+
+        public static void TeamYearByYearStats(
+            string TeamID,
+            string LeagueID = null, 
+            string SeasonType = "Regular Season", 
+            string PerMode = "Totals")
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("TeamID", TeamID));
+            TeamYearByYearStats(parameters);
+        }
+
+        public static void TeamYearByYearStats(JArray parameters)
+        {
             DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/teamyearbyyearstats/", "teamyearbyyearstats", parameters);
         }
 
         public static List<KeyValuePair<int, string>> Teams { get { return _Teams(); } }
-            
 
         private static List<KeyValuePair<int, string>> _Teams()
         {
