@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using static BBALL.CON.Helpers.ParameterHelper;
+using BBALL.LIB.Helpers;
+using static BBALL.LIB.Helpers.ParameterHelper;
 
 namespace BBALL.CON
 {
@@ -17,7 +18,10 @@ namespace BBALL.CON
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            LoadData(_stats.CurrentSeason, true);
+            List<string> seasons = new List<string>();
+            seasons.Add(SeasonHelper.DefaultSeason());
+
+            LoadData(seasons, true);
 
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
@@ -111,7 +115,7 @@ namespace BBALL.CON
             JArray parameters = new JArray();
             if (currentGames)
             {
-                parameters.Add(CreateParameterObject("Season", seasons.FirstOrDefault(), ParameterType.String));
+                parameters.Add(CreateParameterObject("Season", seasons.FirstOrDefault()));
             }
             else
             {
