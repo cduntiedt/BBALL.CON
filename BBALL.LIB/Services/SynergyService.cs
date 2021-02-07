@@ -21,13 +21,13 @@ namespace BBALL.LIB.Services
             )
         {
             JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID));
-            parameters.Add(CreateParameterObject("PerMode", PerMode);
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear));
-            parameters.Add(CreateParameterObject("SeasonType", SeasonType);
-            parameters.Add(CreateParameterObject("PlayType", PlayType);
-            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam);
-            parameters.Add(CreateParameterObject("TypeGrouping", TypeGrouping);
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("PerMode", PerMode));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
+            parameters.Add(CreateParameterObject("SeasonType", SeasonType));
+            parameters.Add(CreateParameterObject("PlayType", PlayType));
+            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
+            parameters.Add(CreateParameterObject("TypeGrouping", TypeGrouping));
 
             SynergyPlayType(parameters);
         }

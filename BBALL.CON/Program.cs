@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using BBALL.LIB.Services;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 
@@ -11,8 +12,6 @@ namespace BBALL.CON
 {
     class Program
     {
-        private static StatsHelper _stats = new StatsHelper();
-
         static void Main(string[] args)
         {
             Stopwatch stopWatch = new Stopwatch();
@@ -21,7 +20,7 @@ namespace BBALL.CON
             List<string> seasons = new List<string>();
             seasons.Add(SeasonHelper.DefaultSeason());
 
-            LoadData(seasons, true);
+            LoadData(SeasonService.Seasons, true);
 
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
@@ -34,102 +33,61 @@ namespace BBALL.CON
             Console.WriteLine("RunTime " + elapsedTime);
         }
 
-        //static void ImportData(List<string> seasons, bool currentGames)
-        //{
-        //    var leagueID = _stats.LeagueID;
-
-        //    DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/commonteamyears/", "commonteamyears", "");
-        //    TeamsService.CommonTeamYears(leagueID);
-        //    //Wait(1000);
-        //    TeamsService.FranchiseHistory(leagueID);
-
-        //    var teamIDs = TeamsService.GetTeamIDs();
-
-        //    foreach (var season in seasons)
-        //    {
-        //        Wait(500);
-        //        PlayersService.CommonAllPlayers(leagueID, season, 1);
-
-        //        Wait(500);
-        //        DraftService.AllDraftCombineData(leagueID, season);
-
-        //        foreach (int teamID in teamIDs)
-        //        {
-        //            Wait(500);
-        //            TeamsService.CommonTeamRoster(teamID, season);
-
-        //            foreach (string seasonType in _stats.TeamSeasonTypes)
-        //            {
-        //                Wait(500);
-        //                TeamsService.TeamGameLog(teamID, season, seasonType);
-        //                TeamsService.TeamInfoCommon(teamID, season, seasonType, leagueID);
-
-        //                foreach (string perMode in _stats.TeamPerModes)
-        //                {
-        //                    Wait(500);
-        //                    TeamsService.TeamYearByYearStats(leagueID, seasonType, perMode, teamID);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
-
         static void LoadData(List<string> seasons, bool currentGames)
         {
-            var leagueID = _stats.LeagueID;
-            
-            //TeamsService.CommonTeamYears(leagueID);
-            ////Wait(1000);
-            //TeamsService.FranchiseHistory(leagueID);
+            var teamsDocument = TeamService.CommonTeamYears();
+            var franchisesDocument = TeamService.FranchiseHistory();
 
-            //var teamIDs = TeamsService.GetTeamIDs();
+            var teams = teamsDocument["resultSets"][0]["data"].AsBsonArray;
 
-            //foreach (var season in seasons)
-            //{
-            //    Wait(500);
-            //    PlayersService.CommonAllPlayers(leagueID, season, 1);
-
-            //    Wait(500);
-            //    DraftService.AllDraftCombineData(leagueID, season);
-
-            //    foreach (int teamID in teamIDs)
-            //    {
-            //        Wait(500);
-            //        TeamsService.CommonTeamRoster(teamID, season);
-
-            //        foreach (string seasonType in _stats.TeamSeasonTypes)
-            //        {
-            //            Wait(500);
-            //            TeamsService.TeamGameLog(teamID, season, seasonType);
-            //            TeamsService.TeamInfoCommon(teamID, season, seasonType, leagueID);
-
-            //            foreach (string perMode in _stats.TeamPerModes)
-            //            {
-            //                Wait(500);
-            //                TeamsService.TeamYearByYearStats(leagueID, seasonType, perMode, teamID);
-            //            }
-            //        }
-            //    }
-            //}
-
-            JArray parameters = new JArray();
-            if (currentGames)
+            //loop through all the teams
+            foreach (var team in teams)
             {
-                parameters.Add(CreateParameterObject("Season", seasons.FirstOrDefault()));
-            }
-            else
-            {
-                parameters = null;
-            }
-            var gameDocuments = _OldGameService.ImportGames(parameters);
-            foreach (var gameDocument in gameDocuments)
-            {
-                foreach (var game in (BsonArray)gameDocument["Games"])
+                var abbr = team["ABBREVIATION"];
+                var minYear = Convert.ToInt64(team["MIN_YEAR"]);
+                var teamID = team["TEAM_ID"].AsString;
+
+                foreach (var season in seasons)
                 {
-                    Wait(500);
-                    _OldGameService.LoadGameData(game["Game_ID"].ToString());
+                    //var playersDocument = CommonService.CommonAllPlayers(season);
+
+                    //get the first year of the season (ex: 2020 in 2020-21)
+                    var seasonYear1 = Convert.ToInt64(season.Substring(0, 4));
+                    Console.WriteLine(seasonYear1);
+
+                    if (!abbr.IsBsonNull && minYear <= seasonYear1)
+                    {
+                        Console.WriteLine(team);
+
+                        CommonService.CommonTeamRoster(teamID, season);
+
+                        Wait(500);
+                    }
                 }
             }
+
+            //JArray parameters = new JArray();
+            //if (currentGames)
+            //{
+            //    parameters.Add(CreateParameterObject("Season", seasons.FirstOrDefault()));
+            //}
+            //else
+            //{
+            //    parameters = null;
+            //}
+            //var gameDocuments = GameService.ImportGames(parameters);
+            //foreach (var gameDocument in gameDocuments)
+            //{
+            //    foreach (var game in (BsonArray)gameDocument["Games"])
+            //    {
+            //        var gameID = game["Game_ID"].ToString();
+
+            //        Wait(500);
+            //        BoxScoreService.BoxScoreAll(gameID);
+            //        Wait(500);
+            //        PlayByPlayService.PlayByPlayAll(gameID);
+            //    }
+            //}
         }
 
         static void Wait(int milliseconds)

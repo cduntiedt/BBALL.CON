@@ -61,7 +61,7 @@ namespace BBALL.LIB
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
             DraftCombineStationaryShooting(parameters);
         }
 
@@ -110,14 +110,15 @@ namespace BBALL.LIB
         }
 
         public static void DraftHistory(
-            string LeagueID = null
             string Season = null,
             string TopX = null,
             string TeamID = null,
             string RoundPick = null,
             string RoundNum = null,
             string OverallPick = null,
-            string College = null)
+            string College = null,
+            string LeagueID = null
+            )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));

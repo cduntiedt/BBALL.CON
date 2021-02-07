@@ -21,17 +21,18 @@ namespace BBALL.LIB.Helpers
         /// </summary>
         private static StatsHelper stats = new StatsHelper();
 
-        public static void UpdateDatabase(string collection, JArray parameters)
+        public static BsonDocument UpdateDatabase(string collection, JArray parameters)
         {
             try
             {
                 var url = stats.BaseURL + collection + "/";
 
-                UpdateDatabase(url, collection, parameters);
+                return UpdateDatabase(url, collection, parameters);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                return null;
             }
         }
 
@@ -46,6 +47,15 @@ namespace BBALL.LIB.Helpers
             {
                 if(parameters == null)
                 {
+                    var queryString = HttpUtility.ParseQueryString(url);
+
+                    foreach (var item in queryString.AllKeys)
+                    {
+                        parameters.Add(CreateParameterObject(item, queryString[item]));
+                    }
+                }
+                else
+                {
                     //add query parameters to url
                     url += "?";
                     foreach (var item in parameters)
@@ -55,15 +65,6 @@ namespace BBALL.LIB.Helpers
                             url += "&";
                         }
                         url += item["Key"].ToString() + "=" + item["Value"].ToString();
-                    }
-                }
-                else
-                {
-                    var queryString = HttpUtility.ParseQueryString(url);
-
-                    foreach (var item in queryString.AllKeys)
-                    {
-                        parameters.Add(CreateParameterObject(item, queryString[item]));
                     }
                 }
 
@@ -113,7 +114,7 @@ namespace BBALL.LIB.Helpers
                 //convert the stat document to bson
                 var document = BsonSerializer.Deserialize<BsonDocument>(statDocument.ToString());
 
-               AddUpdateDocument(collection, document, parameters, url);
+                AddUpdateDocument(collection, document, parameters, url);
 
                 return document;
             }

@@ -9,6 +9,25 @@ namespace BBALL.LIB.Services
 {
     public static class BoxScoreService
     {
+        /// <summary>
+        /// Function to load all the box score data by Game ID.
+        /// </summary>
+        /// <param name="GameID">The unique game ID.</param>
+        public static void BoxScoreAll(string GameID)
+        {
+            BoxScoreAdvancedV2(GameID);
+            BoxScoreDefensive(GameID);
+            BoxScoreFourFactorsV2(GameID);
+            BoxScoreMatchups(GameID);
+            BoxScoreMiscV2(GameID);
+            BoxScorePlayerTrackV2(GameID);
+            BoxScoreScoringV2(GameID);
+            BoxScoreSummaryV2(GameID);
+            BoxScoreTraditionalV2(GameID);
+            BoxScoreUsageV2(GameID);
+            HustleStatsBoxScore(GameID);
+        }
+
         public static void BoxScoreAdvancedV2(
             string GameID,
             string EndPeriod = "10", 

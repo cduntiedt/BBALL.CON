@@ -9,6 +9,12 @@ namespace BBALL.LIB.Services
 {
     public static class PlayByPlayService
     {
+        public static void PlayByPlayAll(string GameID)
+        {
+            PlayByPlay(GameID);
+            PlayByPlayV2(GameID);
+        }
+
         public static void PlayByPlay(
           string GameID,
           string StartPeriod = "0",

@@ -59,6 +59,7 @@ namespace BBALL.LIB.Helpers
             JObject obj = new JObject();
             obj.Add("Key", key);
             obj.Add("Value", value);
+            obj.Add("Type", "string");
             return obj;
         }
 
