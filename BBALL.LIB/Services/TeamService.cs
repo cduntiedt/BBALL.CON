@@ -153,9 +153,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashLineups(
             string TeamID,
+            string Season = null,
             string MeasureType = "Base",
             string PerMode = "Totals",
-            string Season = null,
             string SeasonType = "Regular Season",
             string LastNGames = "0",
             string Month = "0",
@@ -216,8 +216,8 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashPtPass(
             string TeamID,
-            string PerMode = "Totals",
             string Season = null,
+            string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string LastNGames = "0",
             string Month = "0",
@@ -259,8 +259,8 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashPtReb(
            string TeamID,
-           string PerMode = "Totals",
            string Season = null,
+           string PerMode = "Totals",
            string SeasonType = "Regular Season",
            string LastNGames = "0",
            string Month = "0",
@@ -306,8 +306,8 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashPtShots(
            string TeamID,
-           string PerMode = "Totals",
            string Season = null,
+           string PerMode = "Totals",
            string SeasonType = "Regular Season",
            string LastNGames = "0",
            string Month = "0",
@@ -353,9 +353,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByClutch(
             string TeamID,
+            string Season = null,
             string MeasureType = "Base",
             string PerMode = "Totals",
-            string Season = null,
             string SeasonType = "Regular Season",
             string LastNGames = "0",
             string Month = "0",
@@ -412,9 +412,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByGameSplits(
               string TeamID,
+              string Season = null,
               string MeasureType = "Base",
               string PerMode = "Totals",
-              string Season = null,
               string SeasonType = "Regular Season",
               string LastNGames = "0",
               string Month = "0",
@@ -471,9 +471,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByGeneralSplits(
               string TeamID,
+              string Season = null,
               string MeasureType = "Base",
               string PerMode = "Totals",
-              string Season = null,
               string SeasonType = "Regular Season",
               string LastNGames = "0",
               string Month = "0",
@@ -530,9 +530,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByLastNGames(
              string TeamID,
+             string Season = null,
              string MeasureType = "Base",
              string PerMode = "Totals",
-             string Season = null,
              string SeasonType = "Regular Season",
              string LastNGames = "0",
              string Month = "0",
@@ -589,9 +589,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByOpponent(
             string TeamID,
+            string Season = null,
             string MeasureType = "Base",
             string PerMode = "Totals",
-            string Season = null,
             string SeasonType = "Regular Season",
             string LastNGames = "0",
             string Month = "0",
@@ -648,9 +648,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByShootingSplits(
             string TeamID,
+            string Season = null,
             string MeasureType = "Base",
             string PerMode = "Totals",
-            string Season = null,
             string SeasonType = "Regular Season",
             string LastNGames = "0",
             string Month = "0",
@@ -707,9 +707,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByTeamPerformance(
                 string TeamID,
+                string Season = null,
                 string MeasureType = "Base",
                 string PerMode = "Totals",
-                string Season = null,
                 string SeasonType = "Regular Season",
                 string LastNGames = "0",
                 string Month = "0",
@@ -766,9 +766,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamDashboardByYearOverYear(
                 string TeamID,
+                string Season = null,
                 string MeasureType = "Base",
                 string PerMode = "Totals",
-                string Season = null,
                 string SeasonType = "Regular Season",
                 string LastNGames = "0",
                 string Month = "0",
@@ -879,9 +879,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamGameLogs(
             string TeamID = null,
+            string Season = null,
             string MeasureType = null,
             string PerMode = null,
-            string Season = null,
             string SeasonType = null,
             string LastNGames = null,
             string Month = null,
@@ -974,9 +974,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamPlayerDashboard(
            string TeamID,
+           string Season = null,
            string MeasureType = "Base",
            string PerMode = "Totals",
-           string Season = null,
            string SeasonType = "Regular Season",
            string LastNGames = "0",
            string Month = "0",
@@ -1033,9 +1033,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamPlayerOnOffDetails(
            string TeamID,
+           string Season = null,
            string MeasureType = "Base",
            string PerMode = "Totals",
-           string Season = null,
            string SeasonType = "Regular Season",
            string LastNGames = "0",
            string Month = "0",
@@ -1091,9 +1091,9 @@ namespace BBALL.LIB.Services
 
         public static void TeamPlayerOnOffSummary(
            string TeamID,
+           string Season = null,
            string MeasureType = "Base",
            string PerMode = "Totals",
-           string Season = null,
            string SeasonType = "Regular Season",
            string LastNGames = "0",
            string Month = "0",
@@ -1149,9 +1149,9 @@ namespace BBALL.LIB.Services
         public static void TeamVsPlayer(
           string TeamID,
           string VsPlayerID,
+          string Season = null,
           string MeasureType = "Base",
           string PerMode = "Totals",
-          string Season = null,
           string SeasonType = "Regular Season",
           string LastNGames = "0",
           string Month = "0",

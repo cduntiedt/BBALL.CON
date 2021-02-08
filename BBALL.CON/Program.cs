@@ -20,7 +20,9 @@ namespace BBALL.CON
             List<string> seasons = new List<string>();
             seasons.Add(SeasonHelper.DefaultSeason());
 
-            LoadData(SeasonService.Seasons, true);
+            LoadData(seasons);
+
+            //LoadData(SeasonService.Seasons);
 
             stopWatch.Stop();
             // Get the elapsed time as a TimeSpan value.
@@ -33,7 +35,7 @@ namespace BBALL.CON
             Console.WriteLine("RunTime " + elapsedTime);
         }
 
-        static void LoadData(List<string> seasons, bool currentGames)
+        static void LoadData(List<string> seasons)
         {
             var teamsDocument = TeamService.CommonTeamYears();
             var franchisesDocument = TeamService.FranchiseHistory();
@@ -45,7 +47,11 @@ namespace BBALL.CON
             {
                 var abbr = team["ABBREVIATION"];
                 var minYear = Convert.ToInt64(team["MIN_YEAR"]);
-                var teamID = team["TEAM_ID"].AsString;
+                var teamID = team["TEAM_ID"].ToString();
+
+                TeamService.TeamDetails(teamID);
+                TeamService.TeamYearByYearStats(teamID);
+                Wait(500);
 
                 foreach (var season in seasons)
                 {
@@ -60,10 +66,47 @@ namespace BBALL.CON
                         Console.WriteLine(team);
 
                         CommonService.CommonTeamRoster(teamID, season);
-
+                        TeamService.TeamGameLog(teamID, season);
+                        TeamService.TeamGameLogs(teamID, season);
+                        TeamService.TeamHistoricalLeaders(teamID, season);
+                        TeamService.TeamInfoCommon(teamID, season);
                         Wait(500);
+
+                        //loop through different team per modes
+                        foreach (var perMode in PerModeService.TeamPerModes)
+                        {
+                            //loop thorough different team measure types
+                            foreach (var measureType in MeasureTypeService.TeamMeasureTypes)
+                            {
+                                TeamService.TeamDashLineups(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByClutch(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByGameSplits(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByGeneralSplits(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByLastNGames(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByOpponent(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByShootingSplits(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByTeamPerformance(teamID, season, measureType, perMode);
+                                TeamService.TeamDashboardByYearOverYear(teamID, season, measureType, perMode);
+                                TeamService.TeamPlayerDashboard(teamID, season, measureType, perMode);
+                                TeamService.TeamPlayerOnOffDetails(teamID, season, measureType, perMode);
+                                TeamService.TeamPlayerOnOffSummary(teamID, season, measureType, perMode);
+                                Wait(500);
+                            }
+
+                            TeamService.TeamDashPtPass(teamID, season, perMode);
+                            TeamService.TeamDashPtReb(teamID, season, perMode);
+                            TeamService.TeamDashPtShots(teamID, season, perMode);
+                            Wait(500);
+                        }
                     }
                 }
+            }
+
+            //loop through all the seasons
+            foreach (var season in seasons)
+            {
+                TeamService.TeamEstimatedMetrics(season);
+                Wait(500);
             }
 
             //JArray parameters = new JArray();
