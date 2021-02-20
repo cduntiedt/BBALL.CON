@@ -1,8 +1,9 @@
-﻿The following are endpoints that have been skipped:
+﻿The following logic needs to be added:
 
-DefenseHub (need to verify any missing endpoints before this one)
-FantasyWidget
-GLAlumBoxScoreSimilarityScore
-InfographicFanDuelPlayer
+PlayerService
+ScoreboardService
+ShotChartService
+SynergyService
+VideoService
 
 (Source: https://github.com/swar/nba_api/blob/master/docs/table_of_contents.md)

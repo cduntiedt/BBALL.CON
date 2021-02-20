@@ -5,11 +5,11 @@ using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 
-namespace BBALL.LIB
+namespace BBALL.LIB.Services
 {
     public static class DraftService
     {
-        public static void AllDraftCombineData(string LeagueID, string SeasonYear)
+        public static void DraftCombineAll(string SeasonYear = null, string LeagueID = null)
         {
             DraftCombineDrillResults(LeagueID, SeasonYear);
             DraftCombineStationaryShooting(LeagueID, SeasonYear);

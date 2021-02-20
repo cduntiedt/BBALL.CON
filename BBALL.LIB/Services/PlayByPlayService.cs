@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
 
 namespace BBALL.LIB.Services
 {
@@ -15,38 +16,40 @@ namespace BBALL.LIB.Services
             PlayByPlayV2(GameID);
         }
 
-        public static void PlayByPlay(
-          string GameID,
-          string StartPeriod = "0",
-          string EndPeriod = "10")
+        public static BsonDocument PlayByPlay(
+            string GameID,
+            string StartPeriod = "0",
+            string EndPeriod = "10"
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
-            PlayByPlay(parameters);
+            return PlayByPlay(parameters);
         }
 
-        public static void PlayByPlay(JArray parameters)
+        public static BsonDocument PlayByPlay(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playbyplay/", "playbyplay", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playbyplay/", "playbyplay", parameters);
         }
 
-        public static void PlayByPlayV2(
-          string GameID,
-          string StartPeriod = "0",
-          string EndPeriod = "10")
+        public static BsonDocument PlayByPlayV2(
+            string GameID,
+            string StartPeriod = "0",
+            string EndPeriod = "10"
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
-            PlayByPlayV2(parameters);
+            return PlayByPlayV2(parameters);
         }
 
-        public static void PlayByPlayV2(JArray parameters)
+        public static BsonDocument PlayByPlayV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playbyplayv2/", "playbyplayv2", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playbyplayv2/", "playbyplayv2", parameters);
         }
     }
 }

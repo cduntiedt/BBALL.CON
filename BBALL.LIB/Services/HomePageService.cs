@@ -12,13 +12,13 @@ namespace BBALL.LIB.Services
     public static class HomePageService
     {
         public static void HomePageLeaders(
+            string Season = null,
             string GameScope = "Season", 
             string PlayerOrTeam = "Player", 
             string PlayerScope = "All Players",
             string SeasonType = "Regular Season",
             string StatCategory = "Points",
-            string LeagueID = null,
-            string Season = null
+            string LeagueID = null
             )
         {
             JArray parameters = new JArray();
@@ -38,13 +38,13 @@ namespace BBALL.LIB.Services
         }
 
         public static void HomePageV2(
+           string Season = null,
            string GameScope = "Season",
            string PlayerOrTeam = "Player",
            string PlayerScope = "All Players",
            string SeasonType = "Regular Season",
            string StatType = "Points",
-           string LeagueID = null,
-           string Season = null
+           string LeagueID = null
            )
         {
             JArray parameters = new JArray();

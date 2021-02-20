@@ -55,6 +55,12 @@ namespace BBALL.LIB.Services
             return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchisehistory/", "franchisehistory", parameters);
         }
 
+        /// <summary>
+        /// Repeated on the CommonService
+        /// </summary>
+        /// <param name="TeamID">The team ID.</param>
+        /// <param name="Season">The season years.</param>
+        /// <returns>A document with team roster info.</returns>
         public static BsonDocument CommonTeamRoster(string TeamID = null, string Season = null)
         {
             JArray parameters = new JArray();

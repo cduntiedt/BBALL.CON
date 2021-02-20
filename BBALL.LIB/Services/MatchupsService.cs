@@ -4,16 +4,28 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
 
 namespace BBALL.LIB.Services
 {
     public static class MatchupsService
     {
-        public static void LeagueSeasonMatchups(
-           string PerMode = "Totals",
-           string SeasonType = "Regular Season",
-           string LeagueID = null,
+        /// <summary>
+        /// Also on LeagueService
+        /// </summary>
+        /// <param name="Season"></param>
+        /// <param name="SeasonType"></param>
+        /// <param name="PerMode"></param>
+        /// <param name="LeagueID"></param>
+        /// <param name="DefPlayerID"></param>
+        /// <param name="DefTeamID"></param>
+        /// <param name="OffPlayerID"></param>
+        /// <param name="OffTeamID"></param>
+        public static BsonDocument LeagueSeasonMatchups(
            string Season = null,
+           string SeasonType = "Regular Season",
+           string PerMode = "Totals",
+           string LeagueID = null,
            string DefPlayerID = null,
            string DefTeamID = null,
            string OffPlayerID = null,
@@ -28,19 +40,19 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DefTeamID", DefTeamID));
             parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID));
             parameters.Add(CreateParameterObject("OffTeamID", OffTeamID));
-            LeagueSeasonMatchups(parameters);
+            return LeagueSeasonMatchups(parameters);
         }
 
-        public static void LeagueSeasonMatchups(JArray parameters)
+        public static BsonDocument LeagueSeasonMatchups(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leagueseasonmatchups/", "leagueseasonmatchups", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leagueseasonmatchups/", "leagueseasonmatchups", parameters);
         }
 
-        public static void MatchupsRollup(
-            string PerMode = "Totals",
-            string SeasonType = "Regular Season",
-            string LeagueID = null,
+        public static BsonDocument MatchupsRollup(
             string Season = null,
+            string SeasonType = "Regular Season",
+            string PerMode = "Totals",
+            string LeagueID = null,
             string DefPlayerID = null,
             string DefTeamID = null,
             string OffPlayerID = null,
@@ -55,12 +67,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DefTeamID", DefTeamID));
             parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID));
             parameters.Add(CreateParameterObject("OffTeamID", OffTeamID));
-            MatchupsRollup(parameters);
+            return MatchupsRollup(parameters);
         }
 
-        public static void MatchupsRollup(JArray parameters)
+        public static BsonDocument MatchupsRollup(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/matchupsrollup/", "matchupsrollup", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/matchupsrollup/", "matchupsrollup", parameters);
         }
     }
 }

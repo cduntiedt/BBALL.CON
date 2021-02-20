@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
 
 namespace BBALL.LIB.Services
 {
     public static class LeadersService
     {
         //Players > All Time Summary
-        public static void AllTimeLeadersGrid(
+        public static BsonDocument AllTimeLeadersGrid(
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TopX = "10",
@@ -23,25 +24,25 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("TopX", TopX));
 
-            AllTimeLeadersGrid(parameters);
+            return AllTimeLeadersGrid(parameters);
         }
 
-        public static void AllTimeLeadersGrid(JArray parameters)
+        public static BsonDocument AllTimeLeadersGrid(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/alltimeleadersgrids/", "alltimeleadersgrids", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/alltimeleadersgrids/", "alltimeleadersgrids", parameters);
         }
 
 
         //Players > Official Leaders
-        public static void LeagueLeaders(
-           string PerMode = "PerGame",
-           string SeasonType = "Regular Season",
-           string ActiveFlag = null,
-           string Scope = "S",
-           string StatCategory = "PTS",
-            string LeagueID = null,
-           string Season = null
-           )
+        public static BsonDocument LeagueLeaders(
+            string Season = null,
+            string PerMode = "PerGame",
+            string SeasonType = "Regular Season",
+            string ActiveFlag = null,
+            string Scope = "S",
+            string StatCategory = "PTS",
+            string LeagueID = null
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -51,12 +52,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ActiveFlag", ActiveFlag));
             parameters.Add(CreateParameterObject("Scope", Scope));
             parameters.Add(CreateParameterObject("StatCategory", StatCategory));
-            LeagueLeaders(parameters);
+            return LeagueLeaders(parameters);
         }
 
-        public static void LeagueLeaders(JArray parameters)
+        public static BsonDocument LeagueLeaders(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leagueleaders/", "leagueleaders", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leagueleaders/", "leagueleaders", parameters);
         }
     }
 }

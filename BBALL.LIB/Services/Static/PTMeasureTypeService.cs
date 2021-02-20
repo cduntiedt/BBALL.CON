@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BBALL.LIB.Services.Static
+namespace BBALL.LIB.Services
 {
     public static class PTMeasureTypeService
     {

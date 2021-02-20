@@ -4,25 +4,26 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
 
 namespace BBALL.LIB.Services
 {
     public static class PlayerService
     {
         //Player > Career
-        public static void PlayerAwards(string PlayerID)
+        public static BsonDocument PlayerAwards(string PlayerID)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
-            PlayerAwards(parameters);
+            return PlayerAwards(parameters);
         }
 
-        public static void PlayerAwards(JArray parameters)
+        public static BsonDocument PlayerAwards(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerawards/", "playerawards", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerawards/", "playerawards", parameters);
         }
 
-        public static void PlayerCareerByCollege(
+        public static BsonDocument PlayerCareerByCollege(
            string Season = null,
            string SeasonType = "Regular Season",
            string College = null,
@@ -37,15 +38,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
 
-            PlayerCareerByCollege(parameters);
+            return PlayerCareerByCollege(parameters);
         }
 
-        public static void PlayerCareerByCollege(JArray parameters)
+        public static BsonDocument PlayerCareerByCollege(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercareerbycollege/", "playercareerbycollege", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercareerbycollege/", "playercareerbycollege", parameters);
         }
 
-        public static void PlayerCareerByCollegeRollup(
+        public static BsonDocument PlayerCareerByCollegeRollup(
            string Season = null,
            string SeasonType = "Regular Season",
            string PerMode = null,
@@ -58,16 +59,16 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
 
-            PlayerCareerByCollegeRollup(parameters);
+            return PlayerCareerByCollegeRollup(parameters);
         }
 
-        public static void PlayerCareerByCollegeRollup(JArray parameters)
+        public static BsonDocument PlayerCareerByCollegeRollup(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercareerbycollegerollup/", "playercareerbycollegerollup", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercareerbycollegerollup/", "playercareerbycollegerollup", parameters);
         }
 
         //PLayer > Career
-        public static void PlayerCareerStats(
+        public static BsonDocument PlayerCareerStats(
             string PlayerID,
             string PerMode = "PerGame",
             string LeagueID = null
@@ -77,15 +78,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
-            PlayerCareerStats(parameters);
+            return PlayerCareerStats(parameters);
         }
 
-        public static void PlayerCareerStats(JArray parameters)
+        public static BsonDocument PlayerCareerStats(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercareerstats/", "playercareerstats", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercareerstats/", "playercareerstats", parameters);
         }
 
-        public static void PlayerCompare(
+        public static BsonDocument PlayerCompare(
            string PerMode = "PerGame",
            string MeasureType = "Base",
            string Season = null,
@@ -137,15 +138,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DateTo", DateTo));
             parameters.Add(CreateParameterObject("DateFrom", DateFrom));
             parameters.Add(CreateParameterObject("Conference", Conference));
-            PlayerCompare(parameters);
+            return PlayerCompare(parameters);
         }
 
-        public static void PlayerCompare(JArray parameters)
+        public static BsonDocument PlayerCompare(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercompare/", "playercompare", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playercompare/", "playercompare", parameters);
         }
 
-        public static void PlayDashPTPass(
+        public static BsonDocument PlayDashPTPass(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -187,14 +188,14 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayDashPTPass(parameters);
+            return PlayDashPTPass(parameters);
         }
 
-        public static void PlayDashPTPass(JArray parameters)
+        public static BsonDocument PlayDashPTPass(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptpass/", "playerdashptpass", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptpass/", "playerdashptpass", parameters);
         }
-        public static void PlayDashPTReb(
+        public static BsonDocument PlayDashPTReb(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -236,15 +237,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayDashPTReb(parameters);
+            return PlayDashPTReb(parameters);
         }
 
-        public static void PlayDashPTReb(JArray parameters)
+        public static BsonDocument PlayDashPTReb(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptreb/", "playerdashptreb", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptreb/", "playerdashptreb", parameters);
         }
 
-        public static void PlayDashPTShotDefend(
+        public static BsonDocument PlayDashPTShotDefend(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -286,15 +287,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayDashPTShotDefend(parameters);
+            return PlayDashPTShotDefend(parameters);
         }
 
-        public static void PlayDashPTShotDefend(JArray parameters)
+        public static BsonDocument PlayDashPTShotDefend(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptshotdefend/", "playerdashptshotdefend", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptshotdefend/", "playerdashptshotdefend", parameters);
         }
 
-        public static void PlayDashPTShots(
+        public static BsonDocument PlayDashPTShots(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -336,15 +337,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayDashPTShots(parameters);
+            return PlayDashPTShots(parameters);
         }
 
-        public static void PlayDashPTShots(JArray parameters)
+        public static BsonDocument PlayDashPTShots(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptshots/", "playerdashptshots", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashptshots/", "playerdashptshots", parameters);
         }
 
-        public static void PlayerDashboardByClutch(
+        public static BsonDocument PlayerDashboardByClutch(
             string PlayerID,
             string PerMode = "Totals",
             string Season = null,
@@ -394,15 +395,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("GameSegment", GameSegment));
             parameters.Add(CreateParameterObject("DateTo", DateTo));
             parameters.Add(CreateParameterObject("DateFrom", DateFrom));
-            PlayerDashboardByClutch(parameters);
+            return PlayerDashboardByClutch(parameters);
         }
 
-        public static void PlayerDashboardByClutch(JArray parameters)
+        public static BsonDocument PlayerDashboardByClutch(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyclutch/", "playerdashboardbyclutch", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyclutch/", "playerdashboardbyclutch", parameters);
         }
 
-        public static void PlayerDashboardByGameSplits(
+        public static BsonDocument PlayerDashboardByGameSplits(
             string PlayerID,
             string MeasureType = "Base",
             string PerMode = "Totals",
@@ -452,16 +453,16 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("GameSegment", GameSegment));
             parameters.Add(CreateParameterObject("DateTo", DateTo));
             parameters.Add(CreateParameterObject("DateFrom", DateFrom));
-            PlayerDashboardByGameSplits(parameters);
+            return PlayerDashboardByGameSplits(parameters);
         }
 
-        public static void PlayerDashboardByGameSplits(JArray parameters)
+        public static BsonDocument PlayerDashboardByGameSplits(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygamesplits/", "playerdashboardbygamesplits", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygamesplits/", "playerdashboardbygamesplits", parameters);
         }
 
         //Player > Splits
-        public static void PlayerDashboardByGeneralSplits(
+        public static BsonDocument PlayerDashboardByGeneralSplits(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -511,15 +512,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerDashboardByGeneralSplits(parameters);
+            return PlayerDashboardByGeneralSplits(parameters);
         }
 
-        public static void PlayerDashboardByGeneralSplits(JArray parameters)
+        public static BsonDocument PlayerDashboardByGeneralSplits(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygeneralsplits/", "playerdashboardbygeneralsplits", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygeneralsplits/", "playerdashboardbygeneralsplits", parameters);
         }
 
-        public static void PlayerDashboardByLastNGames(
+        public static BsonDocument PlayerDashboardByLastNGames(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -569,15 +570,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerDashboardByLastNGames(parameters);
+            return PlayerDashboardByLastNGames(parameters);
         }
 
-        public static void PlayerDashboardByLastNGames(JArray parameters)
+        public static BsonDocument PlayerDashboardByLastNGames(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbylastngames/", "playerdashboardbylastngames", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbylastngames/", "playerdashboardbylastngames", parameters);
         }
 
-        public static void PlayerDashboardByOpponent(
+        public static BsonDocument PlayerDashboardByOpponent(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -627,15 +628,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerDashboardByOpponent(parameters);
+            return PlayerDashboardByOpponent(parameters);
         }
 
-        public static void PlayerDashboardByOpponent(JArray parameters)
+        public static BsonDocument PlayerDashboardByOpponent(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyopponent/", "playerdashboardbyopponent", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyopponent/", "playerdashboardbyopponent", parameters);
         }
 
-        public static void PlayerDashboardByShootingSplits(
+        public static BsonDocument PlayerDashboardByShootingSplits(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -685,15 +686,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerDashboardByShootingSplits(parameters);
+            return PlayerDashboardByShootingSplits(parameters);
         }
 
-        public static void PlayerDashboardByShootingSplits(JArray parameters)
+        public static BsonDocument PlayerDashboardByShootingSplits(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyshootingsplits/", "playerdashboardbyshootingsplits", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyshootingsplits/", "playerdashboardbyshootingsplits", parameters);
         }
 
-        public static void PlayerDashboardByTeamPerformance(
+        public static BsonDocument PlayerDashboardByTeamPerformance(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -743,16 +744,16 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerDashboardByTeamPerformance(parameters);
+            return PlayerDashboardByTeamPerformance(parameters);
         }
 
-        public static void PlayerDashboardByTeamPerformance(JArray parameters)
+        public static BsonDocument PlayerDashboardByTeamPerformance(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyteamperformance/", "playerdashboardbyteamperformance", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyteamperformance/", "playerdashboardbyteamperformance", parameters);
         }
 
         //Player > Profile
-        public static void PlayerDashboardByYearOverYear(
+        public static BsonDocument PlayerDashboardByYearOverYear(
             string PlayerID,
             string PerMode = "PerGame",
             string Season = null,
@@ -802,15 +803,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerDashboardByYearOverYear(parameters);
+            return PlayerDashboardByYearOverYear(parameters);
         }
 
-        public static void PlayerDashboardByYearOverYear(JArray parameters)
+        public static BsonDocument PlayerDashboardByYearOverYear(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyyearoveryear/", "playerdashboardbyyearoveryear", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbyyearoveryear/", "playerdashboardbyyearoveryear", parameters);
         }
 
-        public static void PlayerEstimatedMetrics(
+        public static BsonDocument PlayerEstimatedMetrics(
            string Season = null,
            string SeasonType = "Regular Season",
            string LeagueID = null
@@ -821,15 +822,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
 
-            PlayerEstimatedMetrics(parameters);
+            return PlayerEstimatedMetrics(parameters);
         }
 
-        public static void PlayerEstimatedMetrics(JArray parameters)
+        public static BsonDocument PlayerEstimatedMetrics(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerestimatedmetrics/", "playerestimatedmetrics", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerestimatedmetrics/", "playerestimatedmetrics", parameters);
         }
 
-        public static void PlayerGameLog(
+        public static BsonDocument PlayerGameLog(
             string PlayerID,
             string Season = null, 
             string SeasonType = "Regular Season",
@@ -845,15 +846,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DateFrom", DateFrom));
             parameters.Add(CreateParameterObject("DateTo", DateTo));
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
-            PlayerGameLog(parameters);
+            return PlayerGameLog(parameters);
         }
 
-        public static void PlayerGameLog(JArray parameters)
+        public static BsonDocument PlayerGameLog(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playergamelog/", "playergamelog", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playergamelog/", "playergamelog", parameters);
         }
 
-        public static void PlayerGameLogs(
+        public static BsonDocument PlayerGameLogs(
             string Season = null,
             string SeasonType = null,
             string MeasureType = null,
@@ -899,16 +900,16 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerGameLogs(parameters);
+            return PlayerGameLogs(parameters);
         }
 
-        public static void PlayerGameLogs(JArray parameters)
+        public static BsonDocument PlayerGameLogs(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playergamelogs/", "playergamelogs", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playergamelogs/", "playergamelogs", parameters);
         }
 
         //Players > Player Index
-        public static void PlayerIndex(
+        public static BsonDocument PlayerIndex(
             string Season = null,
             string Active = null,
             string AllStar = null,
@@ -939,15 +940,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("Weight", Weight));
 
-            PlayerIndex(parameters);
+            return PlayerIndex(parameters);
         }
 
-        public static void PlayerIndex(JArray parameters)
+        public static BsonDocument PlayerIndex(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerindex/", "playerindex", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerindex/", "playerindex", parameters);
         }
 
-        public static void PlayerNextNGames(
+        public static BsonDocument PlayerNextNGames(
         string PlayerID,
         string Season = null,
         string SeasonType = "Regular Season",
@@ -961,16 +962,16 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("NumberOfGames", NumberOfGames));
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
-            PlayerNextNGames(parameters);
+            return PlayerNextNGames(parameters);
         }
 
-        public static void PlayerNextNGames(JArray parameters)
+        public static BsonDocument PlayerNextNGames(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playernextngames/", "playernextngames", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playernextngames/", "playernextngames", parameters);
         }
 
         //Player > Career
-        public static void PlayerProfileV2(
+        public static BsonDocument PlayerProfileV2(
             string PlayerID,
             string PerMode = "PerGame",
             string LeagueID = null
@@ -980,15 +981,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
-            PlayerProfileV2(parameters);
+            return PlayerProfileV2(parameters);
         }
 
-        public static void PlayerProfileV2(JArray parameters)
+        public static BsonDocument PlayerProfileV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygeneralsplits/", "playerdashboardbygeneralsplits", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygeneralsplits/", "playerdashboardbygeneralsplits", parameters);
         }
 
-        public static void PlayerVsPlayer(
+        public static BsonDocument PlayerVsPlayer(
             string PlayerID,
             string VsPlayerID,
             string Season = null,
@@ -1034,12 +1035,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
-            PlayerVsPlayer(parameters);
+            return PlayerVsPlayer(parameters);
         }
 
-        public static void PlayerVsPlayer(JArray parameters)
+        public static BsonDocument PlayerVsPlayer(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playervsplayer/", "playervsplayer", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playervsplayer/", "playervsplayer", parameters);
         }
     }
 }
