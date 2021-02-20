@@ -10,6 +10,33 @@ namespace BBALL.LIB.Services
 {
     public static class PlayerService
     {
+        public static void ImportPlayers(List<string> seasons)
+        {
+            try
+            {
+                foreach (var season in seasons)
+                {
+                    var commonDocument = CommonService.CommonAllPlayers(season);
+
+                    var players = (BsonArray)commonDocument["resultSets"][0]["data"];
+                    if (!players.IsBsonNull)
+                    {
+                        foreach (var player in players)
+                        {
+                            //BsonDocument playerDocument = new BsonDocument();
+                            //playerDocument.Add("PlayerID", player["PlayerID"].ToString());
+                            Console.WriteLine(player);
+                            CommonService.CommonPlayerInfo(player["PlayerID"].ToString());
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         //Player > Career
         public static BsonDocument PlayerAwards(string PlayerID)
         {
@@ -26,8 +53,8 @@ namespace BBALL.LIB.Services
         public static BsonDocument PlayerCareerByCollege(
            string Season = null,
            string SeasonType = "Regular Season",
-           string College = null,
            string PerMode = null,
+           string College = null,
            string LeagueID = null
         )
         {
@@ -87,10 +114,10 @@ namespace BBALL.LIB.Services
         }
 
         public static BsonDocument PlayerCompare(
-           string PerMode = "PerGame",
-           string MeasureType = "Base",
            string Season = null,
            string SeasonType = "Regular Season",
+           string PerMode = "PerGame",
+           string MeasureType = "Base",
            string LastNGames = "0",
            string Month = "0",
            string OpponentTeamID = "0",
@@ -148,9 +175,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayDashPTPass(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string DateFrom = null,
             string DateTo = null,
             string GameSegment = null,
@@ -197,9 +224,9 @@ namespace BBALL.LIB.Services
         }
         public static BsonDocument PlayDashPTReb(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string DateFrom = null,
             string DateTo = null,
             string GameSegment = null,
@@ -247,9 +274,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayDashPTShotDefend(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string DateFrom = null,
             string DateTo = null,
             string GameSegment = null,
@@ -297,9 +324,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayDashPTShots(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string DateFrom = null,
             string DateTo = null,
             string GameSegment = null,
@@ -347,11 +374,11 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerDashboardByClutch(
             string PlayerID,
-            string PerMode = "Totals",
             string Season = null,
-            string SeasonType = "Regular Season",
-            string LastNGames = "0",
+            string SeasonType = "Regular Season", 
+            string PerMode = "Totals",
             string MeasureType = "Base",
+            string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
             string PaceAdjust = "N",
@@ -405,10 +432,10 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerDashboardByGameSplits(
             string PlayerID,
-            string MeasureType = "Base",
-            string PerMode = "Totals",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "Totals",
+            string MeasureType = "Base",
             string LastNGames = "0",
             string Month = "0",
             string OpponentTeamID = "0",
@@ -464,9 +491,9 @@ namespace BBALL.LIB.Services
         //Player > Splits
         public static BsonDocument PlayerDashboardByGeneralSplits(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string MeasureType = "Base",
             string DateFrom = null,
             string DateTo = null,
@@ -522,9 +549,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerDashboardByLastNGames(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string MeasureType = "Base",
             string DateFrom = null,
             string DateTo = null,
@@ -580,9 +607,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerDashboardByOpponent(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string MeasureType = "Base",
             string DateFrom = null,
             string DateTo = null,
@@ -638,9 +665,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerDashboardByShootingSplits(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string MeasureType = "Base",
             string DateFrom = null,
             string DateTo = null,
@@ -696,9 +723,9 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerDashboardByTeamPerformance(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string MeasureType = "Base",
             string DateFrom = null,
             string DateTo = null,
@@ -755,9 +782,9 @@ namespace BBALL.LIB.Services
         //Player > Profile
         public static BsonDocument PlayerDashboardByYearOverYear(
             string PlayerID,
-            string PerMode = "PerGame",
             string Season = null,
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string MeasureType = "Base",
             string DateFrom = null,
             string DateTo = null,
@@ -857,8 +884,8 @@ namespace BBALL.LIB.Services
         public static BsonDocument PlayerGameLogs(
             string Season = null,
             string SeasonType = null,
-            string MeasureType = null,
             string PerMode = null,
+            string MeasureType = null,
             string DateFrom = null,
             string DateTo = null,
             string GameSegment = null,
@@ -949,12 +976,12 @@ namespace BBALL.LIB.Services
         }
 
         public static BsonDocument PlayerNextNGames(
-        string PlayerID,
-        string Season = null,
-        string SeasonType = "Regular Season",
-        string NumberOfGames = null,
-        string LeagueID = null
-            )
+            string PlayerID,
+            string Season = null,
+            string SeasonType = "Regular Season",
+            string NumberOfGames = "5",
+            string LeagueID = null
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -975,7 +1002,7 @@ namespace BBALL.LIB.Services
             string PlayerID,
             string PerMode = "PerGame",
             string LeagueID = null
-            )
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
@@ -1011,7 +1038,7 @@ namespace BBALL.LIB.Services
             string VsConference = null,
             string VsDivision = null,
             string LeagueID = null
-            )
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));

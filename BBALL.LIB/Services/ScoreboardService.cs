@@ -18,7 +18,7 @@ namespace BBALL.LIB.Services
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("DayOffset", DayOffset));
-            parameters.Add(CreateParameterObject("PerMode", GameDate));
+            parameters.Add(CreateParameterObject("GameDate", GameDate));
 
             Scoreboard(parameters);
         }
@@ -37,7 +37,7 @@ namespace BBALL.LIB.Services
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("DayOffset", DayOffset));
-            parameters.Add(CreateParameterObject("PerMode", GameDate));
+            parameters.Add(CreateParameterObject("GameDate", GameDate));
 
             ScoreboardV2(parameters);
         }

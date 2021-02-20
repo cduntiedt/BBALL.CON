@@ -17,10 +17,13 @@ namespace BBALL.CON
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
 
-            List<string> seasons = new List<string>();
-            seasons.Add(SeasonHelper.DefaultSeason());
+            var players = CommonService.CommonAllPlayers(SeasonHelper.DefaultSeason());
+            Console.WriteLine(players);
 
-            LoadData(seasons);
+            //List<string> seasons = new List<string>();
+            //seasons.Add(SeasonHelper.DefaultSeason());
+
+            //LoadData(seasons);
 
             //LoadData(SeasonService.Seasons);
 
@@ -39,6 +42,7 @@ namespace BBALL.CON
         {
             var teamsDocument = TeamService.CommonTeamYears();
             var franchisesDocument = TeamService.FranchiseHistory();
+            PlayerService.PlayerGameLogs();
 
             var teams = teamsDocument["resultSets"][0]["data"].AsBsonArray;
 
@@ -115,10 +119,13 @@ namespace BBALL.CON
                 }
             }
 
+            //a list of players
+            List<string> playerIDs = new List<string>();
             //loop through all the seasons
             foreach (var season in seasons)
             {
                 Console.WriteLine(season);
+                
                 TeamService.TeamEstimatedMetrics(season);
                 DraftService.DraftCombineAll(season);
                 
@@ -136,6 +143,8 @@ namespace BBALL.CON
                     LeagueService.LeagueGameLog(season, seasonType);
                     LeagueService.LeagueStandings(season, seasonType);
                     LeagueService.LeagueStandingsV3(season, seasonType);
+
+                    PlayerService.PlayerEstimatedMetrics(season, seasonType);
                     Wait(500);
 
                     foreach (var perMode in PerModeService.PerModes)
@@ -153,6 +162,9 @@ namespace BBALL.CON
                         LeagueService.LeagueSeasonMatchups(season, seasonType, perMode);
 
                         MatchupsService.MatchupsRollup(season, seasonType, perMode);
+
+                        PlayerService.PlayerCareerByCollege(season, seasonType, perMode);
+                        PlayerService.PlayerCareerByCollegeRollup(season, seasonType, perMode);
                         Wait(500);
 
                         foreach (var measureType in MeasureTypeService.LeagueMeasureTypes)
@@ -194,7 +206,7 @@ namespace BBALL.CON
                 JArray parameters = new JArray();
                 parameters.Add(CreateParameterObject("Season", season));
                 var gameDocument = GameService.ImportGames(parameters).FirstOrDefault();
-                foreach (var game in (BsonArray)gameDocument["Games"])
+                foreach (var game in gameDocument["Games"].AsBsonArray)
                 {
                     var gameId = game["Game_ID"].ToString();
                     Console.WriteLine(season + " - " + gameId);
@@ -205,6 +217,68 @@ namespace BBALL.CON
                     Wait(500);
                     PlayByPlayService.PlayByPlayAll(gameId);
                     Wait(500);
+                }
+
+                var commonDocument = CommonService.CommonAllPlayers(season);
+                var seasonPlayers = commonDocument["resultSets"][0]["data"].AsBsonArray;
+                if (!seasonPlayers.IsBsonNull)
+                {
+                    foreach (var player in seasonPlayers)
+                    {
+                        Console.WriteLine(player);
+                        var playerID = player["PlayerID"].ToString();
+
+                        //BsonDocument playerDocument = new BsonDocument();
+                        //playerDocument.Add("PlayerID", player["PlayerID"].ToString());
+
+                        if (!playerIDs.Contains(playerID))
+                        {
+                            playerIDs.Add(playerID);
+                            Console.WriteLine(playerID);
+                        }
+
+                        foreach (var seasonType in SeasonTypeService.PlayerSeasonTypes)
+                        {
+                            PlayerService.PlayerGameLog(playerID, season, seasonType);
+                            PlayerService.PlayerNextNGames(playerID, season, seasonType);
+
+                            foreach (var perMode in PerModeService.PerModes)
+                            {
+                                PlayerService.PlayDashPTPass(playerID, season, seasonType, perMode);
+                                PlayerService.PlayDashPTReb(playerID, season, seasonType, perMode);
+                                PlayerService.PlayDashPTShotDefend(playerID, season, seasonType, perMode);
+                                PlayerService.PlayDashPTShots(playerID, season, seasonType, perMode);
+
+                                foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                                {
+                                    PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByGameSplits(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByGeneralSplits(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByLastNGames(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByOpponent(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByShootingSplits(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByTeamPerformance(playerID, season, seasonType, perMode, measureType);
+                                    PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, measureType);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            var playerDocument = PlayerService.PlayerIndex();
+            var allPlayers = playerDocument["resultSets"][0]["data"].AsBsonArray;
+            //loop through all players
+            foreach (var player in allPlayers)
+            {
+                var playerID = player["PERSON_ID"].ToString();
+
+                CommonService.CommonPlayerInfo(playerID);
+
+                foreach (var perMode in PerModeService.PerModes)
+                {
+                    PlayerService.PlayerCareerStats(playerID, perMode);
+                    PlayerService.PlayerProfileV2(playerID, perMode);
                 }
             }
         }

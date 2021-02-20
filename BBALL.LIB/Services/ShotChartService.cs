@@ -11,11 +11,10 @@ namespace BBALL.LIB.Services
     {
         public static void ShotChartDetail(
             string PlayerID,
-            string ContextFilter,//"SEASON_YEAR='2020-21'"
-            string ContextMeasure = "FGA",
-            string SeasonType = "Regular Season",
-            string LeagueID = null,
             string Season = null,
+            string SeasonType = "Regular Season",
+            string ContextMeasure = "FGA",
+            string ContextFilter = null,//"SEASON_YEAR='2020-21'"
             string AheadBehind = null,
             string ClutchTime = null,
             string DateFrom = null,
@@ -39,7 +38,8 @@ namespace BBALL.LIB.Services
             string StartRange = "0",
             string TeamID = "0",
             string VsConference = null,
-            string VsDivision = null
+            string VsDivision = null,
+            string LeagueID = null
             )
         {
             JArray parameters = new JArray();
