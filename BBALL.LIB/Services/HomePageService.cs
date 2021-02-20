@@ -13,10 +13,10 @@ namespace BBALL.LIB.Services
     {
         public static void HomePageLeaders(
             string Season = null,
+            string SeasonType = "Regular Season",
             string GameScope = "Season", 
             string PlayerOrTeam = "Player", 
             string PlayerScope = "All Players",
-            string SeasonType = "Regular Season",
             string StatCategory = "Points",
             string LeagueID = null
             )
@@ -39,10 +39,10 @@ namespace BBALL.LIB.Services
 
         public static void HomePageV2(
            string Season = null,
+           string SeasonType = "Regular Season",
            string GameScope = "Season",
            string PlayerOrTeam = "Player",
            string PlayerScope = "All Players",
-           string SeasonType = "Regular Season",
            string StatType = "Points",
            string LeagueID = null
            )

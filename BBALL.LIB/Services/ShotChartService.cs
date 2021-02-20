@@ -10,8 +10,10 @@ namespace BBALL.LIB.Services
     public static class ShotChartService
     {
         public static void ShotChartDetail(
-            string PlayerID,
             string Season = null,
+            string GameID = null,
+            string PlayerID = "0",
+            string TeamID = "0",
             string SeasonType = "Regular Season",
             string ContextMeasure = "FGA",
             string ContextFilter = null,//"SEASON_YEAR='2020-21'"
@@ -21,7 +23,6 @@ namespace BBALL.LIB.Services
             string DateTo = null,
             string EndPeriod = "10",
             string EndRange = "28800",
-            string GameID = null,
             string GameSegment = null,
             string LastNGames = "0",
             string Location = null,
@@ -36,7 +37,6 @@ namespace BBALL.LIB.Services
             string SeasonSegment = null,
             string StartPeriod = "1",
             string StartRange = "0",
-            string TeamID = "0",
             string VsConference = null,
             string VsDivision = null,
             string LeagueID = null

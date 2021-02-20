@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace BBALL.LIB.Helpers
 {
-    public class StatsHelper
+    public static class StatsHelper
     {
-        public string LeagueID = "00";
-        public string BaseURL = "https://stats.nba.com/stats/";
-        public async Task<string> API(string url)
+        public static string LeagueID = "00";
+        public static string BaseURL = "https://stats.nba.com/stats/";
+        public static async Task<string> API(string url)
         {
             HttpClient client = new HttpClient();
             try
@@ -47,6 +47,22 @@ namespace BBALL.LIB.Helpers
             {
                 client.Dispose();
             }
+        }
+
+        public static string GenerateUrl(string url, JArray parameters)
+        {
+            //add query parameters to url
+            url += "?";
+            foreach (var item in parameters)
+            {
+                if (item != parameters.FirstOrDefault())
+                {
+                    url += "&";
+                }
+                url += item["Key"].ToString() + "=" + item["Value"].ToString();
+            }
+
+            return url;
         }
     }
 }

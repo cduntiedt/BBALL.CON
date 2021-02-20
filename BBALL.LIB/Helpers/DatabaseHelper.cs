@@ -16,16 +16,11 @@ namespace BBALL.LIB.Helpers
 {
     public static class DatabaseHelper
     {
-        /// <summary>
-        /// Connect to the StatsService
-        /// </summary>
-        private static StatsHelper stats = new StatsHelper();
-
         public static BsonDocument UpdateDatabase(string collection, JArray parameters)
         {
             try
             {
-                var url = stats.BaseURL + collection + "/";
+                var url = StatsHelper.BaseURL + collection + "/";
 
                 return UpdateDatabase(url, collection, parameters);
             }
@@ -56,20 +51,11 @@ namespace BBALL.LIB.Helpers
                 }
                 else
                 {
-                    //add query parameters to url
-                    url += "?";
-                    foreach (var item in parameters)
-                    {
-                        if (item != parameters.FirstOrDefault())
-                        {
-                            url += "&";
-                        }
-                        url += item["Key"].ToString() + "=" + item["Value"].ToString();
-                    }
+                    url = StatsHelper.GenerateUrl(url, parameters);
                 }
 
                 //get the data from stats.nba.com
-                JObject response = JObject.Parse(stats.API(url).Result);
+                JObject response = JObject.Parse(StatsHelper.API(url).Result);
 
                 //get the full list of filter parameters
                 JObject statParameters = response["parameters"].ToObject<JObject>();
@@ -125,6 +111,58 @@ namespace BBALL.LIB.Helpers
             }
         }
 
+        /// <summary>
+        /// UPdate the database without manipulating the stats document.
+        /// </summary>
+        /// <param name="url">The url.</param>
+        /// <param name="collection">The database collection.</param>
+        /// <param name="parameters">The list of parameters.</param>
+        public static BsonDocument UpdateDatabaseDirectly(string url, string collection, JArray parameters = null)
+        {
+            try
+            {
+                BsonDocument document = BsonDocument.Parse(StatsHelper.API(url).Result);
+
+                AddUpdateDocument(collection, document, parameters, url);
+
+                return document;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Generate an error document to be logged for issues
+        /// </summary>
+        /// <param name="ex">The exception.</param>
+        /// <param name="url">The queried url.</param>
+        /// <param name="collection">The database collection.</param>
+        /// <param name="parameters">The query parameters.</param>
+        public static void ErrorDocument(Exception exception, string url, string collection, JArray parameters = null)
+        {
+            try
+            {
+                BsonDocument errorDocument = new BsonDocument();
+                errorDocument.Add(new BsonElement("URL", url));
+                errorDocument.Add(new BsonElement("Collection", collection));
+                errorDocument.Add(new BsonElement("Message", exception.Message));
+                errorDocument.Add(new BsonElement("StackTrace", exception.StackTrace));
+                errorDocument.Add(new BsonElement("Source", exception.Source));
+                errorDocument.Add(new BsonElement("HelpLink", exception.HelpLink));
+                errorDocument.Add(new BsonElement("Timestamp", String.Format("{0:YYYY-MM-DD hh:mm:ss}", DateTime.Now)));
+
+                AddUpdateDocument("errorlog", errorDocument, parameters, url);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
         public static void AddUpdateDocument(string collection, BsonDocument document, JArray parameters, string item)
         {
             try
@@ -165,7 +203,6 @@ namespace BBALL.LIB.Helpers
             {
                 throw;
             }
-         
         }
 
         /// <summary>
@@ -310,5 +347,7 @@ namespace BBALL.LIB.Helpers
 
             return db.ListCollectionNames(options).Any();
         }
+
+        
     }
 }

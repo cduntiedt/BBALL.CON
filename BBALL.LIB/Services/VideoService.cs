@@ -115,10 +115,11 @@ namespace BBALL.LIB.Services
         }
 
         public static void VideoDetailAsset(
-            string PlayerID,
-            string Season,
+            string GameID = null,
+            string Season = null,
             string SeasonType = "Regular Season",
             string ContextMeasure = "FGA",
+            string PlayerID = "0",
             string ContextFilter = null, 
             string AheadBehind = null,
             string ClutchTime = null,
@@ -126,7 +127,6 @@ namespace BBALL.LIB.Services
             string DateTo = null,
             string EndPeriod = "0",
             string EndRange = "28800",
-            string GameID = null,
             string GameSegment = null,
             string LastNGames = "0",
             string LeagueID = null,
@@ -182,10 +182,9 @@ namespace BBALL.LIB.Services
             VideoDetailAsset(parameters);
         }
 
-        //https://stats.nba.com/stats/videodetailsasset?AheadBehind=&CFID=&CFPARAMS=&ClutchTime=&Conference=&ContextFilter=&ContextMeasure=FGA&DateFrom=&DateTo=&Division=&EndPeriod=0&EndRange=28800&GROUP_ID=&GameEventID=&GameID=0022000092&GameSegment=&GroupID=&GroupMode=&GroupQuantity=5&LastNGames=0&LeagueID=00&Location=&Month=0&OnOff=&OpponentTeamID=0&Outcome=&PORound=0&Period=0&PlayerID=201939&PlayerID1=&PlayerID2=&PlayerID3=&PlayerID4=&PlayerID5=&PlayerPosition=&PointDiff=&Position=&RangeType=0&RookieYear=&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&ShotClockRange=&StartPeriod=0&StartRange=0&StarterBench=&TeamID=1610612744&VsConference=&VsDivision=&VsPlayerID1=&VsPlayerID2=&VsPlayerID3=&VsPlayerID4=&VsPlayerID5=&VsTeamID=
         public static void VideoDetailAsset(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/videodetailsasset/", "videodetailasset", parameters);
+            DatabaseHelper.UpdateDatabaseDirectly("https://stats.nba.com/stats/videodetailsasset/", "videodetailsassets", parameters);
         }
     }
 }

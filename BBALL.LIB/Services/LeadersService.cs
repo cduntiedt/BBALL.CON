@@ -36,8 +36,8 @@ namespace BBALL.LIB.Services
         //Players > Official Leaders
         public static BsonDocument LeagueLeaders(
             string Season = null,
-            string PerMode = "PerGame",
             string SeasonType = "Regular Season",
+            string PerMode = "PerGame",
             string ActiveFlag = null,
             string Scope = "S",
             string StatCategory = "PTS",
