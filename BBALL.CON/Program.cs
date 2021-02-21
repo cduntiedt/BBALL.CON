@@ -278,7 +278,7 @@ namespace BBALL.CON
                             BoxScoreService.BoxScoreFourFactorsV2(gameId);
                             BoxScoreService.BoxScoreMatchups(gameId);
                             BoxScoreService.BoxScoreMiscV2(gameId);
-                            Wait(500);
+                            Wait(1000);
                             BoxScoreService.BoxScorePlayerTrackV2(gameId);
                             BoxScoreService.BoxScoreScoringV2(gameId);
                             BoxScoreService.BoxScoreSummaryV2(gameId);
