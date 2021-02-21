@@ -7,11 +7,6 @@ namespace BBALL.LIB.Helpers
     public static class LeagueHelper
     {
         /// <summary>
-        /// Connect to the StatsService
-        /// </summary>
-        private static StatsHelper _stats = new StatsHelper();
-
-        /// <summary>
         /// Get the default League ID parameter.
         /// </summary>
         /// <param name="id">The league ID value if provided.</param>
@@ -20,7 +15,7 @@ namespace BBALL.LIB.Helpers
         {
             if (id == null || id == "")
             {
-                return _stats.LeagueID;
+                return StatsHelper.LeagueID;
             }
 
             return id;

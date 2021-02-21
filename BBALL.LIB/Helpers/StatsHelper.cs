@@ -41,6 +41,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 var error = ex;
+                DatabaseHelper.ErrorDocument(ex, "API", url, null);
                 throw;
             }
             finally

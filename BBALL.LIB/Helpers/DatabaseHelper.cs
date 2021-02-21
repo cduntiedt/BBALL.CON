@@ -26,7 +26,8 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(collection + " failed. Check log.");
+                ErrorDocument(ex, "UpdateDatabase", null, collection, parameters);
                 return null;
             }
         }
@@ -106,7 +107,8 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(url + " failed. Check log.");
+                ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
                 return null;
             }
         }
@@ -129,8 +131,9 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Console.WriteLine(url + " failed. Check log.");
+                ErrorDocument(ex, "UpdateDatabaseDirectly", url, collection, parameters);
+                return null;
             }
         }
 
@@ -141,11 +144,12 @@ namespace BBALL.LIB.Helpers
         /// <param name="url">The queried url.</param>
         /// <param name="collection">The database collection.</param>
         /// <param name="parameters">The query parameters.</param>
-        public static void ErrorDocument(Exception exception, string url, string collection, JArray parameters = null)
+        public static void ErrorDocument(Exception exception, string method, string url, string collection, JArray parameters = null)
         {
             try
             {
                 BsonDocument errorDocument = new BsonDocument();
+                errorDocument.Add(new BsonElement("Method", method));
                 errorDocument.Add(new BsonElement("URL", url));
                 errorDocument.Add(new BsonElement("Collection", collection));
                 errorDocument.Add(new BsonElement("Message", exception.Message));
@@ -159,7 +163,6 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                throw;
             }
         }
 
@@ -199,9 +202,10 @@ namespace BBALL.LIB.Helpers
                     Console.WriteLine(item + " replaced.");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(collection + " failed. Check log.");
+                ErrorDocument(ex, "AddUpdateDocument", null, collection, parameters);
             }
         }
 
@@ -233,8 +237,9 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Console.WriteLine(collection + " failed. Check log.");
+                ErrorDocument(ex, "GetJSONDocument", null, collection, parameters);
+                return null;
             }
         }
 
@@ -262,8 +267,9 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Console.WriteLine(collection + " failed. Check log.");
+                ErrorDocument(ex, "GetDocument", null, collection, parameters);
+                return null;
             }
         }
 
@@ -298,8 +304,9 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                throw;
+                Console.WriteLine(collection + " failed. Check log.");
+                ErrorDocument(ex, "GetAllDocuments", null, collection, parameters);
+                return null;
             }
         }
 
