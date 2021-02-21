@@ -1399,13 +1399,13 @@ namespace BBALL.LIB.Services
         public static BsonDocument LeagueGameLog(
             string Season = null,
             string SeasonType = "Regular Season",
-            string Counter = "1000",
+            string Counter = "0",
             string DateFrom = null,
             string DateTo = null,
             string LeagueID = null,
-            string Direction = "DESC",
-            string PlayerOrTeam = "P",
-            string Sorter = "Date"
+            string Direction = "ASC",
+            string PlayerOrTeam = "T",
+            string Sorter = "DATE"
             )
         {
             JArray parameters = new JArray();

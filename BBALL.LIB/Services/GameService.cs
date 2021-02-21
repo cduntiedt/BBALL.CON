@@ -19,7 +19,7 @@ namespace BBALL.LIB.Services
         {
             try
             {
-                List<BsonDocument> gameLogs = DatabaseHelper.GetAllDocuments("teamgamelog", parameters);
+                List<BsonDocument> gameLogs = DatabaseHelper.GetAllDocuments("leaguegamelog", parameters);
 
                 var seasons = gameLogs.GroupBy(x => new
                 {
@@ -49,11 +49,11 @@ namespace BBALL.LIB.Services
                                 if (!item["MATCHUP"].ToString().Contains("@"))
                                 {
                                     BsonDocument game = new BsonDocument();
-                                    game.Add("Game_ID", item["Game_ID"].ToString());
+                                    game.Add("GAME_ID", item["GAME_ID"].ToString());
                                     game.Add("GAME_DATE", item["GAME_DATE"].ToString());
                                     game.Add("MATCHUP", item["MATCHUP"].ToString());
 
-                                    var existingGame = gameArray.Where(x => x["Game_ID"].ToString() == item["Game_ID"].ToString()).FirstOrDefault();
+                                    var existingGame = gameArray.Where(x => x["GAME_ID"].ToString() == item["GAME_ID"].ToString()).FirstOrDefault();
                                     if (existingGame != game)
                                     {
                                         gameArray.Add(game);
@@ -70,7 +70,7 @@ namespace BBALL.LIB.Services
                     seasonParameters.Add(CreateParameterObject("Season", season["Season"].ToString(), ParameterType.String));
                     seasonParameters.Add(CreateParameterObject("SeasonType", season["SeasonType"].ToString(), ParameterType.String));
 
-                    DatabaseHelper.AddUpdateDocument("games", seasonDocument, seasonParameters, "Games - " + season["Season"].ToString() + " - " + season["SeasonType"].ToString());
+                    DatabaseHelper.AddUpdateDocument("games", seasonDocument, seasonParameters);
                 }
 
                 return seasonDocuments;

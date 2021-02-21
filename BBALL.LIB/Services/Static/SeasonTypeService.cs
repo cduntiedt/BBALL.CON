@@ -13,9 +13,9 @@ namespace BBALL.LIB.Services
             seasonTypes.Add("Regular Season");
             seasonTypes.Add("Pre Season");
             seasonTypes.Add("Playoffs");
-            seasonTypes.Add("All-Star");
-            seasonTypes.Add("All Star");
-            seasonTypes.Add("Preseason");
+            //seasonTypes.Add("All-Star");
+            //seasonTypes.Add("All Star");
+            //seasonTypes.Add("Preseason");
 
             return seasonTypes;
         }

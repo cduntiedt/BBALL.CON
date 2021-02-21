@@ -27,7 +27,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(collection + " failed. Check log.");
-                ErrorDocument(ex, "UpdateDatabase", null, collection, parameters);
+                ErrorDocument(ex, "UpdateDatabase", "", collection, parameters);
                 return null;
             }
         }
@@ -37,7 +37,7 @@ namespace BBALL.LIB.Helpers
         /// </summary>
         /// <param name="url">The stats API url</param>
         /// <param name="collection">The name of the collection</param>
-        public static BsonDocument UpdateDatabase(string url, string collection, JArray parameters = null)
+        public static BsonDocument UpdateDatabase(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15)
         {
             try
             {
@@ -56,52 +56,65 @@ namespace BBALL.LIB.Helpers
                 }
 
                 //get the data from stats.nba.com
-                JObject response = JObject.Parse(StatsHelper.API(url).Result);
+                JObject response = JObject.Parse(StatsHelper.API(url, timeout).Result);
 
-                //get the full list of filter parameters
-                JObject statParameters = response["parameters"].ToObject<JObject>();
-               
-                //create a new document to be inserted or replaced
-                JObject statDocument = response["parameters"].ToObject<JObject>();
-                JArray statResultSets = response["resultSets"].ToObject<JArray>();
-
-                //create data object
-                JArray results = new JArray(); 
-                for (int resultIndex = 0; resultIndex < statResultSets.Count; resultIndex++)
+                JObject statDocument = new JObject();
+                foreach (JObject parameter in parameters)
                 {
-                    JObject resultObject = new JObject();
-                    var resultSet = statResultSets[resultIndex];
-                    var name = resultSet["name"].ToString();
-                    var headers = resultSet["headers"].ToObject<JArray>();
-                    var rowSet = resultSet["rowSet"].ToObject<JArray>();
+                    var val = parameter["Value"].ToString();
+                    statDocument.Add(parameter["Key"].ToString(), val == "" ? null : val);
+                }
 
-                    JArray dataArray = new JArray();
-                    for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
+                //JObject statDocument = response["parameters"].ToObject<JObject>();
+
+                if (parse)
+                {
+                    JArray statResultSets = response["resultSets"].ToObject<JArray>();
+                    
+                    //create data object
+                    JArray results = new JArray();
+                    for (int resultIndex = 0; resultIndex < statResultSets.Count; resultIndex++)
                     {
-                        JObject dataObject = new JObject();
-                        var row = rowSet[rowIndex];
+                        JObject resultObject = new JObject();
+                        var resultSet = statResultSets[resultIndex];
+                        var name = resultSet["name"].ToString();
+                        var headers = resultSet["headers"].ToObject<JArray>();
+                        var rowSet = resultSet["rowSet"].ToObject<JArray>();
 
-                        for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
+                        JArray dataArray = new JArray();
+                        for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
                         {
-                            var header = headers[headerIndex];
+                            JObject dataObject = new JObject();
+                            var row = rowSet[rowIndex];
 
-                            dataObject.Add(header.ToString(), row[headerIndex]);
+                            for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
+                            {
+                                var header = headers[headerIndex];
+
+                                dataObject.Add(header.ToString(), row[headerIndex]);
+                            }
+
+                            dataArray.Add(dataObject);
                         }
 
-                        dataArray.Add(dataObject);
+                        resultObject.Add("name", name);
+                        resultObject.Add("data", dataArray);
+                        results.Add(resultObject);
                     }
-
-                    resultObject.Add("name", name);
-                    resultObject.Add("data", dataArray);
-                    results.Add(resultObject);
+                    //add the results to the new document
+                    statDocument.Add("resultSets", results);
                 }
-                //add the results to the new document
-                statDocument.Add("resultSets", results);
+                else
+                {
+                    JObject statResultSets = response["resultSets"].ToObject<JObject>();
+
+                    statDocument.Add("resultSets", statResultSets);
+                }
 
                 //convert the stat document to bson
                 var document = BsonSerializer.Deserialize<BsonDocument>(statDocument.ToString());
 
-                AddUpdateDocument(collection, document, parameters, url);
+                AddUpdateDocument(collection, document, parameters);
 
                 return document;
             }
@@ -109,30 +122,6 @@ namespace BBALL.LIB.Helpers
             {
                 Console.WriteLine(url + " failed. Check log.");
                 ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// UPdate the database without manipulating the stats document.
-        /// </summary>
-        /// <param name="url">The url.</param>
-        /// <param name="collection">The database collection.</param>
-        /// <param name="parameters">The list of parameters.</param>
-        public static BsonDocument UpdateDatabaseDirectly(string url, string collection, JArray parameters = null)
-        {
-            try
-            {
-                BsonDocument document = BsonDocument.Parse(StatsHelper.API(url).Result);
-
-                AddUpdateDocument(collection, document, parameters, url);
-
-                return document;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(url + " failed. Check log.");
-                ErrorDocument(ex, "UpdateDatabaseDirectly", url, collection, parameters);
                 return null;
             }
         }
@@ -155,10 +144,9 @@ namespace BBALL.LIB.Helpers
                 errorDocument.Add(new BsonElement("Message", exception.Message));
                 errorDocument.Add(new BsonElement("StackTrace", exception.StackTrace));
                 errorDocument.Add(new BsonElement("Source", exception.Source));
-                errorDocument.Add(new BsonElement("HelpLink", exception.HelpLink));
-                errorDocument.Add(new BsonElement("Timestamp", String.Format("{0:YYYY-MM-DD hh:mm:ss}", DateTime.Now)));
+                errorDocument.Add(new BsonElement("Timestamp", String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now)));
 
-                AddUpdateDocument("errorlog", errorDocument, parameters, url);
+                AddUpdateDocument("errorlog", errorDocument, parameters);
             }
             catch (Exception ex)
             {
@@ -166,7 +154,7 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        public static void AddUpdateDocument(string collection, BsonDocument document, JArray parameters, string item)
+        public static void AddUpdateDocument(string collection, BsonDocument document, JArray parameters)
         {
             try
             {
@@ -189,23 +177,30 @@ namespace BBALL.LIB.Helpers
 
                 //find the existing document
                 var exisintgDocument = dbCollection.Find(filter).FirstOrDefault();
-                if (exisintgDocument == null)
+
+                if(document == null)
                 {
-                    //insert a new document if it does not exist
-                    dbCollection.InsertOne(document);
-                    Console.WriteLine(item + " inserted.");
+                    Console.WriteLine("Document empty.");
                 }
                 else
                 {
-                    //replace the document if it does exist
-                    dbCollection.ReplaceOne(filter, document);
-                    Console.WriteLine(item + " replaced.");
+                    if (exisintgDocument == null)
+                    {
+                        //insert a new document if it does not exist
+                        dbCollection.InsertOne(document);
+                        Console.WriteLine(collection + " inserted.");
+                    }
+                    else
+                    {
+                        //replace the document if it does exist
+                        dbCollection.ReplaceOne(filter, document);
+                        Console.WriteLine(collection + " replaced.");
+                    }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(collection + " failed. Check log.");
-                ErrorDocument(ex, "AddUpdateDocument", null, collection, parameters);
+                throw;
             }
         }
 
@@ -238,7 +233,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(collection + " failed. Check log.");
-                ErrorDocument(ex, "GetJSONDocument", null, collection, parameters);
+                ErrorDocument(ex, "GetJSONDocument", "", collection, parameters);
                 return null;
             }
         }
@@ -305,7 +300,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(collection + " failed. Check log.");
-                ErrorDocument(ex, "GetAllDocuments", null, collection, parameters);
+                ErrorDocument(ex, "GetAllDocuments", "", collection, parameters);
                 return null;
             }
         }
@@ -317,28 +312,39 @@ namespace BBALL.LIB.Helpers
         /// <returns>A filter definition</returns>
         private static FilterDefinition<BsonDocument> CreateFilterDefinition(JArray parameters)
         {
-            //create a filter to be used later
-            var builder = Builders<BsonDocument>.Filter;
-            FilterDefinition<BsonDocument> filter = new BsonDocument();
-
-            //add query parameters to url
-            foreach (var item in parameters)
+            try
             {
-                switch (item["Type"].ToString())
-                {
-                    case "int":
-                        filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<int>());
-                        break;
-                    case "bool":
-                        filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<bool>());
-                        break;
-                    default:
-                        filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToString());
-                        break;
-                }
-            }
+                //create a filter to be used later
+                var builder = Builders<BsonDocument>.Filter;
+                FilterDefinition<BsonDocument> filter = new BsonDocument();
 
-            return filter;
+                if (parameters != null)
+                {
+                    //add query parameters to url
+                    foreach (var item in parameters)
+                    {
+                        switch (item["Type"].ToString())
+                        {
+                            case "int":
+                                filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<int>());
+                                break;
+                            case "bool":
+                                filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<bool>());
+                                break;
+                            default:
+                                var val = item["Value"].ToString();
+                                filter &= builder.Eq(item["Key"].ToString(), val == "" ? null : val);
+                                break;
+                        }
+                    }
+                }
+
+                return filter;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -349,12 +355,17 @@ namespace BBALL.LIB.Helpers
         /// <returns>true/false</returns>
         private static bool CollectionExists(IMongoDatabase db, string collection)
         {
-            var filter = new BsonDocument("name", collection);
-            var options = new ListCollectionNamesOptions { Filter = filter };
+            try
+            {
+                var filter = new BsonDocument("name", collection);
+                var options = new ListCollectionNamesOptions { Filter = filter };
 
-            return db.ListCollectionNames(options).Any();
+                return db.ListCollectionNames(options).Any();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
-
-        
     }
 }

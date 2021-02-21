@@ -28,7 +28,7 @@ namespace BBALL.LIB.Services
             measureTypes.Add("Misc");
             measureTypes.Add("Four Factors");
             measureTypes.Add("Scoring");
-            measureTypes.Add("Usage");
+            //measureTypes.Add("Usage");
             measureTypes.Add("Opponent");
             return measureTypes;
         }

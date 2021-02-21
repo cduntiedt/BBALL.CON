@@ -938,6 +938,7 @@ namespace BBALL.LIB.Services
         //Players > Player Index
         public static BsonDocument PlayerIndex(
             string Season = null,
+            string Historical = "1",
             string Active = null,
             string AllStar = null,
             string College = null,
@@ -945,7 +946,6 @@ namespace BBALL.LIB.Services
             string DraftPick = null,
             string DraftYear = null,
             string Height = null,
-            string Historical = "1",
             string PlayerPosition = null,
             string TeamID = "0",
             string Weight = null,
@@ -1013,7 +1013,7 @@ namespace BBALL.LIB.Services
 
         public static BsonDocument PlayerProfileV2(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerdashboardbygeneralsplits/", "playerdashboardbygeneralsplits", parameters);
+            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playerprofilev2/", "playerprofilev2", parameters);
         }
 
         public static BsonDocument PlayerVsPlayer(

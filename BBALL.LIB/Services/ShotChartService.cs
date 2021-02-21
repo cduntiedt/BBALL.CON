@@ -30,10 +30,11 @@ namespace BBALL.LIB.Services
             string OpponentTeamID = "0",
             string Outcome = null,
             string Period = "0",
+            string PlayerPosition = null,
             string PointDiff = null,
             string Position = null,
             string RangeType = "0",
-            string RookieYear = "N",
+            string RookieYear = null,
             string SeasonSegment = null,
             string StartPeriod = "1",
             string StartRange = "0",
@@ -63,6 +64,7 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
             parameters.Add(CreateParameterObject("Outcome", Outcome));
             parameters.Add(CreateParameterObject("Period", Period));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
             parameters.Add(CreateParameterObject("PointDiff", PointDiff));
             parameters.Add(CreateParameterObject("Position", Position));
             parameters.Add(CreateParameterObject("RangeType", RangeType));

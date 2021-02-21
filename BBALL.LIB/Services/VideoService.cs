@@ -184,7 +184,7 @@ namespace BBALL.LIB.Services
 
         public static void VideoDetailAsset(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabaseDirectly("https://stats.nba.com/stats/videodetailsasset/", "videodetailsassets", parameters);
+            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/videodetailsasset/", "videodetailsasset", parameters, false, 30);
         }
     }
 }

@@ -14,12 +14,12 @@ namespace BBALL.LIB.Helpers
     {
         public static string LeagueID = "00";
         public static string BaseURL = "https://stats.nba.com/stats/";
-        public static async Task<string> API(string url)
+        public static async Task<string> API(string url, int timeout = 15)
         {
             HttpClient client = new HttpClient();
             try
             {
-                client.Timeout = TimeSpan.FromSeconds(15);
+                client.Timeout = TimeSpan.FromSeconds(timeout);
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("Accept", "*/*");
                 client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
@@ -41,7 +41,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 var error = ex;
-                DatabaseHelper.ErrorDocument(ex, "API", url, null);
+                DatabaseHelper.ErrorDocument(ex, "API", url, "");
                 throw;
             }
             finally

@@ -17,6 +17,17 @@ namespace BBALL.LIB.Services
             return perModes;
         }
 
+        public static List<string> PlayerPerModes { get { return _PlayerPerModes(); } }
+        private static List<string> _PlayerPerModes()
+        {
+            List<string> perModes = new List<string>();
+            perModes.Add("Totals");
+            perModes.Add("PerGame");
+            perModes.Add("Per36");
+            return perModes;
+        }
+
+
         public static List<string> TeamPerModes { get { return _TeamPerModes(); } }
         private static List<string> _TeamPerModes()
         {

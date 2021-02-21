@@ -939,15 +939,19 @@ namespace BBALL.LIB.Services
         }
 
         public static void TeamHistoricalLeaders(
-         string TeamID,
-         string Season = null,
-         string LeagueID = null
-         )
+            string TeamID,
+            string Season = null,
+            string LeagueID = null
+        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+
+            //team historical leaders uses a custom season id and not the actual season year (Ex: 22020)
+            string seasonYear = SeasonHelper.DefaultSeason(Season).Substring(0,4);
+            string seasonID = "2" + seasonYear;
+            parameters.Add(CreateParameterObject("SeasonID", seasonID));
             TeamHistoricalLeaders(parameters);
         }
 
