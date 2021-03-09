@@ -4,20 +4,22 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class DraftService
     {
-        public static void DraftCombineAll(string SeasonYear = null, string LeagueID = null)
+        public static async void DraftCombineAll(string SeasonYear = null, string LeagueID = null)
         {
-            DraftCombineDrillResults(LeagueID, SeasonYear);
-            DraftCombineStationaryShooting(LeagueID, SeasonYear);
-            DraftCombinePlayerAnthro(LeagueID, SeasonYear);
-            DraftCombineSpotShooting(LeagueID, SeasonYear);
-            DraftCombineStats(LeagueID, SeasonYear);
+            await DraftCombineDrillResults(LeagueID, SeasonYear);
+            await DraftCombineStationaryShooting(LeagueID, SeasonYear);
+            await DraftCombinePlayerAnthro(LeagueID, SeasonYear);
+            await DraftCombineSpotShooting(LeagueID, SeasonYear);
+            await DraftCombineStats(LeagueID, SeasonYear);
         }
-        public static void DraftBoard(
+        public static async Task<BsonDocument> DraftBoard(
             string LeagueID = null, 
             string Season = null,
             string TopX = null,
@@ -36,80 +38,80 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RoundNum", RoundNum));
             parameters.Add(CreateParameterObject("OverallPick", OverallPick));
             parameters.Add(CreateParameterObject("College", College));
-            DraftBoard(parameters);
+            return await DraftBoard(parameters);
         }
 
-        public static void DraftBoard(JArray parameters)
+        public static async Task<BsonDocument> DraftBoard(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftboard/", "draftboard", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftboard/", "draftboard", parameters);
         }
 
-        public static void DraftCombineDrillResults(string LeagueID = null, string SeasonYear = null)
-        {
-            JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
-            DraftCombineDrillResults(parameters);
-        }
-
-        public static void DraftCombineDrillResults(JArray parameters)
-        {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinedrillresults/", "draftcombinedrillresults", parameters);
-        }
-
-        public static void DraftCombineStationaryShooting(string LeagueID = null, string SeasonYear = null)
+        public static async Task<BsonDocument> DraftCombineDrillResults(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
-            DraftCombineStationaryShooting(parameters);
+            return await DraftCombineDrillResults(parameters);
         }
 
-        public static void DraftCombineStationaryShooting(JArray parameters)
+        public static async Task<BsonDocument> DraftCombineDrillResults(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinenonstationaryshooting/", "draftcombinenonstationaryshooting", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinedrillresults/", "draftcombinedrillresults", parameters);
         }
 
-        public static void DraftCombinePlayerAnthro(string LeagueID = null, string SeasonYear = null)
-        {
-            JArray parameters = new JArray();
-            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
-            DraftCombinePlayerAnthro(parameters);
-        }
-
-        public static void DraftCombinePlayerAnthro(JArray parameters)
-        {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombineplayeranthro/", "draftcombineplayeranthro", parameters);
-        }
-
-        public static void DraftCombineSpotShooting(string LeagueID = null, string SeasonYear = null)
+        public static async Task<BsonDocument> DraftCombineStationaryShooting(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
-            DraftCombineSpotShooting(parameters);
+            return await DraftCombineStationaryShooting(parameters);
         }
 
-        public static void DraftCombineSpotShooting(JArray parameters)
+        public static async Task<BsonDocument> DraftCombineStationaryShooting(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinespotshooting/", "draftcombinespotshooting", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinenonstationaryshooting/", "draftcombinenonstationaryshooting", parameters);
         }
 
-        public static void DraftCombineStats(string LeagueID = null, string SeasonYear = null)
+        public static async Task<BsonDocument> DraftCombinePlayerAnthro(string LeagueID = null, string SeasonYear = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
-            DraftCombineStats(parameters);
+            return await DraftCombinePlayerAnthro(parameters);
         }
 
-        public static void DraftCombineStats(JArray parameters)
+        public static async Task<BsonDocument> DraftCombinePlayerAnthro(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/draftcombinestats/", "draftcombinestats", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombineplayeranthro/", "draftcombineplayeranthro", parameters);
         }
 
-        public static void DraftHistory(
+        public static async Task<BsonDocument> DraftCombineSpotShooting(string LeagueID = null, string SeasonYear = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
+            return await DraftCombineSpotShooting(parameters);
+        }
+
+        public static async Task<BsonDocument> DraftCombineSpotShooting(JArray parameters)
+        {
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinespotshooting/", "draftcombinespotshooting", parameters);
+        }
+
+        public static async Task<BsonDocument> DraftCombineStats(string LeagueID = null, string SeasonYear = null)
+        {
+            JArray parameters = new JArray();
+            parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
+            parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
+            return await DraftCombineStats(parameters);
+        }
+
+        public static async Task<BsonDocument> DraftCombineStats(JArray parameters)
+        {
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinestats/", "draftcombinestats", parameters);
+        }
+
+        public static async Task<BsonDocument> DraftHistory(
             string Season = null,
             string TopX = null,
             string TeamID = null,
@@ -129,12 +131,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RoundNum", RoundNum));
             parameters.Add(CreateParameterObject("OverallPick", OverallPick));
             parameters.Add(CreateParameterObject("College", College));
-            DraftHistory(parameters);
+            return await DraftHistory(parameters);
         }
 
-        public static void DraftHistory(JArray parameters)
+        public static async Task<BsonDocument> DraftHistory(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/drafthistory/", "drafthistory", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/drafthistory/", "drafthistory", parameters);
         }
     }
 }

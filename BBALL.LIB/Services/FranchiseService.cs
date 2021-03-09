@@ -5,37 +5,40 @@ using System.Text;
 using System.Linq;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using System.Threading.Tasks;
+using MongoDB.Bson;
+
 namespace BBALL.LIB.Services
 {
     public static class FranchiseService
     {
-        public static void FranchiseHistory(string LeagueID = null)
+        public static async Task<BsonDocument> FranchiseHistory(string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            FranchiseHistory(parameters);
+            return await FranchiseHistory(parameters);
         }
 
-        public static void FranchiseHistory(JArray parameters)
+        public static async Task<BsonDocument> FranchiseHistory(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchisehistory/", "franchisehistory", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/franchisehistory/", "franchisehistory", parameters);
         }
 
-        public static void FranchiseLeaders(string TeamID, string LeagueID = null)
+        public static async Task<BsonDocument> FranchiseLeaders(string TeamID, string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            FranchiseLeaders(parameters);
+            return await FranchiseLeaders(parameters);
         }
 
-        public static void FranchiseLeaders(JArray parameters) {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchiseleaders/", "franchiseleaders", parameters);
+        public static async Task<BsonDocument> FranchiseLeaders(JArray parameters) {
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/franchiseleaders/", "franchiseleaders", parameters);
         }
 
-        public static void FranchisePlayers(
+        public static async Task<BsonDocument> FranchisePlayers(
             string TeamID,
-            string PerMode = "Totals", 
+            string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string LeagueID = null
             )
@@ -45,12 +48,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PerMode", PerMode));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("TeamID", TeamID));
-            FranchisePlayers(parameters);
+            return await FranchisePlayers(parameters);
         }
 
-        public static void FranchisePlayers(JArray parameters)
+        public static async Task<BsonDocument> FranchisePlayers(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/franchiseplayers/", "franchiseplayers", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/franchiseplayers/", "franchiseplayers", parameters);
         }
     }
 }

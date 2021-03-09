@@ -5,6 +5,7 @@ using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
@@ -21,7 +22,7 @@ namespace BBALL.LIB.Services
         /// <param name="DefTeamID"></param>
         /// <param name="OffPlayerID"></param>
         /// <param name="OffTeamID"></param>
-        public static BsonDocument LeagueSeasonMatchups(
+        public static async Task<BsonDocument> LeagueSeasonMatchups(
            string Season = null,
            string SeasonType = "Regular Season",
            string PerMode = "Totals",
@@ -40,15 +41,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DefTeamID", DefTeamID));
             parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID));
             parameters.Add(CreateParameterObject("OffTeamID", OffTeamID));
-            return LeagueSeasonMatchups(parameters);
+            return await LeagueSeasonMatchups(parameters);
         }
 
-        public static BsonDocument LeagueSeasonMatchups(JArray parameters)
+        public static async Task<BsonDocument> LeagueSeasonMatchups(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leagueseasonmatchups/", "leagueseasonmatchups", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leagueseasonmatchups/", "leagueseasonmatchups", parameters);
         }
 
-        public static BsonDocument MatchupsRollup(
+        public static async Task<BsonDocument> MatchupsRollup(
             string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "Totals",
@@ -67,12 +68,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DefTeamID", DefTeamID));
             parameters.Add(CreateParameterObject("OffPlayerID", OffPlayerID));
             parameters.Add(CreateParameterObject("OffTeamID", OffTeamID));
-            return MatchupsRollup(parameters);
+            return await MatchupsRollup(parameters);
         }
 
-        public static BsonDocument MatchupsRollup(JArray parameters)
+        public static async Task<BsonDocument> MatchupsRollup(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/matchupsrollup/", "matchupsrollup", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/matchupsrollup/", "matchupsrollup", parameters);
         }
     }
 }

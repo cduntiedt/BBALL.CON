@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
@@ -13,22 +15,22 @@ namespace BBALL.LIB.Services
         /// Function to load all the box score data by Game ID.
         /// </summary>
         /// <param name="GameID">The unique game ID.</param>
-        public static void BoxScoreAll(string GameID)
+        public static async void BoxScoreAll(string GameID)
         {
-            BoxScoreAdvancedV2(GameID);
-            BoxScoreDefensive(GameID);
-            BoxScoreFourFactorsV2(GameID);
-            BoxScoreMatchups(GameID);
-            BoxScoreMiscV2(GameID);
-            BoxScorePlayerTrackV2(GameID);
-            BoxScoreScoringV2(GameID);
-            BoxScoreSummaryV2(GameID);
-            BoxScoreTraditionalV2(GameID);
-            BoxScoreUsageV2(GameID);
-            HustleStatsBoxScore(GameID);
+            await BoxScoreAdvancedV2(GameID);
+            await BoxScoreDefensive(GameID);
+            await BoxScoreFourFactorsV2(GameID);
+            await BoxScoreMatchups(GameID);
+            await BoxScoreMiscV2(GameID);
+            await BoxScorePlayerTrackV2(GameID);
+            await BoxScoreScoringV2(GameID);
+            await BoxScoreSummaryV2(GameID);
+            await BoxScoreTraditionalV2(GameID);
+            await BoxScoreUsageV2(GameID);
+            await HustleStatsBoxScore(GameID);
         }
 
-        public static void BoxScoreAdvancedV2(
+        public static async Task<BsonDocument> BoxScoreAdvancedV2(
             string GameID,
             string EndPeriod = "10", 
             string EndRange = "28800", 
@@ -44,29 +46,30 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RangeType", RangeType));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("StartRange", StartRange));
-            BoxScoreAdvancedV2(parameters);
+            
+            return await BoxScoreAdvancedV2(parameters);
         }
 
-        public static void BoxScoreAdvancedV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreAdvancedV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoreadvancedv2/", "boxscoreadvancedv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoreadvancedv2/", "boxscoreadvancedv2", parameters);
         }
 
-        public static void BoxScoreDefensive(
+        public static async Task<BsonDocument> BoxScoreDefensive(
             string GameID
         )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
-            BoxScoreDefensive(parameters);
+            return await BoxScoreDefensive(parameters);
         }
 
-        public static void BoxScoreDefensive(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreDefensive(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoredefensive/", "boxscoredefensive", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoredefensive/", "boxscoredefensive", parameters);
         }
 
-        public static void BoxScoreFourFactorsV2(
+        public static async Task<BsonDocument> BoxScoreFourFactorsV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -82,29 +85,29 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RangeType", RangeType));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("StartRange", StartRange));
-            BoxScoreFourFactorsV2(parameters);
+            return await BoxScoreFourFactorsV2(parameters);
         }
 
-        public static void BoxScoreFourFactorsV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreFourFactorsV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscorefourfactorsv2/", "boxscorefourfactorsv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorefourfactorsv2/", "boxscorefourfactorsv2", parameters);
         }
 
-        public static void BoxScoreMatchups(
+        public static async Task<BsonDocument> BoxScoreMatchups(
            string GameID
         )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
-            BoxScoreMatchups(parameters);
+            return await BoxScoreMatchups(parameters);
         }
 
-        public static void BoxScoreMatchups(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreMatchups(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscorematchups/", "boxscorematchups", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorematchups/", "boxscorematchups", parameters);
         }
 
-        public static void BoxScoreMiscV2(
+        public static async Task<BsonDocument> BoxScoreMiscV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -120,29 +123,29 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RangeType", RangeType));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("StartRange", StartRange));
-            BoxScoreMiscV2(parameters);
+            return await BoxScoreMiscV2(parameters);
         }
 
-        public static void BoxScoreMiscV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreMiscV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoremiscv2/", "boxscoremiscv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoremiscv2/", "boxscoremiscv2", parameters);
         }
 
-        public static void BoxScorePlayerTrackV2(
+        public static async Task<BsonDocument> BoxScorePlayerTrackV2(
            string GameID
         )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
-            BoxScorePlayerTrackV2(parameters);
+            return await BoxScorePlayerTrackV2(parameters);
         }
 
-        public static void BoxScorePlayerTrackV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScorePlayerTrackV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoreplayertrackv2/", "boxscoreplayertrackv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoreplayertrackv2/", "boxscoreplayertrackv2", parameters);
         }
 
-        public static void BoxScoreScoringV2(
+        public static async Task<BsonDocument> BoxScoreScoringV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -158,29 +161,29 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RangeType", RangeType));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("StartRange", StartRange));
-            BoxScoreScoringV2(parameters);
+            return await BoxScoreScoringV2(parameters);
         }
 
-        public static void BoxScoreScoringV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreScoringV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscorescoringv2/", "boxscorescoringv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorescoringv2/", "boxscorescoringv2", parameters);
         }
 
-        public static void BoxScoreSummaryV2(
+        public static async Task<BsonDocument> BoxScoreSummaryV2(
            string GameID
         )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
-            BoxScoreSummaryV2(parameters);
+            return await BoxScoreSummaryV2(parameters);
         }
 
-        public static void BoxScoreSummaryV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreSummaryV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoresummaryv2/", "boxscoresummaryv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoresummaryv2/", "boxscoresummaryv2", parameters);
         }
 
-        public static void BoxScoreTraditionalV2(
+        public static async Task<BsonDocument> BoxScoreTraditionalV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -196,15 +199,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RangeType", RangeType));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("StartRange", StartRange));
-            BoxScoreTraditionalV2(parameters);
+            return await BoxScoreTraditionalV2(parameters);
         }
 
-        public static void BoxScoreTraditionalV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreTraditionalV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoretraditionalv2/", "boxscoretraditionalv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoretraditionalv2/", "boxscoretraditionalv2", parameters);
         }
 
-        public static void BoxScoreUsageV2(
+        public static async Task<BsonDocument> BoxScoreUsageV2(
            string GameID,
            string EndPeriod = "10",
            string EndRange = "28800",
@@ -220,26 +223,26 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("RangeType", RangeType));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("StartRange", StartRange));
-            BoxScoreUsageV2(parameters);
+            return await BoxScoreUsageV2(parameters);
         }
 
-        public static void BoxScoreUsageV2(JArray parameters)
+        public static async Task<BsonDocument> BoxScoreUsageV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/boxscoreusagev2/", "boxscoreusagev2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoreusagev2/", "boxscoreusagev2", parameters);
         }
 
-        public static void HustleStatsBoxScore(
+        public static async Task<BsonDocument> HustleStatsBoxScore(
            string GameID
        )
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
-            HustleStatsBoxScore(parameters);
+            return await HustleStatsBoxScore(parameters);
         }
 
-        public static void HustleStatsBoxScore(JArray parameters)
+        public static async Task<BsonDocument> HustleStatsBoxScore(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/hustlestatsboxscore/", "hustlestatsboxscore", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/hustlestatsboxscore/", "hustlestatsboxscore", parameters);
         }
     }
 }

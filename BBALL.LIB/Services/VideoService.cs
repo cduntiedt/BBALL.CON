@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace BBALL.LIB.Services
 {
     public static class VideoService
     {
-        public static void VideoDetails(
+        public static async Task<BsonDocument> VideoDetails(
           string PlayerID,
           string LeagueID,
           string Season,
@@ -74,15 +76,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
 
-            VideoDetails(parameters);
+            return await VideoDetails(parameters);
         }
 
-        public static void VideoDetails(JArray parameters)
+        public static async Task<BsonDocument> VideoDetails(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/videodetails/", "videodetails", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videodetails/", "videodetails", parameters);
         }
 
-        public static void VideoEvents(
+        public static async Task<BsonDocument> VideoEvents(
             string GameEventID,
             string GameID
             )
@@ -90,15 +92,15 @@ namespace BBALL.LIB.Services
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("GameEventID", GameEventID));
-            VideoEvents(parameters);
+            return await VideoEvents(parameters);
         }
 
-        public static void VideoEvents(JArray parameters)
+        public static async Task<BsonDocument> VideoEvents(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/videoevents/", "videoevents", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videoevents/", "videoevents", parameters);
         }
 
-        public static void VideoStatus(
+        public static async Task<BsonDocument> VideoStatus(
             string GameDate,
             string LeagueID = null
             )
@@ -106,15 +108,15 @@ namespace BBALL.LIB.Services
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameDate", GameDate));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            VideoStatus(parameters);
+            return await VideoStatus(parameters);
         }
 
-        public static void VideoStatus(JArray parameters)
+        public static async Task<BsonDocument> VideoStatus(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/videostatus/", "videostatus", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videostatus/", "videostatus", parameters);
         }
 
-        public static void VideoDetailAsset(
+        public static async Task<BsonDocument> VideoDetailAsset(
             string GameID = null,
             string Season = null,
             string SeasonType = "Regular Season",
@@ -179,12 +181,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
 
-            VideoDetailAsset(parameters);
+            return await VideoDetailAsset(parameters);
         }
 
-        public static void VideoDetailAsset(JArray parameters)
+        public static async Task<BsonDocument> VideoDetailAsset(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/videodetailsasset/", "videodetailsasset", parameters, false, 30);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videodetailsasset/", "videodetailsasset", parameters, false, 30);
         }
     }
 }

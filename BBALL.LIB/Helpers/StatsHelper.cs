@@ -19,6 +19,8 @@ namespace BBALL.LIB.Helpers
             HttpClient client = new HttpClient();
             try
             {
+                TimeoutHelper.Count();
+
                 client.Timeout = TimeSpan.FromSeconds(timeout);
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("Accept", "*/*");

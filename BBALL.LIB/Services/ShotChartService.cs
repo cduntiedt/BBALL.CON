@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace BBALL.LIB.Services
 {
     public static class ShotChartService
     {
-        public static void ShotChartDetail(
+        public static async Task<BsonDocument> ShotChartDetail(
             string Season = null,
             string GameID = null,
             string PlayerID = "0",
@@ -76,12 +78,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("VsDivision", VsDivision));
 
-            ShotChartDetail(parameters);
+            return await ShotChartDetail(parameters);
         }
 
-        public static void ShotChartDetail(JArray parameters)
+        public static async Task<BsonDocument> ShotChartDetail(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/shotchartdetail/", "shotchartdetail", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/shotchartdetail/", "shotchartdetail", parameters);
         }
 
     }

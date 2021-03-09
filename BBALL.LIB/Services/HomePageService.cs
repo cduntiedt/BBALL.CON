@@ -6,18 +6,19 @@ using System.Linq;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class HomePageService
     {
-        public static void HomePageLeaders(
+        public static async Task<BsonDocument> HomePageLeaders(
             string Season = null,
             string SeasonType = "Regular Season",
             string GameScope = "Season", 
             string PlayerOrTeam = "Player", 
             string PlayerScope = "All Players",
-            string StatCategory = "Points",
+            string StatCategory = "Traditional",
             string LeagueID = null
             )
         {
@@ -29,21 +30,21 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PlayerScope", PlayerScope));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("StatCategory", StatCategory));
-            HomePageLeaders(parameters);
+            return await HomePageLeaders(parameters);
         }
 
-        public static void HomePageLeaders(JArray parameters)
+        public static async Task<BsonDocument> HomePageLeaders(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/homepageleaders/", "homepageleaders", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/homepageleaders/", "homepageleaders", parameters);
         }
 
-        public static void HomePageV2(
+        public static async Task<BsonDocument> HomePageV2(
            string Season = null,
            string SeasonType = "Regular Season",
+           string StatType = "Traditional",
            string GameScope = "Season",
            string PlayerOrTeam = "Player",
            string PlayerScope = "All Players",
-           string StatType = "Points",
            string LeagueID = null
            )
         {
@@ -55,12 +56,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PlayerScope", PlayerScope));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("StatType", StatType));
-            HomePageV2(parameters);
+            return await HomePageV2(parameters);
         }
 
-        public static void HomePageV2(JArray parameters)
+        public static async Task<BsonDocument> HomePageV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/homepagev2/", "homepagev2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/homepagev2/", "homepagev2", parameters);
         }
     }
 }

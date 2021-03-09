@@ -5,13 +5,14 @@ using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class LeadersService
     {
         //Players > All Time Summary
-        public static BsonDocument AllTimeLeadersGrid(
+        public static async Task<BsonDocument> AllTimeLeadersGrid(
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TopX = "10",
@@ -24,17 +25,17 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
             parameters.Add(CreateParameterObject("TopX", TopX));
 
-            return AllTimeLeadersGrid(parameters);
+            return await AllTimeLeadersGrid(parameters);
         }
 
-        public static BsonDocument AllTimeLeadersGrid(JArray parameters)
+        public static async Task<BsonDocument> AllTimeLeadersGrid(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/alltimeleadersgrids/", "alltimeleadersgrids", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/alltimeleadersgrids/", "alltimeleadersgrids", parameters);
         }
 
 
         //Players > Official Leaders
-        public static BsonDocument LeagueLeaders(
+        public static async Task<BsonDocument> LeagueLeaders(
             string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
@@ -52,12 +53,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("ActiveFlag", ActiveFlag));
             parameters.Add(CreateParameterObject("Scope", Scope));
             parameters.Add(CreateParameterObject("StatCategory", StatCategory));
-            return LeagueLeaders(parameters);
+            return await LeagueLeaders(parameters);
         }
 
-        public static BsonDocument LeagueLeaders(JArray parameters)
+        public static async Task<BsonDocument> LeagueLeaders(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/leagueleaders/", "leagueleaders", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leagueleaders/", "leagueleaders", parameters, true, 15, "resultSet");
         }
     }
 }

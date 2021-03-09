@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class SynergyService
     {
         //Players > Playtype
-        public static void SynergyPlayType(
+        public static async Task<BsonDocument> SynergyPlayType(
             string PerMode,
             string SeasonType = "Regular Season",
             string PlayType = "Transition",
@@ -29,12 +31,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
             parameters.Add(CreateParameterObject("TypeGrouping", TypeGrouping));
 
-            SynergyPlayType(parameters);
+            return await SynergyPlayType(parameters);
         }
 
-        public static void SynergyPlayType(JArray parameters)
+        public static async Task<BsonDocument> SynergyPlayType(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/synergyplaytype/", "synergyplaytype", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytype/", "synergyplaytype", parameters);
         }
     }
 }

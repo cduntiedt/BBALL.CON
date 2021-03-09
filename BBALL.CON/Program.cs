@@ -7,6 +7,7 @@ using System.Linq;
 using BBALL.LIB.Services;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using System.Threading.Tasks;
 
 namespace BBALL.CON
 {
@@ -14,129 +15,169 @@ namespace BBALL.CON
     {
         static void Main(string[] args)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
-            List<string> seasons = new List<string>();
-            seasons.Add(SeasonHelper.DefaultSeason());
-
-            LoadData(seasons);
+            LoadData();
 
             //LoadData(SeasonService.Seasons);
-
-            stopWatch.Stop();
-            // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
-
-            // Format and display the TimeSpan value.
-            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
-                ts.Hours, ts.Minutes, ts.Seconds,
-                ts.Milliseconds / 10);
-            Console.WriteLine("RunTime " + elapsedTime);
         }
 
-        static void LoadData(List<string> seasons)
+        static async void LoadData(bool daily = true, List<string> seasons = null)
         {
-            ////Load team data 
-            //Console.WriteLine("Team data load started.");
-            //LoadTeamData(seasons);
-            //Console.WriteLine("Team data load complete.");
-
-            ////Load player data
-            //Console.WriteLine("Player data load started.");
-            //LoadPlayerData(seasons);
-            //Console.WriteLine("Player data load complete.");
-
-            //Load game data
-            Console.WriteLine("Game data load started.");
-            LoadGameData(seasons);
-            Console.WriteLine("Game data load complete.");
-
-            ////Load season data
-            //Console.WriteLine("League data load started.");
-            //LoadLeagueData(seasons);
-            //Console.WriteLine("League data load complete.");
-        }
-
-        static void LoadTeamData(List<string> seasons)
-        {
-            var teamsDocument = TeamService.CommonTeamYears();
-            var franchisesDocument = TeamService.FranchiseHistory();
-            var teams = teamsDocument["resultSets"][0]["data"].AsBsonArray;
-
-            //loop through all the teams
-            foreach (var team in teams)
+            try
             {
-                //the team abbreviation
-                var abbr = team["ABBREVIATION"];
-                //the first year the team started
-                var minYear = Convert.ToInt64(team["MIN_YEAR"]);
-                //the unique team id
-                var teamID = team["TEAM_ID"].ToString();
+                Stopwatch stopWatch = new Stopwatch();
+                stopWatch.Start();
+                string startTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
 
-                Console.WriteLine(teamID + " - " + abbr);
+                string dt = null;
 
-                //get the team details
-                TeamService.TeamDetails(teamID);
-                TeamService.TeamYearByYearStats(teamID);
-                FranchiseService.FranchiseLeaders(teamID);
-                FranchiseService.FranchisePlayers(teamID); ///TODO: could loop through per mode & season type
-                Wait(500);
-
-                //loop through all the seaons
-                foreach (var season in seasons)
+                if (daily)
                 {
+                    string season = SeasonHelper.DefaultSeason();
+                    var dateStart = DailyHelper.GetDate(-14);
+                    dt = DailyHelper.GetDate();
+                    List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season, dateStart, dt);
+                    LoadSeasonData(season, seasonTypes, dateStart, dt);
+                }
+                else
+                {
+                    await PlayerService.PlayerGameLogs();
+                    var playerDocument = await PlayerService.PlayerIndex();
+
+                    foreach (var season in seasons)
+                    {
+                        List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season);
+                        LoadSeasonData(season, seasonTypes);
+                    }
+                }
+
+                stopWatch.Stop();
+                string endTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
+
+                // Get the elapsed time as a TimeSpan value.
+                TimeSpan ts = stopWatch.Elapsed;
+
+                // Format and display the TimeSpan value.
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours, ts.Minutes, ts.Seconds,
+                    ts.Milliseconds / 10);
+                Console.WriteLine("RunTime " + elapsedTime);
+
+                BsonDocument loadDocument = new BsonDocument();
+                loadDocument.Add(new BsonElement("Daily", daily));
+                loadDocument.Add(new BsonElement("Date", dt));
+                loadDocument.Add(new BsonElement("StartTime", startTime));
+                loadDocument.Add(new BsonElement("EndTime", endTime));
+                loadDocument.Add(new BsonElement("Elapsed", elapsedTime));
+
+                DatabaseHelper.AddUpdateDocument("dataload", loadDocument);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("There was an error loading data...");
+            }
+            finally
+            {
+                ////shutdown computer
+                Process.Start("shutdown", "/s /t 0");
+            }
+        }
+
+        static void LoadSeasonData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
+        {
+            try
+            {
+                //Load team data 
+                Console.WriteLine("Team data load started.");
+                LoadTeamData(season, seasonTypes, dateFrom, dateTo);
+                Console.WriteLine("Team data load complete.");
+
+                //Load player data
+                Console.WriteLine("Player data load started.");
+                LoadPlayerData(season, seasonTypes, dateFrom, dateTo);
+                Console.WriteLine("Player data load complete.");
+
+                //Load game data
+                Console.WriteLine("Game data load started.");
+                LoadGameData(season, seasonTypes, dateFrom, dateTo);
+                Console.WriteLine("Game data load complete.");
+
+                //Load season data
+                Console.WriteLine("League data load started.");
+                LoadLeagueData(season, seasonTypes);
+                Console.WriteLine("League data load complete.");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        static async void LoadTeamData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
+        {
+            try
+            {
+                var teamsDocument = await TeamService.CommonTeamYears();
+                var franchisesDocument = await TeamService.FranchiseHistory();
+                var teams = teamsDocument["resultSets"][0]["data"].AsBsonArray;
+
+                var teamIDs = DailyHelper.GetIDs("TEAM_ID", "T", season, dateFrom, dateTo);
+
+                Console.WriteLine(teamIDs.Count + " teams to load...");
+
+                //loop through all the teams
+                foreach (var teamID in teamIDs)
+                {
+                    //get the team details
+                    await TeamService.TeamDetails(teamID);
+                    await TeamService.TeamYearByYearStats(teamID);
+                    await FranchiseService.FranchiseLeaders(teamID);
                     //var playersDocument = CommonService.CommonAllPlayers(season);
 
-                    //get the first year of the season (ex: 2020 in 2020-21)
-                    var seasonYear1 = Convert.ToInt64(season.Substring(0, 4));
-                    Console.WriteLine(seasonYear1);
+                    Console.WriteLine(teamID + " - " + season);
 
-                    if (!abbr.IsBsonNull && minYear <= seasonYear1)
+                    await CommonService.CommonTeamRoster(teamID, season);
+
+                    await TeamService.TeamGameLogs(teamID, season);
+                    await TeamService.TeamHistoricalLeaders(teamID, season);
+
+                    foreach (var seasonType in seasonTypes)
                     {
-                        Console.WriteLine(teamID + " - " + abbr + " - " + season);
-
-                        CommonService.CommonTeamRoster(teamID, season);
-                        TeamService.TeamGameLog(teamID, season);
-                        TeamService.TeamGameLogs(teamID, season);
-                        TeamService.TeamHistoricalLeaders(teamID, season);
-                        TeamService.TeamInfoCommon(teamID, season);
-
-                        ShotChartService.ShotChartDetail(season, null, "0", teamID); ///TODO: loop through season types
-                        Wait(500);
+                        ///TODO: loop through season types
+                        await TeamService.TeamGameLog(teamID, season, seasonType);
+                        await TeamService.TeamInfoCommon(teamID, season, seasonType);
+                        await ShotChartService.ShotChartDetail(season, null, "0", teamID, seasonType);
 
                         //loop through different team per modes
                         foreach (var perMode in PerModeService.TeamPerModes)
                         {
-                            Console.WriteLine(teamID + " - " + abbr + " - " + season + " - " + perMode);
+                            Console.WriteLine(teamID + " - " + season + " - " + perMode);
 
-                            TeamService.TeamDashPtPass(teamID, season, perMode);
-                            TeamService.TeamDashPtReb(teamID, season, perMode);
-                            TeamService.TeamDashPtShots(teamID, season, perMode);
+                            await FranchiseService.FranchisePlayers(teamID, perMode, seasonType); ///TODO: could loop through per mode & season type
 
-                            Console.WriteLine(teamID + " - " + abbr + " - " + season + " - " + perMode);
+                            await TeamService.TeamDashPtPass(teamID, season, perMode, seasonType);
+                            await TeamService.TeamDashPtReb(teamID, season, perMode, seasonType);
+                            await TeamService.TeamDashPtShots(teamID, season, perMode, seasonType);
 
-                            Console.WriteLine(teamID + " - " + abbr + " - " + season + " - " + perMode + " - Usage");
-                            TeamService.TeamDashboardByShootingSplits(teamID, season, "Usage", perMode);
-                            TeamService.TeamPlayerOnOffSummary(teamID, season, "Usage", perMode);
+                            Console.WriteLine(teamID + " - " + season + " - " + perMode);
 
-                            Wait(500);
+                            Console.WriteLine(teamID + " - " + season + " - " + perMode + " - Usage");
+                            await TeamService.TeamDashboardByShootingSplits(teamID, season, "Usage", perMode, seasonType);
+                            await TeamService.TeamPlayerOnOffSummary(teamID, season, "Usage", perMode, seasonType);
 
                             //loop thorough different team measure types
                             foreach (var measureType in MeasureTypeService.TeamMeasureTypes)
                             {
-                                Console.WriteLine(teamID + " - " + abbr + " - " + season + " - " + perMode + " - " + measureType);
+                                Console.WriteLine(teamID + " - " + season + " - " + perMode + " - " + measureType);
 
-                                TeamService.TeamDashLineups(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByClutch(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByGameSplits(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByGeneralSplits(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByLastNGames(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByOpponent(teamID, season, measureType, perMode);
-                                Wait(500);
-                                TeamService.TeamDashboardByShootingSplits(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByTeamPerformance(teamID, season, measureType, perMode);
-                                TeamService.TeamDashboardByYearOverYear(teamID, season, measureType, perMode);
+                                await TeamService.TeamDashLineups(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByClutch(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByGameSplits(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByGeneralSplits(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByLastNGames(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByOpponent(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByShootingSplits(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByTeamPerformance(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamDashboardByYearOverYear(teamID, season, measureType, perMode, seasonType);
 
                                 if (measureType == "Opponent" || measureType == "Four Factors")
                                 {
@@ -144,121 +185,112 @@ namespace BBALL.CON
                                 }
                                 else
                                 {
-                                    TeamService.TeamPlayerDashboard(teamID, season, measureType, perMode);
+                                    await TeamService.TeamPlayerDashboard(teamID, season, measureType, perMode, seasonType);
                                 }
-                                TeamService.TeamPlayerOnOffDetails(teamID, season, measureType, perMode);
-                                TeamService.TeamPlayerOnOffSummary(teamID, season, measureType, perMode);
-                                Wait(500);
+                                await TeamService.TeamPlayerOnOffDetails(teamID, season, measureType, perMode, seasonType);
+                                await TeamService.TeamPlayerOnOffSummary(teamID, season, measureType, perMode, seasonType);
                             }
                         }
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                DatabaseHelper.ErrorDocument(ex, "LoadTeamData", null, "load");
+                throw;
+            }
         }
 
-        static void LoadPlayerData(List<string> seasons)
+        static async void LoadPlayerData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
-            PlayerService.PlayerGameLogs();
-
-            var playerDocument = PlayerService.PlayerIndex();
-            var allPlayers = playerDocument["resultSets"][0]["data"].AsBsonArray;
-            //loop through all players
-            foreach (var player in allPlayers)
-            {
-                var playerID = player["PERSON_ID"].ToString();
-                var playerSlug = player["PLAYER_SLUG"].ToString();
-                Console.WriteLine(playerID + " | " + playerSlug + " | started");
-
-                CommonService.CommonPlayerInfo(playerID); ///TODO: FIX THIS!!!
-                ShotChartService.ShotChartDetail(null, null, playerID);
-
-                foreach (var perMode in PerModeService.PlayerPerModes)
-                {
-                    PlayerService.PlayerCareerStats(playerID, perMode);
-                    PlayerService.PlayerProfileV2(playerID, perMode);
-                    Wait(1000);
-                }
-
-                Console.WriteLine(playerID + " | " + playerSlug + " | completed");
-            }
-
-            foreach (var season in seasons)
+            try
             {
                 //obtain player data for current season
-                var commonDocument = PlayerService.PlayerIndex(season, "0");
+                var commonDocument = await PlayerService.PlayerIndex(season, "0");
                 var seasonPlayers = commonDocument["resultSets"][0]["data"].AsBsonArray;
-                if (!seasonPlayers.IsBsonNull)
+                var playerIDs = DailyHelper.GetIDs("PLAYER_ID", "P", season, dateFrom, dateTo);
+                Console.WriteLine(playerIDs.Count + " players to load...");
+                foreach (var playerID in playerIDs)
                 {
-                    foreach (var player in seasonPlayers)
+                    var playerInfo = seasonPlayers.Where(x => x["PERSON_ID"] == playerID).FirstOrDefault();
+                    //var playerSlug = playerInfo["PLAYER_SLUG"].ToString();
+                    //Console.WriteLine(playerID + " | " + playerSlug + " | started");
+                    Console.WriteLine(playerID + " | started");
+
+                    await CommonService.CommonPlayerInfo(playerID); ///TODO: FIX THIS!!!
+                    await ShotChartService.ShotChartDetail(null, null, playerID);
+
+                    foreach (var perMode in PerModeService.PlayerPerModes)
                     {
-                        var playerID = player["PERSON_ID"].ToString();
-                        var playerSlug = player["PLAYER_SLUG"].ToString();
-
-                        Console.WriteLine(playerID + " | " + playerSlug + " | started");
-
-                        foreach (var seasonType in SeasonTypeService.PlayerSeasonTypes)
-                        {
-                            Console.WriteLine(playerID + " - " + season + " - " + seasonType);
-
-                            PlayerService.PlayerGameLog(playerID, season, seasonType);
-                            PlayerService.PlayerNextNGames(playerID, season, seasonType);
-                            ShotChartService.ShotChartDetail(season, null, playerID, "0", seasonType);
-                            Wait(500);
-
-                            foreach (var perMode in PerModeService.PerModes)
-                            {
-                                Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode);
-
-                                PlayerService.PlayDashPTShotDefend(playerID, season, seasonType, perMode);
-                                
-                                if (perMode == "Per36" || perMode == "Per48")
-                                {
-                                    Console.WriteLine("skip");
-                                }
-                                else
-                                {
-                                    PlayerService.PlayDashPTPass(playerID, season, seasonType, perMode);
-                                    PlayerService.PlayDashPTReb(playerID, season, seasonType, perMode);
-                                    PlayerService.PlayDashPTShots(playerID, season, seasonType, perMode);
-                                }
-
-                                Wait(500);
-
-                                foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
-                                {
-                                    Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode + " - " + measureType);
-
-                                    PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
-                                    PlayerService.PlayerDashboardByGameSplits(playerID, season, seasonType, perMode, measureType);
-                                    PlayerService.PlayerDashboardByGeneralSplits(playerID, season, seasonType, perMode, measureType);
-                                    PlayerService.PlayerDashboardByLastNGames(playerID, season, seasonType, perMode, measureType);
-                                    PlayerService.PlayerDashboardByOpponent(playerID, season, seasonType, perMode, measureType);
-                                    PlayerService.PlayerDashboardByShootingSplits(playerID, season, seasonType, perMode, measureType);
-                                    PlayerService.PlayerDashboardByTeamPerformance(playerID, season, seasonType, perMode, measureType);
-                                    Wait(1000);
-                                }
-
-                                PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Base"); 
-                                PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Advanced");
-                                Wait(500);
-                            }
-                        }
-                        
-                        Console.WriteLine(playerID + " | " + playerSlug + " | completed");
+                        await PlayerService.PlayerCareerStats(playerID, perMode);
+                        await PlayerService.PlayerProfileV2(playerID, perMode);
                     }
+
+                    foreach (var seasonType in seasonTypes)
+                    {
+                        Console.WriteLine(playerID + " - " + season + " - " + seasonType);
+
+                        await PlayerService.PlayerGameLog(playerID, season, seasonType);
+                        await PlayerService.PlayerNextNGames(playerID, season, seasonType);
+                        await ShotChartService.ShotChartDetail(season, null, playerID, "0", seasonType);
+
+                        foreach (var perMode in PerModeService.PerModes)
+                        {
+                            Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode);
+
+                            await PlayerService.PlayDashPTShotDefend(playerID, season, seasonType, perMode);
+
+                            if (perMode == "Per36" || perMode == "Per48")
+                            {
+                                Console.WriteLine("skip");
+                            }
+                            else
+                            {
+                                await PlayerService.PlayDashPTPass(playerID, season, seasonType, perMode);
+                                await PlayerService.PlayDashPTReb(playerID, season, seasonType, perMode);
+                                await PlayerService.PlayDashPTShots(playerID, season, seasonType, perMode);
+                            }
+
+                            foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                            {
+                                Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode + " - " + measureType);
+
+                                await PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
+                                await PlayerService.PlayerDashboardByGameSplits(playerID, season, seasonType, perMode, measureType);
+                                await PlayerService.PlayerDashboardByGeneralSplits(playerID, season, seasonType, perMode, measureType);
+                                await PlayerService.PlayerDashboardByLastNGames(playerID, season, seasonType, perMode, measureType);
+                                await PlayerService.PlayerDashboardByOpponent(playerID, season, seasonType, perMode, measureType);
+                                await PlayerService.PlayerDashboardByShootingSplits(playerID, season, seasonType, perMode, measureType);
+                                await PlayerService.PlayerDashboardByTeamPerformance(playerID, season, seasonType, perMode, measureType);
+                            }
+
+                            await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Base");
+                            await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Advanced");
+                        }
+                    }
+
+                    Console.WriteLine(playerID + " | completed");
                 }
+            }
+            catch (Exception ex)
+            {
+                DatabaseHelper.ErrorDocument(ex, "LoadPlayerData", null, "load");
+                throw;
             }
         }
 
-        static void LoadGameData(List<string> seasons)
+        static async void LoadGameData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
-            foreach (var season in seasons)
+            try
             {
-                foreach (var seasonType in SeasonTypeService.TeamSeasonTypes)
+                var gameIDs = DailyHelper.GetIDs("GAME_ID", "T", season, dateFrom, dateTo);
+                Console.WriteLine(gameIDs.Count + " games to load...");
+
+                foreach (var seasonType in seasonTypes)
                 {
                     //load the games
-                    LeagueService.LeagueGameLog(season, seasonType);
-                 
+                    await LeagueService.LeagueGameLog(season, seasonType);
+
                     //obtain game data
                     JArray parameters = new JArray();
                     parameters.Add(CreateParameterObject("Season", season));
@@ -266,133 +298,131 @@ namespace BBALL.CON
 
                     //load game data
                     var gameDocuments = GameService.ImportGames(parameters);
-                    foreach (var gameDocument in gameDocuments)
+
+                    foreach (var gameID in gameIDs)
                     {
-                        foreach (var game in gameDocument["Games"].AsBsonArray)
-                        {
-                            var gameId = game["GAME_ID"].ToString();
-                            Console.WriteLine(season + " - " + gameId);
+                        Console.WriteLine(season + " - " + gameID);
 
-                            BoxScoreService.BoxScoreAdvancedV2(gameId);
-                            BoxScoreService.BoxScoreDefensive(gameId);
-                            BoxScoreService.BoxScoreFourFactorsV2(gameId);
-                            BoxScoreService.BoxScoreMatchups(gameId);
-                            BoxScoreService.BoxScoreMiscV2(gameId);
-                            Wait(1000);
-                            BoxScoreService.BoxScorePlayerTrackV2(gameId);
-                            BoxScoreService.BoxScoreScoringV2(gameId);
-                            BoxScoreService.BoxScoreSummaryV2(gameId);
-                            BoxScoreService.BoxScoreTraditionalV2(gameId);
-                            BoxScoreService.BoxScoreUsageV2(gameId);
-                            BoxScoreService.HustleStatsBoxScore(gameId);
-                            Wait(1000);
+                        await BoxScoreService.BoxScoreAdvancedV2(gameID);
+                        await BoxScoreService.BoxScoreDefensive(gameID);
+                        await BoxScoreService.BoxScoreFourFactorsV2(gameID);
+                        await BoxScoreService.BoxScoreMatchups(gameID);
+                        await BoxScoreService.BoxScoreMiscV2(gameID);
+                        await BoxScoreService.BoxScorePlayerTrackV2(gameID);
+                        await BoxScoreService.BoxScoreScoringV2(gameID);
+                        await BoxScoreService.BoxScoreSummaryV2(gameID);
+                        await BoxScoreService.BoxScoreTraditionalV2(gameID);
+                        await BoxScoreService.BoxScoreUsageV2(gameID);
+                        await BoxScoreService.HustleStatsBoxScore(gameID);
+                        await PlayByPlayService.PlayByPlay(gameID);
+                        await PlayByPlayService.PlayByPlayV2(gameID);
 
-                            GameService.GameRotation(gameId);
-                            PlayByPlayService.PlayByPlayAll(gameId);
-                            VideoService.VideoDetailAsset(gameId, season, seasonType);
-                            ShotChartService.ShotChartDetail(season, gameId, "0", "0", seasonType);
-                            Wait(500);
-                        }
+                        await GameService.GameRotation(gameID);
+                        await VideoService.VideoDetailAsset(gameID, season, seasonType);
+                        await ShotChartService.ShotChartDetail(season, gameID, "0", "0", seasonType);
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                DatabaseHelper.ErrorDocument(ex, "LoadGameData", null, "load");
+                throw;
+            }
         }
 
-        static void LoadLeagueData(List<string> seasons)
+        static async void LoadLeagueData(string season, List<string> seasonTypes)
         {
-            //loop through all the seasons
-            foreach (var season in seasons)
+            try
             {
-                Console.WriteLine(season);
-
-                TeamService.TeamEstimatedMetrics(season);
+                await TeamService.TeamEstimatedMetrics(season);
                 DraftService.DraftCombineAll(season);
-                Wait(500);
 
-                foreach (var seasonType in SeasonTypeService.LeagueSeasonTypes)
+                foreach (var seasonType in seasonTypes)
                 {
                     Console.WriteLine(season + " - " + seasonType);
                     ///season type
-                    LeagueService.LeagueStandings(season, seasonType);
-                    LeagueService.LeagueStandingsV3(season, seasonType);
+                    await LeagueService.LeagueStandings(season, seasonType);
+                    await LeagueService.LeagueStandingsV3(season, seasonType);
 
-                    ///TODO: Loop through stat type
-                    HomePageService.HomePageLeaders(season, seasonType);
-                    HomePageService.HomePageV2(season, seasonType);
+                    foreach (var statType in StatTypeService.StatTypes)
+                    {
+                        await HomePageService.HomePageV2(season, seasonType, statType);
+                    }
 
-                    PlayerService.PlayerEstimatedMetrics(season, seasonType);
-                    Wait(500);
+                    await PlayerService.PlayerEstimatedMetrics(season, seasonType);
 
                     foreach (var perMode in PerModeService.PerModes)
                     {
                         Console.WriteLine(season + " - " + seasonType + " - " + perMode);
                         ///per mode, and season type
-                        LeagueService.LeagueDashPlayerBioStats(season, seasonType, perMode);
-                        LeagueService.LeagueDashOppPtShot(season, seasonType, perMode);
-                        LeagueService.LeagueDashPlayerPTShot(season, seasonType, perMode);
-                        LeagueService.LeagueDashTeamPtShot(season, seasonType, perMode);
-                        LeagueService.LeagueHustleStatsPlayer(season, seasonType, perMode);
-                        Wait(500);
+                        await LeagueService.LeagueDashPlayerBioStats(season, seasonType, perMode);
+                        await LeagueService.LeagueDashOppPtShot(season, seasonType, perMode);
+                        await LeagueService.LeagueDashPlayerPTShot(season, seasonType, perMode);
+                        await LeagueService.LeagueDashTeamPtShot(season, seasonType, perMode);
+                        await LeagueService.LeagueHustleStatsPlayer(season, seasonType, perMode);
 
-                        LeagueService.LeagueHustleStatsPlayerLeaders(season, seasonType, perMode);
-                        LeagueService.LeagueHustleStatsTeam(season, seasonType, perMode);
-                        LeagueService.LeagueHustleStatsTeamLeaders(season, seasonType, perMode);
-                        LeagueService.LeagueSeasonMatchups(season, seasonType, perMode);
+                        await LeagueService.LeagueHustleStatsPlayerLeaders(season, seasonType, perMode);
+                        await LeagueService.LeagueHustleStatsTeam(season, seasonType, perMode);
+                        await LeagueService.LeagueHustleStatsTeamLeaders(season, seasonType, perMode);
+                        //LeagueService.LeagueSeasonMatchups(season, seasonType, perMode);
 
-                        LeadersService.LeagueLeaders(season, seasonType, perMode); ///TODO: loop through stat category
-                        Wait(500);
+                        await LeadersService.LeagueLeaders(season, seasonType, perMode); ///TODO: loop through stat category
 
-                        MatchupsService.MatchupsRollup(season, seasonType, perMode);
+                        await MatchupsService.MatchupsRollup(season, seasonType, perMode);
 
-                        PlayerService.PlayerCareerByCollege(season, seasonType, perMode);
-                        PlayerService.PlayerCareerByCollegeRollup(season, seasonType, perMode);
-                        Wait(500);
+                        await LeagueService.LeagueDashPlayerShotLocations(season, seasonType, perMode);
+                        await LeagueService.LeagueDashTeamShotLocations(season, seasonType, perMode);
+
+                        //PlayerService.PlayerCareerByCollege(season, seasonType, perMode); ///TODO: would need to loop through categories
+                        //PlayerService.PlayerCareerByCollegeRollup(season, seasonType, perMode); ///TODO: would need to loop through categories
 
                         foreach (var measureType in MeasureTypeService.LeagueMeasureTypes)
                         {
                             Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + measureType);
                             ///season type, per mode, measure type (teams might be different)
-                            LeagueService.LeagueDashLineups(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueDashPlayerClutch(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueDashPlayerShotLocations(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueDashPlayerStats(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueDashTeamClutch(season, seasonType, perMode, measureType);
-                            Wait(500);
-                            LeagueService.LeagueDashTeamShotLocations(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueDashTeamStats(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueDashOpponentShotLocations(season, seasonType, perMode, measureType);
-                            LeagueService.LeagueLineupViz(season, seasonType, perMode, measureType);
-                            LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, measureType);
-                            Wait(500);
+                            await LeagueService.LeagueDashLineups(season, seasonType, perMode, measureType);
+
+                            if (measureType != "Four Factors")
+                            {
+                                await LeagueService.LeagueDashPlayerStats(season, seasonType, perMode, measureType);
+                            }
+
+                            await LeagueService.LeagueDashTeamStats(season, seasonType, perMode, measureType);
+                            await LeagueService.LeagueLineupViz(season, seasonType, perMode, measureType);
+
+                            if (measureType != "Defense" && measureType != "Usage")
+                            {
+                                await LeagueService.LeagueDashPlayerClutch(season, seasonType, perMode, measureType);
+                                await LeagueService.LeagueDashTeamClutch(season, seasonType, perMode, measureType);
+                                await LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, measureType);
+                            }
                         }
 
-                        foreach (var ptMeasureType in PTMeasureTypeService.PTMeasureTypes)
+                        if (perMode != "Per36" && perMode != "Per48")
                         {
-                            Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + ptMeasureType);
-                            ///season type, per mode, pt measure type
-                            LeagueService.LeagueDashPTStats(season, seasonType, perMode, ptMeasureType);
-                            Wait(500);
-                        }
+                            foreach (var ptMeasureType in PTMeasureTypeService.PTMeasureTypes)
+                            {
+                                Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + ptMeasureType);
+                                ///season type, per mode, pt measure type
+                                await LeagueService.LeagueDashPTStats(season, seasonType, perMode, ptMeasureType);
+                            }
 
-                        foreach (var defensiveCategory in DefenseCategoryService.Categories)
-                        {
-                            Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + defensiveCategory);
-                            ///season type, per mode, defensive category
-                            LeagueService.LeagueDashPTDefend(season, seasonType, perMode, defensiveCategory);
-                            LeagueService.LeagueDashPTTeamDefend(season, seasonType, perMode, defensiveCategory);
-                            Wait(500);
+                            foreach (var defensiveCategory in DefenseCategoryService.Categories)
+                            {
+                                Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + defensiveCategory);
+                                ///season type, per mode, defensive category
+                                await LeagueService.LeagueDashPTDefend(season, seasonType, perMode, defensiveCategory);
+                                await LeagueService.LeagueDashPTTeamDefend(season, seasonType, perMode, defensiveCategory);
+                            }
                         }
                     }
                 }
             }
-        }
-
-       
-
-        static void Wait(int milliseconds)
-        {
-            Console.WriteLine("Wait...");
-            System.Threading.Thread.Sleep(milliseconds);
+            catch (Exception ex)
+            {
+                DatabaseHelper.ErrorDocument(ex, "LoadLeagueData", null, "load");
+                throw;
+            }
         }
     }
 }

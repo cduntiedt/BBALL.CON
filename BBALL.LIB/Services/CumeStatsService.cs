@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class CumeStatsService
     {
-        public static void CumeStatsPlayer(
+        public static async Task<BsonDocument> CumeStatsPlayer(
             string GameIDs,
             string PlayerID,
             string LeagueID = null,
@@ -23,15 +25,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
-            CumStatsPlayer(parameters);
+            return await CumStatsPlayer(parameters);
         }
 
-        public static void CumStatsPlayer(JArray parameters)
+        public static async Task<BsonDocument> CumStatsPlayer(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/cumestatsplayer/", "cumestatsplayer", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsplayer/", "cumestatsplayer", parameters);
         }
 
-        public static void CumeStatsPlayerGames(
+        public static async Task<BsonDocument> CumeStatsPlayerGames(
             string PlayerID,
             string LeagueID = null,
             string Season = null,
@@ -53,15 +55,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("Outcome", Outcome));
             parameters.Add(CreateParameterObject("Location", Location));
-            CumeStatsPlayerGames(parameters);
+            return await CumeStatsPlayerGames(parameters);
         }
 
-        public static void CumeStatsPlayerGames(JArray parameters)
+        public static async Task<BsonDocument> CumeStatsPlayerGames(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/cumestatsplayergames/", "cumestatsplayergames", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsplayergames/", "cumestatsplayergames", parameters);
         }
 
-        public static void CumeStatsTeam(
+        public static async Task<BsonDocument> CumeStatsTeam(
             string GameIDs,
             string TeamID,
             string LeagueID = null,
@@ -75,15 +77,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
-            CumeStatsTeam(parameters);
+            return await CumeStatsTeam(parameters);
         }
 
-        public static void CumeStatsTeam(JArray parameters)
+        public static async Task<BsonDocument> CumeStatsTeam(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/cumestatsteam/", "cumestatsteam", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsteam/", "cumestatsteam", parameters);
         }
 
-        public static void CumeStatsTeamGames(
+        public static async Task<BsonDocument> CumeStatsTeamGames(
             string TeamID,
             string LeagueID,
             string Season = null,
@@ -105,12 +107,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("VsConference", VsConference));
             parameters.Add(CreateParameterObject("Outcome", Outcome));
             parameters.Add(CreateParameterObject("Location", Location));
-            CumeStatsTeamGames(parameters);
+            return await CumeStatsTeamGames(parameters);
         }
 
-        public static void CumeStatsTeamGames(JArray parameters)
+        public static async Task<BsonDocument> CumeStatsTeamGames(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/cumestatsteamgames/", "cumestatsteamgames", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsteamgames/", "cumestatsteamgames", parameters);
         }
     }
 }

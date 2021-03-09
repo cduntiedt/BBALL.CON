@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class ScoreboardService
     {
-        public static void Scoreboard(
+        public static async Task<BsonDocument> Scoreboard(
             string LeagueID = null,
             string DayOffset = null,
             string GameDate = null
@@ -20,15 +22,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DayOffset", DayOffset));
             parameters.Add(CreateParameterObject("GameDate", GameDate));
 
-            Scoreboard(parameters);
+            return await Scoreboard(parameters);
         }
 
-        public static void Scoreboard(JArray parameters)
+        public static async Task<BsonDocument> Scoreboard(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/scoreboard/", "scoreboard", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/scoreboard/", "scoreboard", parameters);
         }
 
-        public static void ScoreboardV2(
+        public static async Task<BsonDocument> ScoreboardV2(
             string LeagueID = null,
             string DayOffset = null,
             string GameDate = null
@@ -39,12 +41,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("DayOffset", DayOffset));
             parameters.Add(CreateParameterObject("GameDate", GameDate));
 
-            ScoreboardV2(parameters);
+            return await ScoreboardV2(parameters);
         }
 
-        public static void ScoreboardV2(JArray parameters)
+        public static async Task<BsonDocument> ScoreboardV2(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/scoreboardv2/", "scoreboardv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/scoreboardv2/", "scoreboardv2", parameters);
         }
     }
 }

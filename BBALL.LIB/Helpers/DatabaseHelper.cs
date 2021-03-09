@@ -11,6 +11,7 @@ using MongoDB.Bson.IO;
 using System.Web;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using System.Collections.Specialized;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Helpers
 {
@@ -32,16 +33,11 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        /// <summary>
-        /// Create a collection if it does not exist. Insert or replace a document to the collection.
-        /// </summary>
-        /// <param name="url">The stats API url</param>
-        /// <param name="collection">The name of the collection</param>
-        public static BsonDocument UpdateDatabase(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15)
+        public static string GenerateDocument(string url, JArray parameters, bool parse = true, int timeout = 15, string resultSets = "resultSets")
         {
             try
             {
-                if(parameters == null)
+                if (parameters == null)
                 {
                     var queryString = HttpUtility.ParseQueryString(url);
 
@@ -69,47 +65,143 @@ namespace BBALL.LIB.Helpers
 
                 if (parse)
                 {
-                    JArray statResultSets = response["resultSets"].ToObject<JArray>();
-                    
-                    //create data object
-                    JArray results = new JArray();
-                    for (int resultIndex = 0; resultIndex < statResultSets.Count; resultIndex++)
+                    //if there are multiple result sets
+                    if (resultSets == "resultSets")
                     {
-                        JObject resultObject = new JObject();
-                        var resultSet = statResultSets[resultIndex];
-                        var name = resultSet["name"].ToString();
-                        var headers = resultSet["headers"].ToObject<JArray>();
-                        var rowSet = resultSet["rowSet"].ToObject<JArray>();
+                        JArray statResultSets = response[resultSets].ToObject<JArray>();
 
-                        JArray dataArray = new JArray();
-                        for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
+                        //create data object
+                        JArray results = new JArray();
+                        for (int resultIndex = 0; resultIndex < statResultSets.Count; resultIndex++)
                         {
-                            JObject dataObject = new JObject();
-                            var row = rowSet[rowIndex];
+                            JObject resultSet = statResultSets[resultIndex].ToObject<JObject>();
+                            JObject resultObject = CreateResultObject(resultSet);
 
-                            for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
-                            {
-                                var header = headers[headerIndex];
-
-                                dataObject.Add(header.ToString(), row[headerIndex]);
-                            }
-
-                            dataArray.Add(dataObject);
+                            results.Add(resultObject);
                         }
-
-                        resultObject.Add("name", name);
-                        resultObject.Add("data", dataArray);
-                        results.Add(resultObject);
+                        //add the results to the new document
+                        statDocument.Add("resultSets", results);
                     }
-                    //add the results to the new document
-                    statDocument.Add("resultSets", results);
+                    else
+                    {
+                        //if there is only one result set
+                        JObject statResultsSet = response[resultSets].ToObject<JObject>();
+                        JObject resultObject = CreateResultObject(statResultsSet);
+
+                        //add the results to the new document
+                        statDocument.Add("resultSets", resultObject);
+                    }
                 }
                 else
                 {
-                    JObject statResultSets = response["resultSets"].ToObject<JObject>();
+                    JObject statResultSets = response[resultSets].ToObject<JObject>();
 
                     statDocument.Add("resultSets", statResultSets);
                 }
+
+                return statDocument.ToString();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Create a collection if it does not exist. Insert or replace a document to the collection.
+        /// </summary>
+        /// <param name="url">The stats API url</param>
+        /// <param name="collection">The name of the collection</param>
+        public static BsonDocument UpdateDatabase(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
+        {
+            try
+            {
+                //convert the stat document to bson
+                var document = BsonSerializer.Deserialize<BsonDocument>(GenerateDocument(url, parameters, parse, timeout, resultSets));
+
+                AddUpdateDocument(collection, document, parameters);
+
+                return document;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(url + " failed. Check log.");
+                ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
+                return null;
+            }
+        }
+
+        public static async Task<BsonDocument> UpdateDatabaseAsync(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
+        {
+            try
+            {
+                //convert the stat document to bson
+                var document = BsonSerializer.Deserialize<BsonDocument>(GenerateDocument(url, parameters, parse, timeout, resultSets));
+
+                AddUpdateDocument(collection, document, parameters);
+
+                await Task.CompletedTask;
+
+                return  document;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(url + " failed. Check log.");
+                ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
+                return null;
+            }
+        }
+
+        public static BsonDocument UpdateShotLocations(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets") 
+        {
+            try
+            {
+                //get the data from stats.nba.com
+                JObject response = JObject.Parse(StatsHelper.API(url, timeout).Result);
+
+                JObject statDocument = new JObject();
+                foreach (JObject parameter in parameters)
+                {
+                    var val = parameter["Value"].ToString();
+                    statDocument.Add(parameter["Key"].ToString(), val == "" ? null : val);
+                }
+
+                JObject resultSet = response[resultSets].ToObject<JObject>();
+                var name = resultSet["name"].ToString();
+                var categories = resultSet["headers"][0]["columnNames"].ToObject<JArray>();
+                var columns = resultSet["headers"][1]["columnNames"].ToObject<JArray>();
+                var rowSet = resultSet["rowSet"].ToObject<JArray>();
+
+                JObject resultObject = new JObject();
+
+                JArray dataArray = new JArray();
+                for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
+                {
+                    JObject dataObject = new JObject();
+                    var row = rowSet[rowIndex];
+                    var columnsToSkip = 5;
+                    var categoryIndex = 0;
+                    for (int columnIndex = 0; columnIndex < columns.Count; columnIndex++)
+                    {
+                        var column = columns[columnIndex];
+                        var columnName = column.ToString();
+
+                        columnsToSkip -= 1;
+                        if (columnsToSkip == 0)
+                        {
+                            columnName += " " + categories[categoryIndex];
+                        }
+
+                        dataObject.Add(columnName, row[columnIndex]);
+                    }
+
+                    columnsToSkip = 5;
+
+                    dataArray.Add(dataObject);
+                }
+
+                resultObject.Add("name", name);
+                resultObject.Add("data", dataArray);
 
                 //convert the stat document to bson
                 var document = BsonSerializer.Deserialize<BsonDocument>(statDocument.ToString());
@@ -124,6 +216,35 @@ namespace BBALL.LIB.Helpers
                 ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
                 return null;
             }
+        }
+
+        private static JObject CreateResultObject(JObject resultSet)
+        {
+            var name = resultSet["name"].ToString();
+            var headers = resultSet["headers"].ToObject<JArray>();
+            var rowSet = resultSet["rowSet"].ToObject<JArray>();
+            JObject resultObject = new JObject();
+
+            JArray dataArray = new JArray();
+            for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
+            {
+                JObject dataObject = new JObject();
+                var row = rowSet[rowIndex];
+
+                for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
+                {
+                    var header = headers[headerIndex];
+
+                    dataObject.Add(header.ToString(), row[headerIndex]);
+                }
+
+                dataArray.Add(dataObject);
+            }
+
+            resultObject.Add("name", name);
+            resultObject.Add("data", dataArray);
+
+            return resultObject;
         }
 
         /// <summary>
@@ -146,7 +267,9 @@ namespace BBALL.LIB.Helpers
                 errorDocument.Add(new BsonElement("Source", exception.Source));
                 errorDocument.Add(new BsonElement("Timestamp", String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now)));
 
-                AddUpdateDocument("errorlog", errorDocument, parameters);
+                string date = String.Format("{0:yyyyMMdd}", DateTime.Now);
+
+                AddUpdateDocument("errorlog" + date, errorDocument, parameters);
             }
             catch (Exception ex)
             {
@@ -154,7 +277,7 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        public static void AddUpdateDocument(string collection, BsonDocument document, JArray parameters)
+        public static void AddUpdateDocument(string collection, BsonDocument document, JArray parameters = null)
         {
             try
             {

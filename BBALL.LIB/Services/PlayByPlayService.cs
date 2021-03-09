@@ -5,18 +5,19 @@ using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using MongoDB.Bson;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
     public static class PlayByPlayService
     {
-        public static void PlayByPlayAll(string GameID)
+        public static async void PlayByPlayAll(string GameID)
         {
-            PlayByPlay(GameID);
-            PlayByPlayV2(GameID);
+            await PlayByPlay(GameID);
+            await PlayByPlayV2(GameID);
         }
 
-        public static BsonDocument PlayByPlay(
+        public static async Task<BsonDocument> PlayByPlay(
             string GameID,
             string StartPeriod = "0",
             string EndPeriod = "10"
@@ -26,15 +27,15 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
-            return PlayByPlay(parameters);
+            return await PlayByPlay(parameters);
         }
 
-        public static BsonDocument PlayByPlay(JArray parameters)
+        public static async Task<BsonDocument> PlayByPlay(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playbyplay/", "playbyplay", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playbyplay/", "playbyplay", parameters);
         }
 
-        public static BsonDocument PlayByPlayV2(
+        public static async Task<BsonDocument> PlayByPlayV2(
             string GameID,
             string StartPeriod = "0",
             string EndPeriod = "10"
@@ -44,12 +45,12 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
-            return PlayByPlayV2(parameters);
+            return await PlayByPlayV2(parameters);
         }
 
-        public static BsonDocument PlayByPlayV2(JArray parameters)
+        public static async Task<BsonDocument> PlayByPlayV2(JArray parameters)
         {
-            return DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/playbyplayv2/", "playbyplayv2", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playbyplayv2/", "playbyplayv2", parameters);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Services
 {
@@ -82,17 +83,17 @@ namespace BBALL.LIB.Services
             }
         }
 
-        public static void GameRotation(string GameID, string LeagueID = null)
+        public static async Task<BsonDocument> GameRotation(string GameID, string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            GameRotation(parameters);
+            return await GameRotation(parameters);
         }
 
-        public static void GameRotation(JArray parameters)
+        public static async Task<BsonDocument> GameRotation(JArray parameters)
         {
-            DatabaseHelper.UpdateDatabase("https://stats.nba.com/stats/gamerotation/", "gamerotation", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/gamerotation/", "gamerotation", parameters);
         }
     }
 }
