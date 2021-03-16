@@ -33,10 +33,10 @@ namespace BBALL.CON
                 if (daily)
                 {
                     string season = SeasonHelper.DefaultSeason();
-                    var dateStart = DailyHelper.GetDate(-14);
+                    //var dateStart = DailyHelper.GetDate(-14);
                     dt = DailyHelper.GetDate();
-                    List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season, dateStart, dt);
-                    LoadSeasonData(season, seasonTypes, dateStart, dt);
+                    List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season, dt, dt);
+                    LoadSeasonData(season, seasonTypes, dt, dt);
                 }
                 else
                 {
@@ -238,31 +238,7 @@ namespace BBALL.CON
                         {
                             Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode);
 
-                            await PlayerService.PlayDashPTShotDefend(playerID, season, seasonType, perMode);
-
-                            if (perMode == "Per36" || perMode == "Per48")
-                            {
-                                Console.WriteLine("skip");
-                            }
-                            else
-                            {
-                                await PlayerService.PlayDashPTPass(playerID, season, seasonType, perMode);
-                                await PlayerService.PlayDashPTReb(playerID, season, seasonType, perMode);
-                                await PlayerService.PlayDashPTShots(playerID, season, seasonType, perMode);
-                            }
-
-                            foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
-                            {
-                                Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode + " - " + measureType);
-
-                                await PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
-                                await PlayerService.PlayerDashboardByGameSplits(playerID, season, seasonType, perMode, measureType);
-                                await PlayerService.PlayerDashboardByGeneralSplits(playerID, season, seasonType, perMode, measureType);
-                                await PlayerService.PlayerDashboardByLastNGames(playerID, season, seasonType, perMode, measureType);
-                                await PlayerService.PlayerDashboardByOpponent(playerID, season, seasonType, perMode, measureType);
-                                await PlayerService.PlayerDashboardByShootingSplits(playerID, season, seasonType, perMode, measureType);
-                                await PlayerService.PlayerDashboardByTeamPerformance(playerID, season, seasonType, perMode, measureType);
-                            }
+                            //LoadAdditionalPlayerData(playerID, season, seasonType, perMode);
 
                             await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Base");
                             await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Advanced");
@@ -276,6 +252,35 @@ namespace BBALL.CON
             {
                 DatabaseHelper.ErrorDocument(ex, "LoadPlayerData", null, "load");
                 throw;
+            }
+        }
+
+        static async void LoadAdditionalPlayerData(string playerID, string season, string seasonType, string perMode)
+        {
+            await PlayerService.PlayDashPTShotDefend(playerID, season, seasonType, perMode);
+
+            if (perMode == "Per36" || perMode == "Per48")
+            {
+                Console.WriteLine("skip");
+            }
+            else
+            {
+                await PlayerService.PlayDashPTPass(playerID, season, seasonType, perMode);
+                await PlayerService.PlayDashPTReb(playerID, season, seasonType, perMode);
+                await PlayerService.PlayDashPTShots(playerID, season, seasonType, perMode);
+            }
+
+            foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+            {
+                Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode + " - " + measureType);
+
+                await PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
+                await PlayerService.PlayerDashboardByGameSplits(playerID, season, seasonType, perMode, measureType);
+                await PlayerService.PlayerDashboardByGeneralSplits(playerID, season, seasonType, perMode, measureType);
+                await PlayerService.PlayerDashboardByLastNGames(playerID, season, seasonType, perMode, measureType);
+                await PlayerService.PlayerDashboardByOpponent(playerID, season, seasonType, perMode, measureType);
+                await PlayerService.PlayerDashboardByShootingSplits(playerID, season, seasonType, perMode, measureType);
+                await PlayerService.PlayerDashboardByTeamPerformance(playerID, season, seasonType, perMode, measureType);
             }
         }
 
@@ -314,7 +319,7 @@ namespace BBALL.CON
                         await BoxScoreService.BoxScoreTraditionalV2(gameID);
                         await BoxScoreService.BoxScoreUsageV2(gameID);
                         await BoxScoreService.HustleStatsBoxScore(gameID);
-                        await PlayByPlayService.PlayByPlay(gameID);
+                        //await PlayByPlayService.PlayByPlay(gameID);
                         await PlayByPlayService.PlayByPlayV2(gameID);
 
                         await GameService.GameRotation(gameID);
@@ -341,7 +346,7 @@ namespace BBALL.CON
                 {
                     Console.WriteLine(season + " - " + seasonType);
                     ///season type
-                    await LeagueService.LeagueStandings(season, seasonType);
+                    //await LeagueService.LeagueStandings(season, seasonType);
                     await LeagueService.LeagueStandingsV3(season, seasonType);
 
                     foreach (var statType in StatTypeService.StatTypes)

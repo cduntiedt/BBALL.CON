@@ -61,6 +61,8 @@ namespace BBALL.LIB.Helpers
                     statDocument.Add(parameter["Key"].ToString(), val == "" ? null : val);
                 }
 
+                statDocument.Add("DateUpdated", DailyHelper.GetDate(0));
+
                 //JObject statDocument = response["parameters"].ToObject<JObject>();
 
                 if (parse)
