@@ -1,0 +1,15 @@
+<mat-form-field>
+    <mat-label>Game</mat-label>
+    <input type="text"
+        placeholder="Search..."
+        aria-label="Game"
+        matInput
+        [matAutocomplete]="cboGames"
+    />
+    <mat-autocomplete #cboGames="matAutocomplete">
+        <mat-option *ngFor="let game of games"
+            [value]="game.GAME_ID">
+            {{ game.GAME_DATE }} {{ game.MATCHUP }}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

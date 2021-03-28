@@ -19,6 +19,15 @@ namespace BBALL.LIB.Helpers
             }
         }
 
+        public static void APICount(int count)
+        {
+            count += 1;
+            if (count >= 9)
+            {
+                Wait(2000);
+            }
+        }
+
         public static void Wait(int milliseconds)
         {
             Console.WriteLine("Wait...");

@@ -1,0 +1,19 @@
+<mat-form-field>
+    <mat-label>Team</mat-label>
+    <input type="text"
+        placeholder="Search..."
+        aria-label="Team"
+        matInput
+        [formControl]="teamsAutocomplete" 
+        [matAutocomplete]="cboTeams"
+    />
+    <mat-autocomplete #cboTeams="matAutocomplete"
+        [displayWith]="getTeamAbbr"
+        (optionSelected)="selectTeam($event)"
+    >
+        <mat-option *ngFor="let team of filteredTeams | async"
+            [value]="team">
+            {{ team.ABBREVIATION }}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

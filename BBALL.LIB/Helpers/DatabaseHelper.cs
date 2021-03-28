@@ -349,11 +349,18 @@ namespace BBALL.LIB.Helpers
                 FilterDefinition<BsonDocument> filter = CreateFilterDefinition(parameters);
                 var dbDocument = dbCollection.Find(filter).FirstOrDefault();
 
-                //convert bson document to json
-                var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-                JObject json = JObject.Parse(dbDocument.ToJson(jsonWriterSettings));
+                if(dbDocument == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    //convert bson document to json
+                    var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+                    JObject json = JObject.Parse(dbDocument.ToJson(jsonWriterSettings));
 
-                return json;
+                    return json;
+                }
             }
             catch (Exception ex)
             {
@@ -448,18 +455,25 @@ namespace BBALL.LIB.Helpers
                     //add query parameters to url
                     foreach (var item in parameters)
                     {
-                        switch (item["Type"].ToString())
+                        if (item["Type"] == null) { 
+                            var val = item["Value"].ToString();
+                            filter &= builder.Eq(item["Key"].ToString(), val == "" ? null : val);
+                        }
+                        else
                         {
-                            case "int":
-                                filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<int>());
-                                break;
-                            case "bool":
-                                filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<bool>());
-                                break;
-                            default:
-                                var val = item["Value"].ToString();
-                                filter &= builder.Eq(item["Key"].ToString(), val == "" ? null : val);
-                                break;
+                            switch (item["Type"].ToString())
+                            {
+                                case "int":
+                                    filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<int>());
+                                    break;
+                                case "bool":
+                                    filter &= builder.Eq(item["Key"].ToString(), item["Value"].ToObject<bool>());
+                                    break;
+                                default:
+                                    var val = item["Value"].ToString();
+                                    filter &= builder.Eq(item["Key"].ToString(), val == "" ? null : val);
+                                    break;
+                            }
                         }
                     }
                 }

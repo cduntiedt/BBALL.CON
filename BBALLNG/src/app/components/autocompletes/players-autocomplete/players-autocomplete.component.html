@@ -1,0 +1,19 @@
+<mat-form-field>
+    <mat-label>Player</mat-label>
+    <input type="text"
+        placeholder="Search..."
+        aria-label="Player"
+        matInput
+        [formControl]="playersAutocomplete" 
+        [matAutocomplete]="cboPlayers"
+    />
+    <mat-autocomplete #cboPlayers="matAutocomplete"
+        [displayWith]="getPlayerName"
+        (optionSelected)="selectPlayer($event)"
+    >
+        <mat-option *ngFor="let player of filteredPlayers | async"
+            [value]="player">
+            {{ player.PLAYER_FIRST_NAME }} {{ player.PLAYER_LAST_NAME }}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>

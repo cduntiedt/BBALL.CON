@@ -9,7 +9,7 @@ using BBALL.LIB.Services;
 
 namespace BBALL.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class StatsController : ControllerBase
     {

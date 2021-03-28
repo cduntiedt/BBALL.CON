@@ -6,22 +6,47 @@ using BBALL.LIB.Models;
 using BBALL.LIB.Helpers;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json.Linq;
+using MongoDB.Bson.IO;
 
 namespace BBALL.LIB.Services
 {
     public static class StatService
     {
-        public static async Task<BsonDocument> Query(StatQuery query)
+        public static async Task<JObject> Query(StatQuery query)
         {
             try
             {
-                var document = DatabaseHelper.GetDocument(query.Collection, query.Parameters);
-
-                if(document == null)
+                TimeoutHelper.APICount(query.CallCount);
+                var updateParameters = new JArray();
+                foreach (JObject item in query.Parameters)
                 {
-                    string url = StatsHelper.BaseURL + query.Collection;
-                    document = await DatabaseHelper.UpdateDatabaseAsync(url, query.Collection, query.Parameters);
+                    updateParameters.Add(ParameterHelper.CreateParameterObject(item["Key"].ToString(), item["Value"].ToString()));
                 }
+                updateParameters.Add(ParameterHelper.CreateParameterObject("DateUpdated", DailyHelper.GetDate(0)));
+                //see if document exists and has been updated to the current date
+                var document = DatabaseHelper.GetJSONDocument(query.Collection, updateParameters);
+
+                //if it doesn't exist or isn't up to date
+                if (document == null)
+                {
+                    //load the document
+                    string url = StatsHelper.BaseURL + query.Collection;
+                    var dbDocument = await DatabaseHelper.UpdateDatabaseAsync(url, query.Collection, query.Parameters, query.Parse, query.Timeout);
+
+                    if(dbDocument == null)
+                    {
+                        throw new Exception("No data");
+                    }
+                    else
+                    {
+                        //convert bson document to json
+                        var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
+                        document = JObject.Parse(dbDocument.ToJson(jsonWriterSettings));
+                    }
+                }
+
+                //var document = new BsonDocument();
 
                 return document;
             }
