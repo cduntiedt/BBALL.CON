@@ -14,44 +14,40 @@ import { StatsService } from 'src/app/services/stats.service';
 export class ShotChartComponent implements OnInit {
   private _query : StatQuery = new StatQuery();
   public shots: any[] = [];
+  public graph: any;
   private _layout =  {
-    autosize: true, 
+    autosize: false, 
+    width: 500,
+    height: 470,
     title: 'A Shot Chart',
     images: [
       {
         "source": "assets/img/shot-chart/court.png",
         "xref": "x",
         "yref": "y",
-        "x": 0,
-        "y": 3,
-        "sizex": 1,
-        "sizey": 1,
+        "x": -250,
+        "y": -52,
+        "sizing": "stretch",
+        "sizex": 500,
+        "sizey": 470,
         "xanchor": "left",
-        "yanchor": "bottom"
+        "yanchor": "bottom",
+        "layer": "below",
+        "opacity": 0.3
       }
     ],
     xaxis:{
+      range: [-250, 250],
       showticklabels: false,
       showgrid: false,
       zeroline: false,
     },
     yaxis:{
+      range: [-52, 418],
       showticklabels: false,
       showgrid: false,
       zeroline: false,
     }
-  };
-
-  public graph = {
-    data: [
-      { 
-        x: [0], 
-        y: [0], 
-        mode: 'markers',
-        type: 'scatter' 
-      }
-    ],
-    layout: this._layout,
   };
 
   constructor(private _statsService: StatsService,
@@ -60,12 +56,29 @@ export class ShotChartComponent implements OnInit {
   ngOnInit(): void {
     this._statsService.data.subscribe(shots => {
       this.shots = shots;
+      let makes = shots.filter(shot => shot["SHOT_MADE_FLAG"] === 1);
+      let misses = shots.filter(shot => shot["SHOT_MADE_FLAG"] === 0);
       this.graph = {
         data:[
           {
-            x: shots.map(shot => shot["LOC_X"]),
-            y: shots.map(shot => shot["LOC_Y"]),
+            name: "Makes",
+            x: makes.map(shot => shot["LOC_X"]),
+            y: makes.map(shot => shot["LOC_Y"]),
             mode: 'markers',
+            marker: {
+              color: 'green'
+            },
+            type: 'scatter' 
+          },
+          {
+            name: "Misses",
+            x: misses.map(shot => shot["LOC_X"]),
+            y: misses.map(shot => shot["LOC_Y"]),
+            mode: 'markers',
+            marker: {
+              color: 'red',
+              symbol: 'x'
+            },
             type: 'scatter' 
           }
         ],
