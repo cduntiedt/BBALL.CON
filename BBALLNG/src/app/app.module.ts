@@ -23,6 +23,8 @@ import { VideosTableComponent } from './components/tables/videos-table/videos-ta
 import { PlayerComponent } from './pages/player/player.component';
 import { TeamsSelectComponent } from './components/selects/teams-select/teams-select.component';
 import { ShotChartComponent } from './components/charts/shot-chart/shot-chart.component';
+import { ShotTableComponent } from './components/tables/shot-table/shot-table.component';
+import { StatsService } from './services/stats.service';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { ShotChartComponent } from './components/charts/shot-chart/shot-chart.co
     VideosTableComponent,
     PlayerComponent,
     TeamsSelectComponent,
-    ShotChartComponent
+    ShotChartComponent,
+    ShotTableComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,7 @@ import { ShotChartComponent } from './components/charts/shot-chart/shot-chart.co
     NgbModule,
     PlotlyViaCDNModule
   ],
-  providers: [],
+  providers: [StatsService], //make a new module for shot details?
   bootstrap: [AppComponent]
 })
 export class AppModule { }
