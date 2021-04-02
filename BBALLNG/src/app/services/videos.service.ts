@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, pipe } from 'rxjs';
 import { repeat } from 'rxjs/operators';
 import { StatQuery } from '../models/stat-query';
 import { ParametersService } from './parameters.service';
@@ -13,19 +13,15 @@ export class VideosService {
   private _videos: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
   public videos = this._videos.asObservable();
   private _playlist: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
-  public playlist = this._videos.asObservable();
+  public playlist = this._playlist.asObservable();
+  private _meta: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public meta = this._meta.asObservable();
+  private _videoFilter: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public videoFilter = this._videoFilter.asObservable();
 
   constructor(private _parametersService: ParametersService, private _statsService: StatsService) { }
 
   public loadVideos(){
-    // this._statsService.values.subscribe(response => {
-    //   console.log(response);
-    //   if(response !== null){
-    //     this._videos.next(response["resultSets"]["Meta"]["videoUrls"]);
-    //     this._playlist.next(response["resultSets"]["playlist"]);
-    //   }
-    // });
-    
     this._parametersService.parameters.subscribe(params => {
       if(params.GameID !== null){
         this._query.collection = "videodetailsasset";
@@ -67,12 +63,16 @@ export class VideosService {
 
         this._statsService.get(this._query).subscribe(response => {
           if(response['resultSets']['Meta'] !== undefined){
+            this._meta.next(response['resultSets']['Meta']);
             this._videos.next(response['resultSets']['Meta']['videoUrls']);
+            this._playlist.next(response['resultSets']['playlist']);
           }
         });
-
-        //this._statsService.post(this._query);
       }
     });
+  }
+
+  public filterVideo(event: number){
+    this._videoFilter.next(event);
   }
 }

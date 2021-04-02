@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ShotsService } from 'src/app/services/shots.service';
+import { VideosService } from 'src/app/services/videos.service';
 
 @Component({
   selector: 'app-shot-table',
@@ -21,7 +22,7 @@ export class ShotTableComponent implements OnInit {
     'EVENT_TYPE'
   ]; 
 
-  constructor(private _shotsService: ShotsService) { }
+  constructor(private _shotsService: ShotsService, private _videosService: VideosService) { }
 
   ngOnInit(): void {
     this._shotsService.shots.subscribe(shots => {
@@ -29,6 +30,10 @@ export class ShotTableComponent implements OnInit {
     });
 
     //this._shotsService.loadData();
+  }
+
+  public selectRow(row: any){
+    this._videosService.filterVideo(row["GAME_EVENT_ID"]);
   }
 
 }
