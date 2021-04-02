@@ -71,7 +71,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatStepperModule,
     MatTableModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
   ],
   exports:[
     MatAutocompleteModule,
@@ -107,7 +107,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatStepperModule,
     MatTableModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
   ]
 })
 export class MaterialModule { }

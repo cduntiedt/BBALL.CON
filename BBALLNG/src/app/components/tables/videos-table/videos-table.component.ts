@@ -13,6 +13,7 @@ import { StatsService } from 'src/app/services/stats.service';
 })
 export class VideosTableComponent implements OnInit {
   private _query: StatQuery = new StatQuery();
+  public videos: any[] = [];
   public playlist: any[] = [];
   public playColumns: string[] = ['HOMEDESCRIPTION', 'PERIOD', 'PCTIMESTRING', 'VISITORDESCRIPTION',];
 
@@ -21,7 +22,7 @@ export class VideosTableComponent implements OnInit {
   ngOnInit(): void {
     this._statsService.values.subscribe(response => {
       if(response !== null){
-        console.log(response);
+        this.videos = response["resultSets"]["Meta"]["videoUrls"];
         this.playlist = response["resultSets"]["playlist"];
       }
     });

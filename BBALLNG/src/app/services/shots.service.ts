@@ -7,7 +7,6 @@ import { StatsService } from './stats.service';
 @Injectable({
   providedIn: 'root'
 })
-//@Injectable()
 export class ShotsService {
   private _query : StatQuery = new StatQuery();
   private _shots: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);

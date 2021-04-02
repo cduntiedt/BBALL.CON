@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { StatQuery } from '../models/stat-query';
 
@@ -32,5 +33,13 @@ export class StatsService {
         }
       }
     });
+  }
+
+  get(query: StatQuery, name: string = ""): Observable<any>{
+    return this.http.post<any>(environment.api + 'stats', query).pipe(
+      map(response => {
+        return response["result"];
+      })
+    )
   }
 }
