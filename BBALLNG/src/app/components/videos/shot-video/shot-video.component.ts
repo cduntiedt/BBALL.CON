@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { VgApiService } from '@videogular/ngx-videogular/core';
 import { VideosService } from 'src/app/services/videos.service';
 
 @Component({
@@ -11,7 +11,9 @@ export class ShotVideoComponent implements OnInit {
   videos: any[] = [];
   video: any = '';
   playlist: any[] = [];
-  
+  index: number = 0;
+  api: VgApiService | undefined;
+
   constructor(private _videosService: VideosService) { }
 
   ngOnInit(): void {
@@ -19,6 +21,7 @@ export class ShotVideoComponent implements OnInit {
       if(meta !== null){
         this.videos = meta['videoUrls'];
         this.video = this.videos[0].lurl;
+        this.index = 0;
       }
     });
 
@@ -32,9 +35,23 @@ export class ShotVideoComponent implements OnInit {
 
     this._videosService.videoFilter.subscribe(filter => {
       if(filter !== null){
-        let index = this.playlist.findIndex(dataItem => dataItem['ei'] === filter);
-        this.video = this.videos[index].lurl;
+        this.index = this.playlist.findIndex(dataItem => dataItem['ei'] === filter);
+        this.video = this.videos[this.index].lurl;
       }
     });
+  }
+
+  onPlayerReady(api: VgApiService){
+    this.api = api;
+    if(this.api.subscriptions !== undefined){
+      this.api.getDefaultMedia().subscriptions.ended.subscribe(
+        () => {
+          console.log("finished");
+          this.index += 1;
+          this.video = this.videos[this.index].lurl;
+          this.api?.play();
+        });
+    }
+    
   }
 }
