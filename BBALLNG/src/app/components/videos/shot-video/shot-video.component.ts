@@ -48,8 +48,9 @@ export class ShotVideoComponent implements OnInit {
         () => {
           console.log("finished");
           this.index += 1;
-          this.video = this.videos[this.index].lurl;
-          this.api?.play();
+          if(this.index > this.videos.length){
+            this.video = this.videos[this.index].lurl;
+          }
         });
     }
     
