@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, pipe } from 'rxjs';
-import { repeat } from 'rxjs/operators';
 import { StatQuery } from '../models/stat-query';
 import { ParametersService } from './parameters.service';
 import { StatsService } from './stats.service';

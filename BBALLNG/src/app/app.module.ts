@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from './modules/material/material.module';
 import { AppRouterModule } from './modules/app-router/app-router.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { VideoModule } from './modules/video/video.module';
 
 import { PlotlyViaCDNModule } from 'angular-plotly.js';
 PlotlyViaCDNModule.setPlotlyVersion('latest');
@@ -26,7 +27,7 @@ import { ShotChartComponent } from './components/charts/shot-chart/shot-chart.co
 import { ShotTableComponent } from './components/tables/shot-table/shot-table.component';
 import { StatsService } from './services/stats.service';
 import { ShotVideoComponent } from './components/videos/shot-video/shot-video.component';
-import { VideoModule } from './modules/video/video.module';
+import { CastComponent } from './components/videos/cast/cast.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { VideoModule } from './modules/video/video.module';
     TeamsSelectComponent,
     ShotChartComponent,
     ShotTableComponent,
-    ShotVideoComponent
+    ShotVideoComponent,
+    CastComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +60,9 @@ import { VideoModule } from './modules/video/video.module';
     VideoModule
   ],
   providers: [StatsService], //make a new module for shot details?
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  // schemas:[
+  //   CUSTOM_ELEMENTS_SCHEMA
+  // ]
 })
 export class AppModule { }

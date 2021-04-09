@@ -12,5 +12,23 @@
 </head>
 <body class="mat-typography">
   <app-root></app-root>
+  <!-- <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  <script>
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        initializeCastApi();
+      }
+    };
+
+    initializeCastApi = function() {
+      cast.framework.CastContext.getInstance().setOptions({
+        // receiverApplicationId: applicationId,
+        // autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID
+
+        // --https://developers.google.com/cast/docs/chrome_sender/integrate LEFT OFF AT Media Control
+      });
+    };
+    </script> -->
 </body>
 </html>

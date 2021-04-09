@@ -14,7 +14,8 @@ export class ShotVideoComponent implements OnInit {
   index: number = 0;
   api: VgApiService | undefined;
 
-  constructor(private _videosService: VideosService) { }
+  constructor(private _videosService: VideosService,
+    ) { }
 
   ngOnInit(): void {
     this._videosService.meta.subscribe(meta=> {
