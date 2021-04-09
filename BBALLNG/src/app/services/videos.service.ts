@@ -22,10 +22,11 @@ export class VideosService {
 
   public loadVideos(){
     this._parametersService.parameters.subscribe(params => {
-      if(params.GameID !== null){
+      //if(params.GameID !== null){
         this._query.collection = "videodetailsasset";
         this._query.parse = false;
         this._query.timeout = 45;
+        this._query.skipDate = true;
         this._query.parameters = [
           { "Key": "AheadBehind", "Value": params.AheadBehind },
           { "Key": "ClutchTime", "Value": params.ClutchTime },
@@ -67,7 +68,7 @@ export class VideosService {
             this._playlist.next(response['resultSets']['playlist']);
           }
         });
-      }
+      //}
     });
   }
 

@@ -12,5 +12,6 @@ namespace BBALL.LIB.Models
         public int CallCount { get; set; }
         public bool Parse { get; set; }
         public int Timeout { get; set; }
+        public bool SkipDate { get; set; }
     }
 }

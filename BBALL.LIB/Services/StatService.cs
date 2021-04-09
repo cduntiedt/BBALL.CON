@@ -21,9 +21,17 @@ namespace BBALL.LIB.Services
                 var updateParameters = new JArray();
                 foreach (JObject item in query.Parameters)
                 {
-                    updateParameters.Add(ParameterHelper.CreateParameterObject(item["Key"].ToString(), item["Value"].ToString()));
+                    var key = item["Key"].ToString();
+                    var value = item["Value"].ToString();
+                        updateParameters.Add(ParameterHelper.CreateParameterObject(key, value));
                 }
-                updateParameters.Add(ParameterHelper.CreateParameterObject("DateUpdated", DailyHelper.GetDate(0)));
+
+                //skip querying on the upload date
+                if (!query.SkipDate)
+                {
+                    updateParameters.Add(ParameterHelper.CreateParameterObject("DateUpdated", DailyHelper.GetDate(0)));
+                }
+                
                 //see if document exists and has been updated to the current date
                 var document = DatabaseHelper.GetJSONDocument(query.Collection, updateParameters);
 

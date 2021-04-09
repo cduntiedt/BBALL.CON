@@ -37,7 +37,11 @@ export class ShotVideoComponent implements OnInit {
     this._videosService.videoFilter.subscribe(filter => {
       if(filter !== null){
         this.index = this.playlist.findIndex(dataItem => dataItem['ei'] === filter);
-        this.video = this.videos[this.index].lurl;
+        let vid = this.videos[this.index];
+        console.log(vid);
+        if(vid.lurl !== undefined){
+          this.video = vid.lurl;
+        }
       }
     });
   }
@@ -47,9 +51,8 @@ export class ShotVideoComponent implements OnInit {
     if(this.api.subscriptions !== undefined){
       this.api.getDefaultMedia().subscriptions.ended.subscribe(
         () => {
-          console.log("finished");
           this.index += 1;
-          if(this.index > this.videos.length){
+          if(this.index <= this.videos.length){
             this.video = this.videos[this.index].lurl;
           }
         });
