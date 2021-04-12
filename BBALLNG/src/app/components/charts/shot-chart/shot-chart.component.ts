@@ -13,12 +13,17 @@ import { ShotsService } from 'src/app/services/shots.service';
 export class ShotChartComponent implements OnInit {
   private _query : StatQuery = new StatQuery();
   public shots: any[] = [];
+  // public style: any = {
+  //   position: 'relative', 
+  //   width: '100%', 
+  //   margin-top: '75%'
+  // };  
   public graph: any;
   private _layout =  {
-    autosize: false, 
-    width: 500,
-    height: 470,
-    title: 'A Shot Chart',
+    autosize: true, 
+    // width: 500,
+    // height: 470,
+    title: 'Shot Chart',
     images: [
       {
         "source": "assets/img/shot-chart/court.png",
@@ -32,7 +37,7 @@ export class ShotChartComponent implements OnInit {
         "xanchor": "left",
         "yanchor": "bottom",
         "layer": "below",
-        "opacity": 0.3
+        "opacity": 0.6
       }
     ],
     xaxis:{
@@ -86,5 +91,4 @@ export class ShotChartComponent implements OnInit {
 
     this._shotsService.loadData();
   }
-
 }

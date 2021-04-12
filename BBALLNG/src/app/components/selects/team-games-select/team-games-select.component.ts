@@ -23,7 +23,7 @@ export class TeamGamesSelectComponent implements OnInit {
   ngOnInit(): void {
     this._statsService.data.subscribe(response => {
       this.games = response;
-      this.filteredGames = response;      
+      this.filteredGames = response.filter(game => !game["MATCHUP"].includes('@'));      
     });
     
     this._parametersService.parameters.subscribe(params => {

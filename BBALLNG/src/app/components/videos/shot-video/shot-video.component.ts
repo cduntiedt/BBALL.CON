@@ -38,8 +38,7 @@ export class ShotVideoComponent implements OnInit {
       if(filter !== null){
         this.index = this.playlist.findIndex(dataItem => dataItem['ei'] === filter);
         let vid = this.videos[this.index];
-        console.log(vid);
-        if(vid.lurl !== undefined){
+        if(vid !== undefined){
           this.video = vid.lurl;
         }
       }

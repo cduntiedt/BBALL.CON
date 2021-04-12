@@ -36,4 +36,11 @@ export class ShotTableComponent implements OnInit {
     this._videosService.filterVideo(row["GAME_EVENT_ID"]);
   }
 
+  public formatSeconds(seconds: number){
+    if(seconds < 10){
+      return "0" + seconds;
+    }else{
+      return seconds.toString();
+    }
+  }
 }
