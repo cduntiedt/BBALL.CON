@@ -36,6 +36,7 @@ namespace BBALL.CON
                     //var dateStart = DailyHelper.GetDate(-14);
                     dt = DailyHelper.GetDate();
                     List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season, dt, dt);
+
                     LoadSeasonData(season, seasonTypes, dt, dt);
                 }
                 else
@@ -46,6 +47,7 @@ namespace BBALL.CON
                     foreach (var season in seasons)
                     {
                         List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season);
+
                         LoadSeasonData(season, seasonTypes);
                     }
                 }
@@ -90,6 +92,11 @@ namespace BBALL.CON
                 Console.WriteLine("Team data load started.");
                 LoadTeamData(season, seasonTypes, dateFrom, dateTo);
                 Console.WriteLine("Team data load complete.");
+
+                //Load player game logs
+                Console.WriteLine("Player game log load started.");
+                LoadPlayerGameLogs(season, seasonTypes);
+                Console.WriteLine("Player game log load complete.");
 
                 //Load player data
                 Console.WriteLine("Player data load started.");
@@ -198,6 +205,18 @@ namespace BBALL.CON
             {
                 DatabaseHelper.ErrorDocument(ex, "LoadTeamData", null, "load");
                 throw;
+            }
+        }
+
+        static async void LoadPlayerGameLogs(string season, List<string> seasonTypes)
+        {
+            var perMode = "Totals";
+            foreach (var seasonType in seasonTypes)
+            {
+                foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                {
+                    await PlayerService.PlayerGameLogs(season, seasonType, perMode, measureType);
+                }
             }
         }
 

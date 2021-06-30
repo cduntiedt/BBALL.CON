@@ -28,6 +28,8 @@ import { ShotTableComponent } from './components/tables/shot-table/shot-table.co
 import { StatsService } from './services/stats.service';
 import { ShotVideoComponent } from './components/videos/shot-video/shot-video.component';
 import { CastComponent } from './components/videos/cast/cast.component';
+import { GameVideoComponent } from './pages/game/game-video/game-video.component';
+import { SidenavComponent } from './components/navigation/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { CastComponent } from './components/videos/cast/cast.component';
     ShotTableComponent,
     ShotVideoComponent,
     CastComponent,
+    GameVideoComponent,
+    SidenavComponent,
   ],
   imports: [
     BrowserModule,
