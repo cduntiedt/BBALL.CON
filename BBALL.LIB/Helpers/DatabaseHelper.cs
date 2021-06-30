@@ -267,11 +267,23 @@ namespace BBALL.LIB.Helpers
                 errorDocument.Add(new BsonElement("Message", exception.Message));
                 errorDocument.Add(new BsonElement("StackTrace", exception.StackTrace));
                 errorDocument.Add(new BsonElement("Source", exception.Source));
+                string date = String.Format("{0:yyyyMMdd}", DateTime.Now);
+                errorDocument.Add(new BsonElement("Date", date));
                 errorDocument.Add(new BsonElement("Timestamp", String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now)));
 
-                string date = String.Format("{0:yyyyMMdd}", DateTime.Now);
+                BsonArray array = new BsonArray();
+                if(parameters != null)
+                {
+                    BsonDocument parametersDoc = new BsonDocument();
+                    foreach (var parameter in parameters)
+                    {
+                        parametersDoc.Add(new BsonElement(parameter["Key"].ToString(), parameter["Value"].ToString()));
+                    }
+                   
+                    errorDocument.Add(new BsonElement("Parameters", parametersDoc));
+                }
 
-                AddUpdateDocument("errorlog" + date, errorDocument, parameters);
+                AddUpdateDocument("errorlog", errorDocument, parameters);
             }
             catch (Exception ex)
             {

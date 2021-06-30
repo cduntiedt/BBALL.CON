@@ -88,15 +88,15 @@ namespace BBALL.CON
         {
             try
             {
-                //Load team data 
-                Console.WriteLine("Team data load started.");
-                LoadTeamData(season, seasonTypes, dateFrom, dateTo);
-                Console.WriteLine("Team data load complete.");
-
                 //Load player game logs
                 Console.WriteLine("Player game log load started.");
                 LoadPlayerGameLogs(season, seasonTypes);
                 Console.WriteLine("Player game log load complete.");
+
+                //Load team data 
+                Console.WriteLine("Team data load started.");
+                LoadTeamData(season, seasonTypes, dateFrom, dateTo);
+                Console.WriteLine("Team data load complete.");
 
                 //Load player data
                 Console.WriteLine("Player data load started.");
