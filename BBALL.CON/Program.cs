@@ -18,6 +18,34 @@ namespace BBALL.CON
             LoadData();
 
             //LoadData(SeasonService.Seasons);
+
+            //OneTimeLoad();
+        }
+
+        static async void OneTimeLoad()
+        {
+            var season = SeasonService.CurrentSeason.FirstOrDefault();
+            //obtain player data for current season
+            var commonDocument = await PlayerService.PlayerIndex(season, "0");
+            var seasonPlayers = commonDocument["resultSets"][0]["data"].AsBsonArray;
+            var playerIDs = DailyHelper.GetIDs("PLAYER_ID", "P", season);
+
+            foreach (var playerID in playerIDs)
+            {
+                var playerInfo = seasonPlayers.Where(x => x["PERSON_ID"] == playerID).FirstOrDefault();
+                Console.WriteLine(playerID + " | started");
+
+                foreach (var seasonType in SeasonTypeService.PlayerSeasonTypes)
+                {
+                    var totals = "Totals";
+                    foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                    {
+                        await PlayerService.PlayerGameLogs(season, seasonType, totals, measureType, playerID);
+                    }
+                }
+
+                Console.WriteLine(playerID + " | completed");
+            }
         }
 
         static async void LoadData(bool daily = true, List<string> seasons = null)
@@ -261,6 +289,12 @@ namespace BBALL.CON
 
                             await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Base");
                             await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Advanced");
+                        }
+
+                        var totals = "Totals";
+                        foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                        {
+                            await PlayerService.PlayerGameLogs(season, seasonType, totals, measureType, playerID);
                         }
                     }
 
