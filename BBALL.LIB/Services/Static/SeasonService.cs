@@ -57,6 +57,7 @@ namespace BBALL.LIB.Services
             seasons.Add("2018-19");
             seasons.Add("2019-20");
             seasons.Add("2020-21");
+            seasons.Add("2021-22");
             return seasons;
         }
     }

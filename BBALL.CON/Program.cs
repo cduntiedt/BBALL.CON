@@ -8,6 +8,7 @@ using BBALL.LIB.Services;
 using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using System.Threading.Tasks;
+using BBALL.LIB.Services.Static;
 
 namespace BBALL.CON
 {
@@ -15,11 +16,14 @@ namespace BBALL.CON
     {
         static void Main(string[] args)
         {
-            LoadData();
+            //LoadData();
 
-            //LoadData(SeasonService.Seasons);
+            LoadFilters();
+        }
 
-            //OneTimeLoad();
+        static void LoadFilters()
+        {
+            ConferenceService.LoadFilter();
         }
 
         static async void OneTimeLoad()
