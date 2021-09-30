@@ -518,5 +518,27 @@ namespace BBALL.LIB.Helpers
                 throw;
             }
         }
+
+        /// <summary>
+        /// Load static filters.
+        /// </summary>
+        /// <param name="filter">The filter name.</param>
+        /// <param name="list">The list of filter items</param>
+        public static void AddFilterCollection(string filter, BsonArray list)
+        {
+            BsonDocument doc = new BsonDocument {
+                {
+                    "filter", filter
+                },
+                {
+                    "list",
+                    list
+                }
+            };
+
+            JArray param = new JArray(CreateParameterObject("filter", filter));
+
+            AddUpdateDocument("filters", doc, param);
+        }
     }
 }

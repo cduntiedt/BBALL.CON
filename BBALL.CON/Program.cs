@@ -16,9 +16,7 @@ namespace BBALL.CON
     {
         static void Main(string[] args)
         {
-            //LoadData();
-
-            LoadFilters();
+            LoadData();
         }
 
         static void LoadFilters()
