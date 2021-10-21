@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 
 namespace BBALL.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("games")]
     [ApiController]
     public class GamesController : ControllerBase
     {

@@ -35,6 +35,7 @@ namespace BBALL.LIB.Helpers
                 client.DefaultRequestHeaders.Add("Sec-Fetch-Mode", "cors");
                 client.DefaultRequestHeaders.Add("x-nba-stats-origin", "stats");
                 client.DefaultRequestHeaders.Add("x-nba-stats-token", "true");
+
                 var bytes = await client.GetByteArrayAsync(url);
                 var json = new StreamReader(new GZipStream(new MemoryStream(bytes), CompressionMode.Decompress)).ReadToEnd();
 
