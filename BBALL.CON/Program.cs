@@ -19,11 +19,18 @@ namespace BBALL.CON
             LoadData();
         }
 
+        /// <summary>
+        /// Load the filtering objects to the database. Use this to rebuild the filters in the database.
+        /// </summary>
         static void LoadFilters()
         {
             ConferenceService.LoadFilter();
+            ContextMeasureService.LoadFilter();
         }
 
+        /// <summary>
+        /// One time load of player data.
+        /// </summary>
         static async void OneTimeLoad()
         {
             var season = SeasonService.CurrentSeason.FirstOrDefault();
@@ -50,6 +57,11 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// The primary function to load data.
+        /// </summary>
+        /// <param name="daily">Boolean field to load the current date.</param>
+        /// <param name="seasons">A list of seasons to be loaded.</param>
         static async void LoadData(bool daily = true, List<string> seasons = null)
         {
             try
@@ -101,7 +113,7 @@ namespace BBALL.CON
                 loadDocument.Add(new BsonElement("EndTime", endTime));
                 loadDocument.Add(new BsonElement("Elapsed", elapsedTime));
 
-                DatabaseHelper.AddUpdateDocument("dataload", loadDocument);
+                DatabaseHelper.AddDocument("dataload", loadDocument);
             }
             catch (Exception)
             {
@@ -114,6 +126,13 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// Load the data for a given season.
+        /// </summary>
+        /// <param name="season">The season to laod data for.</param>
+        /// <param name="seasonTypes">The different season types.</param>
+        /// <param name="dateFrom">The start date.</param>
+        /// <param name="dateTo">The end date.</param>
         static void LoadSeasonData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
             try
@@ -149,6 +168,13 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// Load team data to the database.
+        /// </summary>
+        /// <param name="season">The season to laod.</param>
+        /// <param name="seasonTypes">The season types.</param>
+        /// <param name="dateFrom">The start date.</param>
+        /// <param name="dateTo">The end date.</param>
         static async void LoadTeamData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
             try
@@ -159,18 +185,19 @@ namespace BBALL.CON
 
                 var teamIDs = DailyHelper.GetIDs("TEAM_ID", "T", season, dateFrom, dateTo);
 
-                Console.WriteLine(teamIDs.Count + " teams to load...");
+                int teamCount = teamIDs.Count;
 
                 //loop through all the teams
                 foreach (var teamID in teamIDs)
                 {
+                    int teamIndex = teamIDs.IndexOf(teamID) + 1;
+                    Console.WriteLine("Loading " + teamIndex + " of " + teamCount + " teams. (" + teamID + ")");
+
                     //get the team details
                     await TeamService.TeamDetails(teamID);
                     await TeamService.TeamYearByYearStats(teamID);
                     await FranchiseService.FranchiseLeaders(teamID);
                     //var playersDocument = CommonService.CommonAllPlayers(season);
-
-                    Console.WriteLine(teamID + " - " + season);
 
                     await CommonService.CommonTeamRoster(teamID, season);
 
@@ -187,25 +214,18 @@ namespace BBALL.CON
                         //loop through different team per modes
                         foreach (var perMode in PerModeService.TeamPerModes)
                         {
-                            Console.WriteLine(teamID + " - " + season + " - " + perMode);
-
-                            await FranchiseService.FranchisePlayers(teamID, perMode, seasonType); ///TODO: could loop through per mode & season type
+                            await FranchiseService.FranchisePlayers(teamID, perMode, seasonType); 
 
                             await TeamService.TeamDashPtPass(teamID, season, perMode, seasonType);
                             await TeamService.TeamDashPtReb(teamID, season, perMode, seasonType);
                             await TeamService.TeamDashPtShots(teamID, season, perMode, seasonType);
 
-                            Console.WriteLine(teamID + " - " + season + " - " + perMode);
-
-                            Console.WriteLine(teamID + " - " + season + " - " + perMode + " - Usage");
                             await TeamService.TeamDashboardByShootingSplits(teamID, season, "Usage", perMode, seasonType);
                             await TeamService.TeamPlayerOnOffSummary(teamID, season, "Usage", perMode, seasonType);
 
                             //loop thorough different team measure types
                             foreach (var measureType in MeasureTypeService.TeamMeasureTypes)
                             {
-                                Console.WriteLine(teamID + " - " + season + " - " + perMode + " - " + measureType);
-
                                 await TeamService.TeamDashLineups(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByClutch(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByGameSplits(teamID, season, measureType, perMode, seasonType);
@@ -238,6 +258,11 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// Load player game logs.
+        /// </summary>
+        /// <param name="season">The season to load.</param>
+        /// <param name="seasonTypes">The season types.</param>
         static async void LoadPlayerGameLogs(string season, List<string> seasonTypes)
         {
             var perMode = "Totals";
@@ -250,6 +275,13 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// Load player data to the database.
+        /// </summary>
+        /// <param name="season">The season to load.</param>
+        /// <param name="seasonTypes">The season types.</param>
+        /// <param name="dateFrom">The start date.</param>
+        /// <param name="dateTo">The end date.</param>
         static async void LoadPlayerData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
             try
@@ -258,13 +290,16 @@ namespace BBALL.CON
                 var commonDocument = await PlayerService.PlayerIndex(season, "0");
                 var seasonPlayers = commonDocument["resultSets"][0]["data"].AsBsonArray;
                 var playerIDs = DailyHelper.GetIDs("PLAYER_ID", "P", season, dateFrom, dateTo);
-                Console.WriteLine(playerIDs.Count + " players to load...");
+
+                int playerCount = playerIDs.Count;
+
                 foreach (var playerID in playerIDs)
                 {
+                    int playerIndex = playerIDs.IndexOf(playerID) + 1;
+                    Console.WriteLine("Loading " + playerIndex + " of " + playerCount + " players. (" + playerID + ")");
+
                     var playerInfo = seasonPlayers.Where(x => x["PERSON_ID"] == playerID).FirstOrDefault();
                     //var playerSlug = playerInfo["PLAYER_SLUG"].ToString();
-                    //Console.WriteLine(playerID + " | " + playerSlug + " | started");
-                    Console.WriteLine(playerID + " | started");
 
                     await CommonService.CommonPlayerInfo(playerID); ///TODO: FIX THIS!!!
                     await ShotChartService.ShotChartDetail(null, null, playerID);
@@ -277,16 +312,12 @@ namespace BBALL.CON
 
                     foreach (var seasonType in seasonTypes)
                     {
-                        Console.WriteLine(playerID + " - " + season + " - " + seasonType);
-
                         await PlayerService.PlayerGameLog(playerID, season, seasonType);
                         await PlayerService.PlayerNextNGames(playerID, season, seasonType);
                         await ShotChartService.ShotChartDetail(season, null, playerID, "0", seasonType);
 
                         foreach (var perMode in PerModeService.PerModes)
                         {
-                            Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode);
-
                             //LoadAdditionalPlayerData(playerID, season, seasonType, perMode);
 
                             await PlayerService.PlayerDashboardByYearOverYear(playerID, season, seasonType, perMode, "Base");
@@ -299,8 +330,6 @@ namespace BBALL.CON
                             await PlayerService.PlayerGameLogs(season, seasonType, totals, measureType, playerID);
                         }
                     }
-
-                    Console.WriteLine(playerID + " | completed");
                 }
             }
             catch (Exception ex)
@@ -327,8 +356,6 @@ namespace BBALL.CON
 
             foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
             {
-                Console.WriteLine(playerID + " - " + season + " - " + seasonType + " - " + perMode + " - " + measureType);
-
                 await PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
                 await PlayerService.PlayerDashboardByGameSplits(playerID, season, seasonType, perMode, measureType);
                 await PlayerService.PlayerDashboardByGeneralSplits(playerID, season, seasonType, perMode, measureType);
@@ -339,12 +366,18 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// Load game data.
+        /// </summary>
+        /// <param name="season">The season to load.</param>
+        /// <param name="seasonTypes">The season types.</param>
+        /// <param name="dateFrom">The start date.</param>
+        /// <param name="dateTo">The end date.</param>
         static async void LoadGameData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
             try
             {
                 var gameIDs = DailyHelper.GetIDs("GAME_ID", "T", season, dateFrom, dateTo);
-                Console.WriteLine(gameIDs.Count + " games to load...");
 
                 foreach (var seasonType in seasonTypes)
                 {
@@ -359,9 +392,11 @@ namespace BBALL.CON
                     //load game data
                     var gameDocuments = GameService.ImportGames(parameters);
 
+                    int gameCount = gameIDs.Count;
                     foreach (var gameID in gameIDs)
                     {
-                        Console.WriteLine(season + " - " + gameID);
+                        int gameIndex = gameIDs.IndexOf(gameID) + 1;
+                        Console.WriteLine("Loading " + gameIndex + " of " + gameCount + " games. (" + gameID + ")");
 
                         await BoxScoreService.BoxScoreAdvancedV2(gameID);
                         await BoxScoreService.BoxScoreDefensive(gameID);
@@ -390,6 +425,11 @@ namespace BBALL.CON
             }
         }
 
+        /// <summary>
+        /// Load entire league data.
+        /// </summary>
+        /// <param name="season">The season to load.</param>
+        /// <param name="seasonTypes">The season types.</param>
         static async void LoadLeagueData(string season, List<string> seasonTypes)
         {
             try
@@ -399,7 +439,6 @@ namespace BBALL.CON
 
                 foreach (var seasonType in seasonTypes)
                 {
-                    Console.WriteLine(season + " - " + seasonType);
                     ///season type
                     //await LeagueService.LeagueStandings(season, seasonType);
                     await LeagueService.LeagueStandingsV3(season, seasonType);
@@ -413,7 +452,6 @@ namespace BBALL.CON
 
                     foreach (var perMode in PerModeService.PerModes)
                     {
-                        Console.WriteLine(season + " - " + seasonType + " - " + perMode);
                         ///per mode, and season type
                         await LeagueService.LeagueDashPlayerBioStats(season, seasonType, perMode);
                         await LeagueService.LeagueDashOppPtShot(season, seasonType, perMode);
@@ -438,7 +476,6 @@ namespace BBALL.CON
 
                         foreach (var measureType in MeasureTypeService.LeagueMeasureTypes)
                         {
-                            Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + measureType);
                             ///season type, per mode, measure type (teams might be different)
                             await LeagueService.LeagueDashLineups(season, seasonType, perMode, measureType);
 
@@ -462,14 +499,12 @@ namespace BBALL.CON
                         {
                             foreach (var ptMeasureType in PTMeasureTypeService.PTMeasureTypes)
                             {
-                                Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + ptMeasureType);
                                 ///season type, per mode, pt measure type
                                 await LeagueService.LeagueDashPTStats(season, seasonType, perMode, ptMeasureType);
                             }
 
                             foreach (var defensiveCategory in DefenseCategoryService.Categories)
                             {
-                                Console.WriteLine(season + " - " + seasonType + " - " + perMode + " - " + defensiveCategory);
                                 ///season type, per mode, defensive category
                                 await LeagueService.LeagueDashPTDefend(season, seasonType, perMode, defensiveCategory);
                                 await LeagueService.LeagueDashPTTeamDefend(season, seasonType, perMode, defensiveCategory);

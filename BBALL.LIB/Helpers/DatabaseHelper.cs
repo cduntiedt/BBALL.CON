@@ -17,6 +17,9 @@ namespace BBALL.LIB.Helpers
 {
     public static class DatabaseHelper
     {
+        private static string _connection { get; set; } = "mongodb://127.0.0.1:27017";
+        private static string _database { get; set; } = "bball";
+
         public static BsonDocument UpdateDatabase(string collection, JArray parameters)
         {
             try
@@ -299,8 +302,8 @@ namespace BBALL.LIB.Helpers
                 FilterDefinition<BsonDocument> filter = CreateFilterDefinition(parameters);
 
                 //connect to the database
-                var dbClient = new MongoClient("mongodb://127.0.0.1:27017");
-                IMongoDatabase db = dbClient.GetDatabase("bball");
+                var dbClient = new MongoClient(_connection);
+                IMongoDatabase db = dbClient.GetDatabase(_database);
 
                 //check if the collection exists
                 if (!CollectionExists(db, collection))
@@ -342,17 +345,51 @@ namespace BBALL.LIB.Helpers
         }
 
         /// <summary>
+        /// add a new document to the collection
+        /// </summary>
+        /// <param name="collection">The collection name.</param>
+        /// <param name="document">The document to insert</param>
+        public static void AddDocument(string collection, BsonDocument document)
+        {
+            try
+            {
+                //connect to the database
+                var dbClient = new MongoClient(_connection);
+                IMongoDatabase db = dbClient.GetDatabase(_database);
+
+                //check if the collection exists
+                if (!CollectionExists(db, collection))
+                {
+                    //create the collection if it does not exist
+                    db.CreateCollection(collection);
+                }
+
+                //get the database collection
+                var dbCollection = db.GetCollection<BsonDocument>(collection);
+
+                //insert a new document
+                dbCollection.InsertOne(document);
+                Console.WriteLine(collection + " inserted.");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
         /// Get document as a JObject
         /// </summary>
         /// <param name="collection">The collection name</param>
+        /// <param name="parameters">The parameters</param>
         /// <returns>The document as an object</returns>
         public static JObject GetJSONDocument(string collection, JArray parameters)
         {
             try
             {
-                var dbClient = new MongoClient("mongodb://127.0.0.1:27017");
+                var dbClient = new MongoClient(_connection);
                 //connect to the database
-                IMongoDatabase db = dbClient.GetDatabase("bball");
+                IMongoDatabase db = dbClient.GetDatabase(_database);
 
                 //get the database collection
                 var dbCollection = db.GetCollection<BsonDocument>(collection);
@@ -391,9 +428,9 @@ namespace BBALL.LIB.Helpers
         {
             try
             {
-                var dbClient = new MongoClient("mongodb://127.0.0.1:27017");
+                var dbClient = new MongoClient(_connection);
                 //connect to the database
-                IMongoDatabase db = dbClient.GetDatabase("bball");
+                IMongoDatabase db = dbClient.GetDatabase(_database);
 
                 //get the database collection
                 var dbCollection = db.GetCollection<BsonDocument>(collection);
@@ -421,9 +458,9 @@ namespace BBALL.LIB.Helpers
         {
             try
             {
-                var dbClient = new MongoClient("mongodb://127.0.0.1:27017");
+                var dbClient = new MongoClient(_connection);
                 //connect to the database
-                IMongoDatabase db = dbClient.GetDatabase("bball");
+                IMongoDatabase db = dbClient.GetDatabase(_database);
 
                 //get the database collection
                 var dbCollection = db.GetCollection<BsonDocument>(collection);
