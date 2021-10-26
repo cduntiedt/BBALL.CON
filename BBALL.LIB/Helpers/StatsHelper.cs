@@ -23,15 +23,18 @@ namespace BBALL.LIB.Helpers
 
                 client.Timeout = TimeSpan.FromSeconds(timeout);
                 client.BaseAddress = new Uri(url);
-                client.DefaultRequestHeaders.Add("Accept", "*/*");
+                //client.DefaultRequestHeaders.Add("Accept", "*/*");
+                client.DefaultRequestHeaders.Add("Accept", "application/json, text/plain, */*");
                 client.DefaultRequestHeaders.Add("Accept-Encoding", "gzip, deflate, br");
                 client.DefaultRequestHeaders.Add("Cache-Control", "no-cache");
                 client.DefaultRequestHeaders.Add("Connection", "keep-alive");
                 client.DefaultRequestHeaders.Add("Host", "stats.nba.com");
                 client.DefaultRequestHeaders.Add("Origin", "https://stats.nba.com");
-                client.DefaultRequestHeaders.Add("Pragma", "no-cache");
+                //client.DefaultRequestHeaders.Add("Pragma", "no-cache");
                 client.DefaultRequestHeaders.Add("Referer", "https://stats.nba.com");
-                client.DefaultRequestHeaders.Add("Sec-Fetch-Site", "same-origin");
+                client.DefaultRequestHeaders.Add("Sec-Fetch-Dest", "empty");
+                //client.DefaultRequestHeaders.Add("Sec-Fetch-Site", "same-origin");
+                client.DefaultRequestHeaders.Add("Sec-Fetch-Site", "same-site");
                 client.DefaultRequestHeaders.Add("Sec-Fetch-Mode", "cors");
                 client.DefaultRequestHeaders.Add("x-nba-stats-origin", "stats");
                 client.DefaultRequestHeaders.Add("x-nba-stats-token", "true");

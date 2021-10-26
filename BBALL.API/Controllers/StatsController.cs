@@ -21,7 +21,7 @@ namespace BBALL.API.Controllers
         {
             try
             {
-                string doc = DatabaseHelper.GenerateDocument(StatsHelper.BaseURL + endpoint.url, endpoint.parameters);
+                string doc = DatabaseHelper.GenerateDocument(StatsHelper.BaseURL + endpoint.url + "/", endpoint.parameters);
                 return Ok(doc);
             }
             catch (Exception ex)
