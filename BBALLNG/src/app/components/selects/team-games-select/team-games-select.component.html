@@ -1,8 +1,0 @@
-<mat-form-field appearance="fill">
-    <mat-label>Game</mat-label>
-    <mat-select (selectionChange)="selectGame($event)">
-      <mat-option *ngFor="let game of filteredGames" [value]="game">
-        {{ formatDate(game.GAME_DATE) }} - {{game.MATCHUP}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
