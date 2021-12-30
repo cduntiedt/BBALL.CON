@@ -7,31 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBALL.CON", "BBALL.CON\BBAL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBALL.LIB", "BBALL.LIB\BBALL.LIB.csproj", "{16D0B2CB-798D-41A6-9C9C-995200192783}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBALL.API", "BBALL.API\BBALL.API.csproj", "{A29EDF40-9B28-49E8-91BF-4D3922D64721}"
-EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "BBALLNG", "BBALLNG\", "{8764EFC1-0579-4E28-BD7A-01A6C8AABF47}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_50643"
-		Debug.AspNetCompiler.PhysicalPath = "BBALLNG\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50643\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_50643"
-		Release.AspNetCompiler.PhysicalPath = "BBALLNG\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_50643\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "50643"
-		SlnRelativePath = "BBALLNG\"
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BBALL.AWS", "BBALL.AWS\BBALL.AWS.csproj", "{14A2DDA4-0774-48BD-8B84-1B8F2ED5B22F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,18 +21,6 @@ Global
 		{16D0B2CB-798D-41A6-9C9C-995200192783}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16D0B2CB-798D-41A6-9C9C-995200192783}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16D0B2CB-798D-41A6-9C9C-995200192783}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A29EDF40-9B28-49E8-91BF-4D3922D64721}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A29EDF40-9B28-49E8-91BF-4D3922D64721}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A29EDF40-9B28-49E8-91BF-4D3922D64721}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A29EDF40-9B28-49E8-91BF-4D3922D64721}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8764EFC1-0579-4E28-BD7A-01A6C8AABF47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8764EFC1-0579-4E28-BD7A-01A6C8AABF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8764EFC1-0579-4E28-BD7A-01A6C8AABF47}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{8764EFC1-0579-4E28-BD7A-01A6C8AABF47}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{14A2DDA4-0774-48BD-8B84-1B8F2ED5B22F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{14A2DDA4-0774-48BD-8B84-1B8F2ED5B22F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{14A2DDA4-0774-48BD-8B84-1B8F2ED5B22F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{14A2DDA4-0774-48BD-8B84-1B8F2ED5B22F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
