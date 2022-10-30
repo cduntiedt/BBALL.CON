@@ -11,7 +11,7 @@ namespace BBALL.LIB.Services
 {
     public static class ScoreboardService
     {
-        public static async Task<BsonDocument> Scoreboard(
+        public static async Task<List<BsonDocument>> Scoreboard(
             string LeagueID = null,
             string DayOffset = null,
             string GameDate = null
@@ -25,12 +25,12 @@ namespace BBALL.LIB.Services
             return await Scoreboard(parameters);
         }
 
-        public static async Task<BsonDocument> Scoreboard(JArray parameters)
+        public static async Task<List<BsonDocument>> Scoreboard(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/scoreboard/", "scoreboard", parameters);
         }
 
-        public static async Task<BsonDocument> ScoreboardV2(
+        public static async Task<List<BsonDocument>> ScoreboardV2(
             string LeagueID = null,
             string DayOffset = null,
             string GameDate = null
@@ -44,7 +44,7 @@ namespace BBALL.LIB.Services
             return await ScoreboardV2(parameters);
         }
 
-        public static async Task<BsonDocument> ScoreboardV2(JArray parameters)
+        public static async Task<List<BsonDocument>> ScoreboardV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/scoreboardv2/", "scoreboardv2", parameters);
         }

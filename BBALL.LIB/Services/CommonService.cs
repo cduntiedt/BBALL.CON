@@ -11,7 +11,7 @@ namespace BBALL.LIB.Services
 {
     public static class CommonService
     {
-        public static async Task<BsonDocument> CommonAllPlayers(string Season = null, string IsOnlyCurrentSeason = "1", string LeagueID = null)
+        public static async Task<List<BsonDocument>> CommonAllPlayers(string Season = null, string IsOnlyCurrentSeason = "1", string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -20,24 +20,24 @@ namespace BBALL.LIB.Services
             return await CommonAllPlayers(parameters);
         }
 
-        public static async Task<BsonDocument> CommonAllPlayers(JArray parameters)
+        public static async Task<List<BsonDocument>> CommonAllPlayers(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonallplayers/", "commonallplayers", parameters);
         }
 
-        public static async Task<BsonDocument> CommonPlayerInfo(string PlayerID)
+        public static async Task<List<BsonDocument>> CommonPlayerInfo(string PlayerID)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             return await CommonPlayerInfo(parameters);
         }
 
-        public static async Task<BsonDocument> CommonPlayerInfo(JArray parameters)
+        public static async Task<List<BsonDocument>> CommonPlayerInfo(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonplayerinfo/", "commonplayerinfo", parameters);
         }
 
-        public static async Task<BsonDocument> CommonTeamRoster(string TeamID, string Season = null, string LeagueID = null)
+        public static async Task<List<BsonDocument>> CommonTeamRoster(string TeamID, string Season = null, string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -47,19 +47,19 @@ namespace BBALL.LIB.Services
             return await CommonTeamRoster(parameters);
         }
 
-        public static async Task<BsonDocument> CommonTeamRoster(JArray parameters)
+        public static async Task<List<BsonDocument>> CommonTeamRoster(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonteamroster/", "commonteamroster", parameters);
         }
 
-        public static async Task<BsonDocument> CommonTeamYears(string LeagueID = null)
+        public static async Task<List<BsonDocument>> CommonTeamYears(string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             return await CommonTeamYears(parameters);
         }
 
-        public static async Task<BsonDocument> CommonTeamYears(JArray parameters)
+        public static async Task<List<BsonDocument>> CommonTeamYears(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonteamyears/", "commonteamyears", parameters);
         }

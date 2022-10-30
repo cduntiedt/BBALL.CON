@@ -11,7 +11,7 @@ namespace BBALL.LIB.Services
 {
     public static class VideoService
     {
-        public static async Task<BsonDocument> VideoDetails(
+        public static async Task<List<BsonDocument>> VideoDetails(
           string PlayerID,
           string LeagueID,
           string Season,
@@ -79,12 +79,12 @@ namespace BBALL.LIB.Services
             return await VideoDetails(parameters);
         }
 
-        public static async Task<BsonDocument> VideoDetails(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoDetails(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videodetails/", "videodetails", parameters);
         }
 
-        public static async Task<BsonDocument> VideoEvents(
+        public static async Task<List<BsonDocument>> VideoEvents(
             string GameEventID,
             string GameID
             )
@@ -95,12 +95,12 @@ namespace BBALL.LIB.Services
             return await VideoEvents(parameters);
         }
 
-        public static async Task<BsonDocument> VideoEvents(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoEvents(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videoevents/", "videoevents", parameters);
         }
 
-        public static async Task<BsonDocument> VideoStatus(
+        public static async Task<List<BsonDocument>> VideoStatus(
             string GameDate,
             string LeagueID = null
             )
@@ -111,12 +111,12 @@ namespace BBALL.LIB.Services
             return await VideoStatus(parameters);
         }
 
-        public static async Task<BsonDocument> VideoStatus(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoStatus(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videostatus/", "videostatus", parameters);
         }
 
-        public static async Task<BsonDocument> VideoDetailAsset(
+        public static async Task<List<BsonDocument>> VideoDetailAsset(
             string GameID = null,
             string Season = null,
             string SeasonType = "Regular Season",
@@ -184,7 +184,7 @@ namespace BBALL.LIB.Services
             return await VideoDetailAsset(parameters);
         }
 
-        public static async Task<BsonDocument> VideoDetailAsset(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoDetailAsset(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videodetailsasset/", "videodetailsasset", parameters, false, 30);
         }

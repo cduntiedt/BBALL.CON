@@ -12,19 +12,19 @@ namespace BBALL.LIB.Services
 {
     public static class FranchiseService
     {
-        public static async Task<BsonDocument> FranchiseHistory(string LeagueID = null)
+        public static async Task<List<BsonDocument>> FranchiseHistory(string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             return await FranchiseHistory(parameters);
         }
 
-        public static async Task<BsonDocument> FranchiseHistory(JArray parameters)
+        public static async Task<List<BsonDocument>> FranchiseHistory(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/franchisehistory/", "franchisehistory", parameters);
         }
 
-        public static async Task<BsonDocument> FranchiseLeaders(string TeamID, string LeagueID = null)
+        public static async Task<List<BsonDocument>> FranchiseLeaders(string TeamID, string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("TeamID", TeamID));
@@ -32,11 +32,11 @@ namespace BBALL.LIB.Services
             return await FranchiseLeaders(parameters);
         }
 
-        public static async Task<BsonDocument> FranchiseLeaders(JArray parameters) {
+        public static async Task<List<BsonDocument>> FranchiseLeaders(JArray parameters) {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/franchiseleaders/", "franchiseleaders", parameters);
         }
 
-        public static async Task<BsonDocument> FranchisePlayers(
+        public static async Task<List<BsonDocument>> FranchisePlayers(
             string TeamID,
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
@@ -51,7 +51,7 @@ namespace BBALL.LIB.Services
             return await FranchisePlayers(parameters);
         }
 
-        public static async Task<BsonDocument> FranchisePlayers(JArray parameters)
+        public static async Task<List<BsonDocument>> FranchisePlayers(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/franchiseplayers/", "franchiseplayers", parameters);
         }

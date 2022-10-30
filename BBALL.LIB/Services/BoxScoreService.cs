@@ -30,7 +30,7 @@ namespace BBALL.LIB.Services
             await HustleStatsBoxScore(GameID);
         }
 
-        public static async Task<BsonDocument> BoxScoreAdvancedV2(
+        public static async Task<List<BsonDocument>> BoxScoreAdvancedV2(
             string GameID,
             string EndPeriod = "10", 
             string EndRange = "28800", 
@@ -50,12 +50,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreAdvancedV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreAdvancedV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreAdvancedV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoreadvancedv2/", "boxscoreadvancedv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreDefensive(
+        public static async Task<List<BsonDocument>> BoxScoreDefensive(
             string GameID
         )
         {
@@ -64,12 +64,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreDefensive(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreDefensive(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreDefensive(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoredefensive/", "boxscoredefensive", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreFourFactorsV2(
+        public static async Task<List<BsonDocument>> BoxScoreFourFactorsV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -88,12 +88,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreFourFactorsV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreFourFactorsV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreFourFactorsV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorefourfactorsv2/", "boxscorefourfactorsv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreMatchups(
+        public static async Task<List<BsonDocument>> BoxScoreMatchups(
            string GameID
         )
         {
@@ -102,12 +102,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreMatchups(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreMatchups(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreMatchups(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorematchups/", "boxscorematchups", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreMiscV2(
+        public static async Task<List<BsonDocument>> BoxScoreMiscV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -126,12 +126,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreMiscV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreMiscV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreMiscV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoremiscv2/", "boxscoremiscv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScorePlayerTrackV2(
+        public static async Task<List<BsonDocument>> BoxScorePlayerTrackV2(
            string GameID
         )
         {
@@ -140,12 +140,12 @@ namespace BBALL.LIB.Services
             return await BoxScorePlayerTrackV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScorePlayerTrackV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScorePlayerTrackV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoreplayertrackv2/", "boxscoreplayertrackv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreScoringV2(
+        public static async Task<List<BsonDocument>> BoxScoreScoringV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -164,12 +164,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreScoringV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreScoringV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreScoringV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorescoringv2/", "boxscorescoringv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreSummaryV2(
+        public static async Task<List<BsonDocument>> BoxScoreSummaryV2(
            string GameID
         )
         {
@@ -178,12 +178,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreSummaryV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreSummaryV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreSummaryV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoresummaryv2/", "boxscoresummaryv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreTraditionalV2(
+        public static async Task<List<BsonDocument>> BoxScoreTraditionalV2(
             string GameID,
             string EndPeriod = "10",
             string EndRange = "28800",
@@ -202,12 +202,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreTraditionalV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreTraditionalV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreTraditionalV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoretraditionalv2/", "boxscoretraditionalv2", parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreUsageV2(
+        public static async Task<List<BsonDocument>> BoxScoreUsageV2(
            string GameID,
            string EndPeriod = "10",
            string EndRange = "28800",
@@ -226,12 +226,12 @@ namespace BBALL.LIB.Services
             return await BoxScoreUsageV2(parameters);
         }
 
-        public static async Task<BsonDocument> BoxScoreUsageV2(JArray parameters)
+        public static async Task<List<BsonDocument>> BoxScoreUsageV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoreusagev2/", "boxscoreusagev2", parameters);
         }
 
-        public static async Task<BsonDocument> HustleStatsBoxScore(
+        public static async Task<List<BsonDocument>> HustleStatsBoxScore(
            string GameID
        )
         {
@@ -240,7 +240,7 @@ namespace BBALL.LIB.Services
             return await HustleStatsBoxScore(parameters);
         }
 
-        public static async Task<BsonDocument> HustleStatsBoxScore(JArray parameters)
+        public static async Task<List<BsonDocument>> HustleStatsBoxScore(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/hustlestatsboxscore/", "hustlestatsboxscore", parameters);
         }

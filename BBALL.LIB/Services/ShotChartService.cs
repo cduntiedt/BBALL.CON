@@ -11,7 +11,7 @@ namespace BBALL.LIB.Services
 {
     public static class ShotChartService
     {
-        public static async Task<BsonDocument> ShotChartDetail(
+        public static async Task<List<BsonDocument>> ShotChartDetail(
             string Season = null,
             string GameID = null,
             string PlayerID = "0",
@@ -81,7 +81,7 @@ namespace BBALL.LIB.Services
             return await ShotChartDetail(parameters);
         }
 
-        public static async Task<BsonDocument> ShotChartDetail(JArray parameters)
+        public static async Task<List<BsonDocument>> ShotChartDetail(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/shotchartdetail/", "shotchartdetail", parameters);
         }

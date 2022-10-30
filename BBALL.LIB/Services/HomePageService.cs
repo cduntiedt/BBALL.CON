@@ -12,7 +12,7 @@ namespace BBALL.LIB.Services
 {
     public static class HomePageService
     {
-        public static async Task<BsonDocument> HomePageLeaders(
+        public static async Task<List<BsonDocument>> HomePageLeaders(
             string Season = null,
             string SeasonType = "Regular Season",
             string GameScope = "Season", 
@@ -33,12 +33,12 @@ namespace BBALL.LIB.Services
             return await HomePageLeaders(parameters);
         }
 
-        public static async Task<BsonDocument> HomePageLeaders(JArray parameters)
+        public static async Task<List<BsonDocument>> HomePageLeaders(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/homepageleaders/", "homepageleaders", parameters);
         }
 
-        public static async Task<BsonDocument> HomePageV2(
+        public static async Task<List<BsonDocument>> HomePageV2(
            string Season = null,
            string SeasonType = "Regular Season",
            string StatType = "Traditional",
@@ -59,7 +59,7 @@ namespace BBALL.LIB.Services
             return await HomePageV2(parameters);
         }
 
-        public static async Task<BsonDocument> HomePageV2(JArray parameters)
+        public static async Task<List<BsonDocument>> HomePageV2(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/homepagev2/", "homepagev2", parameters);
         }

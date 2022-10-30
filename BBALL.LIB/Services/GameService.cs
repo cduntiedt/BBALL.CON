@@ -83,7 +83,7 @@ namespace BBALL.LIB.Services
             }
         }
 
-        public static async Task<BsonDocument> GameRotation(string GameID, string LeagueID = null)
+        public static async Task<List<BsonDocument>> GameRotation(string GameID, string LeagueID = null)
         {
             JArray parameters = new JArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
@@ -91,7 +91,7 @@ namespace BBALL.LIB.Services
             return await GameRotation(parameters);
         }
 
-        public static async Task<BsonDocument> GameRotation(JArray parameters)
+        public static async Task<List<BsonDocument>> GameRotation(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/gamerotation/", "gamerotation", parameters);
         }

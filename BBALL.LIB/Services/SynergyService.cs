@@ -12,7 +12,7 @@ namespace BBALL.LIB.Services
     public static class SynergyService
     {
         //Players > Playtype
-        public static async Task<BsonDocument> SynergyPlayType(
+        public static async Task<List<BsonDocument>> SynergyPlayType(
             string PerMode,
             string SeasonType = "Regular Season",
             string PlayType = "Transition",
@@ -34,7 +34,7 @@ namespace BBALL.LIB.Services
             return await SynergyPlayType(parameters);
         }
 
-        public static async Task<BsonDocument> SynergyPlayType(JArray parameters)
+        public static async Task<List<BsonDocument>> SynergyPlayType(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytype/", "synergyplaytype", parameters);
         }

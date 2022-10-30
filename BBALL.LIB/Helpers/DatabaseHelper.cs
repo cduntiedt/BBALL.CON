@@ -18,9 +18,9 @@ namespace BBALL.LIB.Helpers
     public static class DatabaseHelper
     {
         private static string _connection { get; set; } = "mongodb://127.0.0.1:27017";
-        private static string _database { get; set; } = "bball";
+        private static string _database { get; set; } = "basketball";
 
-        public static BsonDocument UpdateDatabase(string collection, JArray parameters)
+        public static List<BsonDocument> UpdateDatabase(string collection, JArray parameters)
         {
             try
             {
@@ -36,10 +36,12 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        public static string GenerateDocument(string url, JArray parameters, bool parse = true, int timeout = 15, string resultSets = "resultSets")
+        public static List<BsonDocument> GenerateDocuments(string url, JArray parameters, bool parse = true, int timeout = 15, string resultSets = "resultSets")
         {
             try
             {
+                List<BsonDocument> documents = new List<BsonDocument>();
+
                 if (parameters == null)
                 {
                     var queryString = HttpUtility.ParseQueryString(url);
@@ -57,17 +59,13 @@ namespace BBALL.LIB.Helpers
                 //get the data from stats.nba.com
                 JObject response = JObject.Parse(StatsHelper.API(url, timeout).Result);
 
-                JObject statDocument = new JObject();
+                JObject parameterObj = new JObject();
                 foreach (JObject parameter in parameters)
                 {
                     var val = parameter["Value"].ToString();
-                    statDocument.Add(parameter["Key"].ToString(), val == "" ? null : val);
+                    parameterObj.Add(parameter["Key"].ToString(), val == "" ? null : val);
                 }
-
-                statDocument.Add("DateUpdated", DailyHelper.GetDate(0));
-
-                //JObject statDocument = response["parameters"].ToObject<JObject>();
-
+                
                 if (parse)
                 {
                     //if there are multiple result sets
@@ -76,16 +74,16 @@ namespace BBALL.LIB.Helpers
                         JArray statResultSets = response[resultSets].ToObject<JArray>();
 
                         //create data object
-                        JArray results = new JArray();
                         for (int resultIndex = 0; resultIndex < statResultSets.Count; resultIndex++)
                         {
                             JObject resultSet = statResultSets[resultIndex].ToObject<JObject>();
                             JObject resultObject = CreateResultObject(resultSet);
 
-                            results.Add(resultObject);
+                            resultObject.Add("PARAMETERS", parameterObj);
+                            resultObject.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+
+                            documents.Add(resultObject.ToBsonDocument());
                         }
-                        //add the results to the new document
-                        statDocument.Add("resultSets", results);
                     }
                     else
                     {
@@ -93,18 +91,23 @@ namespace BBALL.LIB.Helpers
                         JObject statResultsSet = response[resultSets].ToObject<JObject>();
                         JObject resultObject = CreateResultObject(statResultsSet);
 
-                        //add the results to the new document
-                        statDocument.Add("resultSets", resultObject);
+                        resultObject.Add("PARAMETERS", parameterObj);
+                        resultObject.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+
+                        documents.Add(resultObject.ToBsonDocument());
                     }
                 }
                 else
                 {
                     JObject statResultSets = response[resultSets].ToObject<JObject>();
 
-                    statDocument.Add("resultSets", statResultSets);
+                    statResultSets.Add("PARAMETERS", parameterObj);
+                    statResultSets.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+
+                    documents.Add(statResultSets.ToBsonDocument());
                 }
 
-                return statDocument.ToString();
+                return documents;
             }
             catch (Exception)
             {
@@ -117,16 +120,16 @@ namespace BBALL.LIB.Helpers
         /// </summary>
         /// <param name="url">The stats API url</param>
         /// <param name="collection">The name of the collection</param>
-        public static BsonDocument UpdateDatabase(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
+        public static List<BsonDocument> UpdateDatabase(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
         {
             try
             {
                 //convert the stat document to bson
-                var document = BsonSerializer.Deserialize<BsonDocument>(GenerateDocument(url, parameters, parse, timeout, resultSets));
+                var documents = GenerateDocuments(url, parameters, parse, timeout, resultSets);
 
-                AddUpdateDocument(collection, document, parameters);
+                AddUpdateDocuments(collection, documents, parameters);
 
-                return document;
+                return documents;
             }
             catch (Exception ex)
             {
@@ -136,18 +139,17 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        public static async Task<BsonDocument> UpdateDatabaseAsync(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
+        public static async Task<List<BsonDocument>> UpdateDatabaseAsync(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
         {
             try
             {
-                //convert the stat document to bson
-                var document = BsonSerializer.Deserialize<BsonDocument>(GenerateDocument(url, parameters, parse, timeout, resultSets));
+                var documents = GenerateDocuments(url, parameters, parse, timeout, resultSets);
 
-                AddUpdateDocument(collection, document, parameters);
+                AddUpdateDocuments(collection, documents, parameters);
 
                 await Task.CompletedTask;
 
-                return  document;
+                return documents;
             }
             catch (Exception ex)
             {
@@ -234,6 +236,8 @@ namespace BBALL.LIB.Helpers
             for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
             {
                 JObject dataObject = new JObject();
+                dataObject.Add("name", name);
+
                 var row = rowSet[rowIndex];
 
                 for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
@@ -245,9 +249,6 @@ namespace BBALL.LIB.Helpers
 
                 dataArray.Add(dataObject);
             }
-
-            resultObject.Add("name", name);
-            resultObject.Add("data", dataArray);
 
             return resultObject;
         }
@@ -291,6 +292,49 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+            }
+        }
+
+        public static void AddUpdateDocuments(string collection, List<BsonDocument> documents, JArray parameters = null)
+        {
+            try
+            {
+                //create a filter to be used later
+                FilterDefinition<BsonDocument> filter = CreateFilterDefinition(parameters);
+
+                //connect to the database
+                var dbClient = new MongoClient(_connection);
+                IMongoDatabase db = dbClient.GetDatabase(_database);
+
+                //check if the collection exists
+                if (!CollectionExists(db, collection))
+                {
+                    //create the collection if it does not exist
+                    db.CreateCollection(collection);
+                }
+
+                //get the database collection
+                var dbCollection = db.GetCollection<BsonDocument>(collection);
+
+                if (documents == null)
+                {
+                    Console.WriteLine("No documents to upload.");
+                }
+                else
+                {
+                    //if there are any existing documents, delete em
+                    if(dbCollection.Find(x => x["PARAMETERS"] == documents.FirstOrDefault()["PARAMETERS"]).Any())
+                    {
+                        dbCollection.DeleteMany(x => x["PARAMETERS"] == documents.FirstOrDefault()["PARAMETERS"]);
+                    }
+
+                    dbCollection.InsertMany(documents);
+                    Console.WriteLine(collection + " inserted.");
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

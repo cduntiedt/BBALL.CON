@@ -44,8 +44,8 @@ namespace BBALL.LIB.Helpers
                 parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
                 parameters.Add(CreateParameterObject("Sorter", "DATE"));
 
-                BsonDocument seasonDoc = BsonSerializer.Deserialize<BsonDocument>(DatabaseHelper.GenerateDocument("https://stats.nba.com/stats/leaguegamelog/", parameters, true));
-                seasonDocuments.Add(seasonDoc);
+                var seasonDocs = DatabaseHelper.GenerateDocuments("https://stats.nba.com/stats/leaguegamelog/", parameters, true);
+                seasonDocuments.AddRange(seasonDocs);
             }
 
             return seasonDocuments;

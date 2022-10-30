@@ -12,7 +12,7 @@ namespace BBALL.LIB.Services
     public static class LeadersService
     {
         //Players > All Time Summary
-        public static async Task<BsonDocument> AllTimeLeadersGrid(
+        public static async Task<List<BsonDocument>> AllTimeLeadersGrid(
             string PerMode = "Totals",
             string SeasonType = "Regular Season",
             string TopX = "10",
@@ -28,14 +28,14 @@ namespace BBALL.LIB.Services
             return await AllTimeLeadersGrid(parameters);
         }
 
-        public static async Task<BsonDocument> AllTimeLeadersGrid(JArray parameters)
+        public static async Task<List<BsonDocument>> AllTimeLeadersGrid(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/alltimeleadersgrids/", "alltimeleadersgrids", parameters);
         }
 
 
         //Players > Official Leaders
-        public static async Task<BsonDocument> LeagueLeaders(
+        public static async Task<List<BsonDocument>> LeagueLeaders(
             string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
@@ -56,7 +56,7 @@ namespace BBALL.LIB.Services
             return await LeagueLeaders(parameters);
         }
 
-        public static async Task<BsonDocument> LeagueLeaders(JArray parameters)
+        public static async Task<List<BsonDocument>> LeagueLeaders(JArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leagueleaders/", "leagueleaders", parameters, true, 15, "resultSet");
         }
