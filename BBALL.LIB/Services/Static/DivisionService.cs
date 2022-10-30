@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,6 +22,22 @@ namespace BBALL.LIB.Services.Static
             divisions.Add("West");
 
             return divisions;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Atlantic" }, { "value", "Atlantic" } },
+                new BsonDocument { { "label", "Central" }, { "value", "Central" } },
+                new BsonDocument { { "label", "Northwest" }, { "value", "Northwest" } },
+                new BsonDocument { { "label", "Pacific" }, { "value", "Pacific" } },
+                new BsonDocument { { "label", "Southeast" }, { "value", "Southeast" } },
+                new BsonDocument { { "label", "Southwest" }, { "value", "Southwest" } },
+                new BsonDocument { { "label", "East" }, { "value", "East" } },
+                new BsonDocument { { "label", "West" }, { "value", "West" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("divisions", array);
         }
     }
 }

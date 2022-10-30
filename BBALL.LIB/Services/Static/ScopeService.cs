@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +16,17 @@ namespace BBALL.LIB.Services
             scopes.Add("S");
             scopes.Add("Rookies");
             return scopes;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "RS" }, { "value", "RS" } },
+                new BsonDocument { { "label", "S" }, { "value", "S" } },
+                new BsonDocument { { "label", "Rookies" }, { "value", "Rookies" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("scopes", array);
         }
     }
 }

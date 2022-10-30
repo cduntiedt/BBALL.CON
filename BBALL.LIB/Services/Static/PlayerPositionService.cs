@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,6 +21,21 @@ namespace BBALL.LIB.Services.Static
             positions.Add("G-F");
 
             return positions;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "F" }, { "value", "F" } },
+                new BsonDocument { { "label", "C" }, { "value", "C" } },
+                new BsonDocument { { "label", "G" }, { "value", "G" } },
+                new BsonDocument { { "label", "C-F" }, { "value", "C-F" } },
+                new BsonDocument { { "label", "F-C" }, { "value", "F-C" } },
+                new BsonDocument { { "label", "F-G" }, { "value", "F-G" } },
+                new BsonDocument { { "label", "G-F" }, { "value", "G-F" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("playerPositions", array);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,6 +25,26 @@ namespace BBALL.LIB.Services
             types.Add("PaintTouch");
             types.Add("Efficiency");
             return types;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Speed Distance" }, { "value", "SpeedDistance" } },
+                new BsonDocument { { "label", "Rebounding" }, { "value", "Rebounding" } },
+                new BsonDocument { { "label", "Possessions" }, { "value", "Possessions" } },
+                new BsonDocument { { "label", "Catch Shoot" }, { "value", "CatchShoot" } },
+                new BsonDocument { { "label", "Pull Up Shot" }, { "value", "PullUpShot" } },
+                new BsonDocument { { "label", "Defense" }, { "value", "Defense" } },
+                new BsonDocument { { "label", "Drives" }, { "value", "Drives" } },
+                new BsonDocument { { "label", "Passing" }, { "value", "Passing" } },
+                new BsonDocument { { "label", "Elbow Touch" }, { "value", "ElbowTouch" } },
+                new BsonDocument { { "label", "Post Touch" }, { "value", "PostTouch" } },
+                new BsonDocument { { "label", "Paint Touch" }, { "value", "PaintTouch" } },
+                new BsonDocument { { "label", "Efficiency" }, { "value", "Efficiency" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("ptMeasureTypes", array);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +16,16 @@ namespace BBALL.LIB.Services.Static
             starterBench.Add("Bench");
 
             return starterBench;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Starters" }, { "value", "Starters" } },
+                new BsonDocument { { "label", "Bench" }, { "value", "Bench" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("starterBench", array);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +16,16 @@ namespace BBALL.LIB.Services.Static
             conferences.Add("DSC");
 
             return conferences;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "ASC" }, { "value", "ASC" } },
+                new BsonDocument { { "label", "DSC" }, { "value", "DSC" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("direction", array);
         }
     }
 }

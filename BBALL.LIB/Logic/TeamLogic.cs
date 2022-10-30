@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BBALL.CON.Logic
+namespace BBALL.LIB.Logic
 {
     public static class TeamLogic
     {
@@ -19,9 +19,8 @@ namespace BBALL.CON.Logic
         {
             try
             {
-                var teamsDocument = await TeamService.CommonTeamYears();
+                var teams = await TeamService.CommonTeamYears();
                 var franchisesDocument = await TeamService.FranchiseHistory();
-                var teams = teamsDocument["resultSets"][0]["data"].AsBsonArray;
 
                 var teamIDs = DailyHelper.GetIDs("TEAM_ID", "T", season, dateFrom, dateTo);
 

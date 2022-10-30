@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,6 +22,18 @@ namespace BBALL.LIB.Services.Static
             gameScopes.Add("Yesterday");
             gameScopes.Add("Finals");
             return gameScopes;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Season" }, { "value", "Season" } },
+                new BsonDocument { { "label", "Last 10" }, { "value", "Last 10" } },
+                new BsonDocument { { "label", "Yesterday" }, { "value", "Yesterday" } },
+                new BsonDocument { { "label", "Finals" }, { "value", "Finals" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("gameScopes", array);
         }
     }
 }

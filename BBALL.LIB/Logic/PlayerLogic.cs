@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BBALL.CON.Logic
+namespace BBALL.LIB.Logic
 {
     public static class PlayerLogic
     {
@@ -38,8 +38,7 @@ namespace BBALL.CON.Logic
             try
             {
                 //obtain player data for current season
-                var commonDocument = await PlayerService.PlayerIndex(season, "0");
-                var seasonPlayers = commonDocument["resultSets"][0]["data"].AsBsonArray;
+                var seasonPlayers = await PlayerService.PlayerIndex(season, "0");
                 var playerIDs = DailyHelper.GetIDs("PLAYER_ID", "P", season, dateFrom, dateTo);
 
                 int playerCount = playerIDs.Count;

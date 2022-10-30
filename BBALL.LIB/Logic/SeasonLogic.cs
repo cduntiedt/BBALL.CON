@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BBALL.CON.Logic
+namespace BBALL.LIB.Logic
 {
     public static class SeasonLogic
     {

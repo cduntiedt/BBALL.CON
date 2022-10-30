@@ -8,6 +8,7 @@ using BBALL.LIB.Services;
 using BBALL.LIB.Helpers;
 using System.Threading.Tasks;
 using BBALL.LIB.Services.Static;
+using BBALL.LIB.Logic;
 
 namespace BBALL.CON
 {
@@ -15,16 +16,12 @@ namespace BBALL.CON
     {
         static void Main(string[] args)
         {
-
-        }
-
-        /// <summary>
-        /// Load the filtering objects to the database. Use this to rebuild the filters in the database.
-        /// </summary>
-        static void LoadFilters()
-        {
-            ConferenceService.LoadFilter();
-            ContextMeasureService.LoadFilter();
+            string season = SeasonHelper.DefaultSeason();
+            List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season);
+            for (int i = 0; i < seasonTypes.Count; i++)
+            {
+                Console.WriteLine(seasonTypes[i]);
+            }
         }
     }
 }

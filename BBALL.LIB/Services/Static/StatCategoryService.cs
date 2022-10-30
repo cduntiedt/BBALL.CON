@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -23,6 +25,24 @@ namespace BBALL.LIB.Services
             return statCategory;
         }
 
+        public static void LoadFilterDefault ()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Points" }, { "value", "PTS" } },
+                new BsonDocument { { "label", "Minutes" }, { "value", "MIN" } },
+                new BsonDocument { { "label", "Offensive Rebounds" }, { "value", "OREB" } },
+                new BsonDocument { { "label", "Defensive Rebounds" }, { "value", "DREB" } },
+                new BsonDocument { { "label", "Rebounds" }, { "value", "REB" } },
+                new BsonDocument { { "label", "Assists" }, { "value", "AST" } },
+                new BsonDocument { { "label", "Steals" }, { "value", "STL" } },
+                new BsonDocument { { "label", "Blocks" }, { "value", "BLK" } },
+                new BsonDocument { { "label", "Turnovers" }, { "value", "TOV" } },
+                new BsonDocument { { "label", "Efficiency" }, { "value", "EFF" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("statCategories", array);
+        }
+
         /// <summary>
         /// Get a list of stat categories.
         /// Works with the HomePageService.
@@ -42,6 +62,23 @@ namespace BBALL.LIB.Services
             statCategory.Add("Fast Break");
             statCategory.Add("Scoring Breakdown");
             return statCategory;
+        }
+
+        public static void LoadFilterHome()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Points" }, { "value", "Starters" } },
+                new BsonDocument { { "label", "Rebounds" }, { "value", "Rebounds" } },
+                new BsonDocument { { "label", "Assists" }, { "value", "Assists" } },
+                new BsonDocument { { "label", "Defense" }, { "value", "Defense" } },
+                new BsonDocument { { "label", "Clutch" }, { "value", "Clutch" } },
+                new BsonDocument { { "label", "Playmaking" }, { "value", "Playmaking" } },
+                new BsonDocument { { "label", "Efficiency" }, { "value", "Efficiency" } },
+                new BsonDocument { { "label", "Fast Break" }, { "value", "Fast Break" } },
+                new BsonDocument { { "label", "Scoring Breakdown" }, { "value", "Scoring Breakdown" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("homePageStatCategories", array);
         }
     }
 }

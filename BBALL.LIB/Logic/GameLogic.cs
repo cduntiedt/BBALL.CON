@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using static BBALL.LIB.Helpers.ParameterHelper;
 
-namespace BBALL.CON.Logic
+namespace BBALL.LIB.Logic
 {
     public static class GameLogic
     {

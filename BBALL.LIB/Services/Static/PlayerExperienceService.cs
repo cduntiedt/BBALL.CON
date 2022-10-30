@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +16,17 @@ namespace BBALL.LIB.Services.Static
             player.Add("Sophomore");
             player.Add("Veteran");
             return player;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Rookie" }, { "value", "Rookie" } },
+                new BsonDocument { { "label", "Sophomore" }, { "value", "Sophomore" } },
+                new BsonDocument { { "label", "Veteran" }, { "value", "Veteran" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("playerExperience", array);
         }
     }
 }

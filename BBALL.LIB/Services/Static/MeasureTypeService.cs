@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,6 +20,19 @@ namespace BBALL.LIB.Services
             return measureTypes;
         }
 
+        public static void LoadFilterPlayer()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Base" }, { "value", "Base" } },
+                new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
+                new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
+                new BsonDocument { { "label", "Usage" }, { "value", "Usage" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("playerMeasureTypes", array);
+        }
+
         //used with league services
         public static List<string> TeamMeasureTypes { get { return _TeamMeasureTypes(); } }
         private static List<string> _TeamMeasureTypes()
@@ -31,6 +46,20 @@ namespace BBALL.LIB.Services
             //measureTypes.Add("Usage");
             measureTypes.Add("Opponent");
             return measureTypes;
+        }
+
+        public static void LoadFilterTeam()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Base" }, { "value", "Base" } },
+                new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
+                new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
+                new BsonDocument { { "label", "Four Factors" }, { "value", "Four Factors" } },
+                new BsonDocument { { "label", "Opponent" }, { "value", "Opponent" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("teamMeasureTypes", array);
         }
 
         /// <summary>
@@ -49,6 +78,22 @@ namespace BBALL.LIB.Services
             measureTypes.Add("Usage");
             measureTypes.Add("Defense");
             return measureTypes;
+        }
+
+        public static void LoadFilterLeague()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Base" }, { "value", "Base" } },
+                new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
+                new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
+                new BsonDocument { { "label", "Four Factors" }, { "value", "Four Factors" } },
+                new BsonDocument { { "label", "Opponent" }, { "value", "Opponent" } },
+                new BsonDocument { { "label", "Usage" }, { "value", "Usage" } },
+                new BsonDocument { { "label", "Defense" }, { "value", "Defense" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("leagueMeasureTypes", array);
         }
     }
 }

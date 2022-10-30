@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -14,6 +16,16 @@ namespace BBALL.LIB.Services.Static
             outcomes.Add("L");
 
             return outcomes;
+        }
+
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Win" }, { "value", "W" } },
+                new BsonDocument { { "label", "Loss" }, { "value", "L" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("outcomes", array);
         }
     }
 }

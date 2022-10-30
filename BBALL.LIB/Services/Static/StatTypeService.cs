@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,6 +21,16 @@ namespace BBALL.LIB.Services
             statTypes.Add("Tracking");
 
             return statTypes;
+        }
+        public static void LoadFilter()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Traditional" }, { "value", "Traditional" } },
+                new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Tracking" }, { "value", "Tracking" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("statTypes", array);
         }
     }
 }

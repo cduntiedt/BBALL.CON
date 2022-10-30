@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BBALL.LIB.Helpers;
+using MongoDB.Bson;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,6 +22,17 @@ namespace BBALL.LIB.Services
             return seasonTypes;
         }
 
+        public static void LoadFilterPlayer()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Regular Season" }, { "value", "Regular Season" } },
+                new BsonDocument { { "label", "Pre Season" }, { "value", "Pre Season" } },
+                new BsonDocument { { "label", "Playoffs" }, { "value", "Playoffs" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("playerSeasonTypes", array);
+        }
+
         //TODO: Verify endpoints
         /// <summary>
         /// Team Scopes. 
@@ -35,6 +48,16 @@ namespace BBALL.LIB.Services
 
             return seasonTypes;
         }
+        public static void LoadFilterTeam()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Regular Season" }, { "value", "Regular Season" } },
+                new BsonDocument { { "label", "Pre Season" }, { "value", "Pre Season" } },
+                new BsonDocument { { "label", "Playoffs" }, { "value", "Playoffs" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("teamSeasonTypes", array);
+        }
 
         public static List<string> LeagueSeasonTypes { get { return _LeagueSeasonTypes(); } }
         private static List<string> _LeagueSeasonTypes()
@@ -46,6 +69,17 @@ namespace BBALL.LIB.Services
             seasonTypes.Add("All Star");
 
             return seasonTypes;
+        }
+        public static void LoadFilterLeague()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Regular Season" }, { "value", "Regular Season" } },
+                new BsonDocument { { "label", "Pre Season" }, { "value", "Pre Season" } },
+                new BsonDocument { { "label", "Playoffs" }, { "value", "Playoffs" } },
+                new BsonDocument { { "label", "All Star" }, { "value", "All Star" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("leagueSeasonTypes", array);
         }
     }
 }

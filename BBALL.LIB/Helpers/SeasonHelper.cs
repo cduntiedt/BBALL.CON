@@ -53,19 +53,19 @@ namespace BBALL.LIB.Helpers
 
         public static List<string> GetSeasonTypes(string Season = null, string DateFrom = null, string DateTo = null)
         {
-            List<BsonDocument> seasonDocuments = GetSeasonDocuments("T", Season, DateFrom, DateTo);
-            List<string> seasonTypes = new List<string>();
-
-            foreach (var seasonDoc in seasonDocuments)
+            try
             {
-                var data = (BsonArray)seasonDoc["resultSets"][0]["data"];
-                if(data.Count > 0)
-                {
-                    seasonTypes.Add(seasonDoc["SeasonType"].ToString());
-                }
-            }
+                List<BsonDocument> seasonDocuments = GetSeasonDocuments("T", Season, DateFrom, DateTo);
+                var seasonTypes = seasonDocuments.GroupBy(x => x["PARAMETERS"]["SeasonType"])
+                        .Select(x => x.Key.ToString())
+                        .ToList();
 
-            return seasonTypes;
+                return seasonTypes;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

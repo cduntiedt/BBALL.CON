@@ -57,13 +57,20 @@ namespace BBALL.LIB.Helpers
                 }
 
                 //get the data from stats.nba.com
-                JObject response = JObject.Parse(StatsHelper.API(url, timeout).Result);
+                BsonDocument response = BsonDocument.Parse(StatsHelper.API(url, timeout).Result);
 
-                JObject parameterObj = new JObject();
+                BsonDocument parameterObj = new BsonDocument();
                 foreach (JObject parameter in parameters)
                 {
                     var val = parameter["Value"].ToString();
-                    parameterObj.Add(parameter["Key"].ToString(), val == "" ? null : val);
+                    if(val == "")
+                    {
+                        parameterObj.Add(parameter["Key"].ToString(), BsonNull.Value);
+                    }
+                    else
+                    {
+                        parameterObj.Add(parameter["Key"].ToString(), val);
+                    }
                 }
                 
                 if (parse)
@@ -71,40 +78,34 @@ namespace BBALL.LIB.Helpers
                     //if there are multiple result sets
                     if (resultSets == "resultSets")
                     {
-                        JArray statResultSets = response[resultSets].ToObject<JArray>();
+                        BsonArray statResultSets = response[resultSets].AsBsonArray;
 
                         //create data object
                         for (int resultIndex = 0; resultIndex < statResultSets.Count; resultIndex++)
                         {
-                            JObject resultSet = statResultSets[resultIndex].ToObject<JObject>();
-                            JObject resultObject = CreateResultObject(resultSet);
+                            BsonDocument resultSet = statResultSets[resultIndex].AsBsonDocument;
+                            var resultObject = CreateResultObject(resultSet, parameterObj);
 
-                            resultObject.Add("PARAMETERS", parameterObj);
-                            resultObject.Add("DATE_UPDATED", DailyHelper.GetDate(0));
-
-                            documents.Add(resultObject.ToBsonDocument());
+                            documents.AddRange(resultObject);
                         }
                     }
                     else
                     {
                         //if there is only one result set
-                        JObject statResultsSet = response[resultSets].ToObject<JObject>();
-                        JObject resultObject = CreateResultObject(statResultsSet);
+                        BsonDocument statResultsSet = response[resultSets].AsBsonDocument;
+                        var resultObject = CreateResultObject(statResultsSet, parameterObj);
 
-                        resultObject.Add("PARAMETERS", parameterObj);
-                        resultObject.Add("DATE_UPDATED", DailyHelper.GetDate(0));
-
-                        documents.Add(resultObject.ToBsonDocument());
+                        documents.AddRange(resultObject);
                     }
                 }
                 else
                 {
-                    JObject statResultSets = response[resultSets].ToObject<JObject>();
+                    BsonDocument statResultSets = response[resultSets].AsBsonDocument;
 
                     statResultSets.Add("PARAMETERS", parameterObj);
                     statResultSets.Add("DATE_UPDATED", DailyHelper.GetDate(0));
 
-                    documents.Add(statResultSets.ToBsonDocument());
+                    documents.Add(statResultSets);
                 }
 
                 return documents;
@@ -225,32 +226,33 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        private static JObject CreateResultObject(JObject resultSet)
+        private static List<BsonDocument> CreateResultObject(BsonDocument resultSet, BsonDocument parameters)
         {
-            var name = resultSet["name"].ToString();
-            var headers = resultSet["headers"].ToObject<JArray>();
-            var rowSet = resultSet["rowSet"].ToObject<JArray>();
-            JObject resultObject = new JObject();
+            var docs = new List<BsonDocument>();
 
-            JArray dataArray = new JArray();
+            var name = resultSet["name"].ToString();
+            var headers = resultSet["headers"].AsBsonArray;
+            var rowSet = resultSet["rowSet"].AsBsonArray;
+
             for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
             {
-                JObject dataObject = new JObject();
-                dataObject.Add("name", name);
+                BsonDocument dataObject = new BsonDocument();
+                dataObject.Add("RESULT_NAME", name);
+                dataObject.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+                dataObject.Add("PARAMETERS", parameters);
 
                 var row = rowSet[rowIndex];
 
                 for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
                 {
                     var header = headers[headerIndex];
-
                     dataObject.Add(header.ToString(), row[headerIndex]);
                 }
 
-                dataArray.Add(dataObject);
+                docs.Add(dataObject);
             }
 
-            return resultObject;
+            return docs;
         }
 
         /// <summary>

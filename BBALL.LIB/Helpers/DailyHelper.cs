@@ -32,19 +32,9 @@ namespace BBALL.LIB.Helpers
             {
                 List<BsonDocument> seasonDocuments = SeasonHelper.GetSeasonDocuments(PlayerOrTeam, Season, DateFrom, DateTo);
 
-                List<string> ids = new List<string>();
-
-                foreach (var seasonDoc in seasonDocuments)
-                {
-                    var games = (BsonArray)seasonDoc["resultSets"][0]["data"];
-                    foreach (var game in games)
-                    {
-                        var id = game[IDField].ToString();
-                        ids.Add(id);
-                    }
-                }
-
-                return ids.Distinct().OrderBy(x => x).ToList();
+                return seasonDocuments.GroupBy(x => x[IDField])
+                    .Select(x => x.Key.ToString())
+                    .ToList();
             }
             catch (Exception)
             {
