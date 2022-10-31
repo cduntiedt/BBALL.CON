@@ -76,7 +76,7 @@ namespace BBALL.LIB.Logic
             finally
             {
                 //shutdown computer
-                Process.Start("shutdown", "/s /t 0");
+                Process.Start("shutdown", "/f /s /t 0");
             }
         }
 

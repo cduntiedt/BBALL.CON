@@ -38,6 +38,7 @@ namespace BBALL.LIB.Logic
                     await FranchiseService.FranchiseLeaders(teamID);
 
                     await CommonService.CommonTeamRoster(teamID, season);
+
                     await TeamService.TeamHistoricalLeaders(teamID, season);
 
                     foreach (var seasonType in seasonTypes)

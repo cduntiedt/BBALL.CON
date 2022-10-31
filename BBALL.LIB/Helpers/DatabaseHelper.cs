@@ -331,7 +331,16 @@ namespace BBALL.LIB.Helpers
                     }
 
                     dbCollection.InsertMany(documents);
-                    Console.WriteLine(collection + " inserted.");
+                    Console.WriteLine($"{collection} inserted.");
+
+                    if(parameters != null)
+                    {
+                        foreach (var parameter in parameters)
+                        {
+                            var dataItem = parameter.ToObject<JObject>().ToObject<KeyValuePair<string, JToken>>();
+                            Console.WriteLine($"\t {dataItem.Key}: {dataItem.Value}");
+                        }
+                    }
                 }
             }
             catch (Exception)

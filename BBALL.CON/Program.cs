@@ -15,10 +15,13 @@ namespace BBALL.CON
         static async Task Main(string[] args)
         {
             var season = "2022-23";
-            List<string> seasons = new List<string>();
-            seasons.Add(season);
+            var seasonType = "Regular Season";
+            var games = await LeagueService.LeagueGameLog(season, seasonType);
 
-            DataLogic.LoadData(false, seasons);
+            //List<string> seasons = new List<string>();
+            //seasons.Add(season);
+
+            //DataLogic.LoadData(false, seasons);
         }
     }
 }
