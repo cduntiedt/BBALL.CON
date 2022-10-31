@@ -1412,12 +1412,12 @@ namespace BBALL.LIB.Services
         public static async Task<List<BsonDocument>> LeagueGameLog(
             string Season = null,
             string SeasonType = "Regular Season",
+            string PlayerOrTeam = "T",
             string Counter = "0",
             string DateFrom = null,
             string DateTo = null,
             string LeagueID = null,
             string Direction = "ASC",
-            string PlayerOrTeam = "T",
             string Sorter = "DATE"
             )
         {

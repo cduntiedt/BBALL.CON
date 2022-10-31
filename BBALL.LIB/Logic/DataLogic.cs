@@ -38,9 +38,6 @@ namespace BBALL.LIB.Logic
                 }
                 else
                 {
-                    await PlayerService.PlayerGameLogs();
-                    var playerDocument = await PlayerService.PlayerIndex();
-
                     foreach (var season in seasons)
                     {
                         List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season);
@@ -59,7 +56,7 @@ namespace BBALL.LIB.Logic
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
                     ts.Hours, ts.Minutes, ts.Seconds,
                     ts.Milliseconds / 10);
-                Console.WriteLine("RunTime " + elapsedTime);
+                Console.WriteLine($"RunTime {elapsedTime}");
 
                 BsonDocument loadDocument = new BsonDocument
                 {
@@ -78,8 +75,8 @@ namespace BBALL.LIB.Logic
             }
             finally
             {
-                ////shutdown computer
-                //Process.Start("shutdown", "/s /t 0");
+                //shutdown computer
+                Process.Start("shutdown", "/s /t 0");
             }
         }
 

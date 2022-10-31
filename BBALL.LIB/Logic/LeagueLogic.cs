@@ -17,11 +17,11 @@ namespace BBALL.LIB.Logic
         {
             try
             {
-                await TeamService.TeamEstimatedMetrics(season);
                 DraftService.DraftCombineAll(season);
 
                 foreach (var seasonType in seasonTypes)
                 {
+                    await TeamService.TeamEstimatedMetrics(season, seasonType);
                     ///season type
                     await LeagueService.LeagueStandingsV3(season, seasonType);
 

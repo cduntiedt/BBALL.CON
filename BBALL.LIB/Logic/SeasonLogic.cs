@@ -17,10 +17,15 @@ namespace BBALL.LIB.Logic
         {
             try
             {
-                //Load player game logs
-                Console.WriteLine("Player game log load started.");
-                PlayerLogic.LoadPlayerGameLogs(season, seasonTypes);
-                Console.WriteLine("Player game log load complete.");
+                //Load game data
+                Console.WriteLine("Game data load started.");
+                GameLogic.LoadGameData(season, seasonTypes, dateFrom, dateTo);
+                Console.WriteLine("Game data load complete.");
+
+                //Load season data
+                Console.WriteLine("League data load started.");
+                LeagueLogic.LoadLeagueData(season, seasonTypes);
+                Console.WriteLine("League data load complete.");
 
                 //Load team data 
                 Console.WriteLine("Team data load started.");
@@ -31,16 +36,6 @@ namespace BBALL.LIB.Logic
                 Console.WriteLine("Player data load started.");
                 PlayerLogic.LoadPlayerData(season, seasonTypes, dateFrom, dateTo);
                 Console.WriteLine("Player data load complete.");
-
-                //Load game data
-                Console.WriteLine("Game data load started.");
-                GameLogic.LoadGameData(season, seasonTypes, dateFrom, dateTo);
-                Console.WriteLine("Game data load complete.");
-
-                //Load season data
-                Console.WriteLine("League data load started.");
-                LeagueLogic.LoadLeagueData(season, seasonTypes);
-                Console.WriteLine("League data load complete.");
             }
             catch (Exception)
             {

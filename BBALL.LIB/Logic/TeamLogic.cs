@@ -30,25 +30,19 @@ namespace BBALL.LIB.Logic
                 foreach (var teamID in teamIDs)
                 {
                     int teamIndex = teamIDs.IndexOf(teamID) + 1;
-                    Console.WriteLine("Loading " + teamIndex + " of " + teamCount + " teams. (" + teamID + ")");
+                    Console.WriteLine($"Loading {teamIndex} of {teamCount} teams. ({teamID})");
 
                     //get the team details
                     await TeamService.TeamDetails(teamID);
                     await TeamService.TeamYearByYearStats(teamID);
                     await FranchiseService.FranchiseLeaders(teamID);
-                    //var playersDocument = CommonService.CommonAllPlayers(season);
 
                     await CommonService.CommonTeamRoster(teamID, season);
-
-                    await TeamService.TeamGameLogs(teamID, season);
                     await TeamService.TeamHistoricalLeaders(teamID, season);
 
                     foreach (var seasonType in seasonTypes)
                     {
-                        ///TODO: loop through season types
-                        await TeamService.TeamGameLog(teamID, season, seasonType);
                         await TeamService.TeamInfoCommon(teamID, season, seasonType);
-                        await ShotChartService.ShotChartDetail(season, null, "0", teamID, seasonType);
 
                         //loop through different team per modes
                         foreach (var perMode in PerModeService.TeamPerModes)

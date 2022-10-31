@@ -1,27 +1,24 @@
-﻿using MongoDB.Bson;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using Newtonsoft.Json.Linq;
 using BBALL.LIB.Services;
-using BBALL.LIB.Helpers;
+using static BBALL.LIB.Helpers.ParameterHelper;
+using System;
 using System.Threading.Tasks;
-using BBALL.LIB.Services.Static;
+using System.Linq;
+using BBALL.LIB.Helpers;
 using BBALL.LIB.Logic;
+using System.Collections.Generic;
 
 namespace BBALL.CON
 {
     class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            string season = SeasonHelper.DefaultSeason();
-            List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season);
-            for (int i = 0; i < seasonTypes.Count; i++)
-            {
-                Console.WriteLine(seasonTypes[i]);
-            }
+            var season = "2022-23";
+            List<string> seasons = new List<string>();
+            seasons.Add(season);
+
+            DataLogic.LoadData(false, seasons);
         }
     }
 }

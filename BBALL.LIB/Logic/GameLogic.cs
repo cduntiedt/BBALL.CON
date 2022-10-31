@@ -26,21 +26,17 @@ namespace BBALL.LIB.Logic
                 foreach (var seasonType in seasonTypes)
                 {
                     ////load the games
-                    await LeagueService.LeagueGameLog(season, seasonType);
+                    var games = await LeagueService.LeagueGameLog(season, seasonType);
 
-                    //obtain game data
-                    JArray parameters = new JArray();
-                    parameters.Add(CreateParameterObject("Season", season));
-                    parameters.Add(CreateParameterObject("SeasonType", seasonType));
+                    foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                    {
+                        await PlayerService.PlayerGameLogs(season, seasonType, "Totals", measureType);
+                    }
 
-                    //load game data
-                    var gameDocuments = GameService.ImportGames(parameters);
-
-                    int gameCount = gameIDs.Count;
                     foreach (var gameID in gameIDs)
                     {
                         int gameIndex = gameIDs.IndexOf(gameID) + 1;
-                        Console.WriteLine("Loading " + gameIndex + " of " + gameCount + " games. (" + gameID + ")");
+                        Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})");
 
                         await BoxScoreService.BoxScoreAdvancedV2(gameID);
                         await BoxScoreService.BoxScoreDefensive(gameID);
