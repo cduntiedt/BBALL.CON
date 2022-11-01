@@ -25,9 +25,13 @@ namespace BBALL.LIB.Logic
                     ///season type
                     await LeagueService.LeagueStandingsV3(season, seasonType);
 
+                    
                     foreach (var statType in StatTypeService.StatTypes)
                     {
-                        await HomePageService.HomePageV2(season, seasonType, statType);
+                        if (seasonType != "Pre Season" && statType != "Tracking")
+                        {
+                            await HomePageService.HomePageV2(season, seasonType, statType);
+                        }
                     }
 
                     await PlayerService.PlayerEstimatedMetrics(season, seasonType);
@@ -35,20 +39,41 @@ namespace BBALL.LIB.Logic
                     foreach (var perMode in PerModeService.PerModes)
                     {
                         ///per mode, and season type
-                        await LeagueService.LeagueDashPlayerBioStats(season, seasonType, perMode);
-                        await LeagueService.LeagueDashOppPtShot(season, seasonType, perMode);
-                        await LeagueService.LeagueDashPlayerPTShot(season, seasonType, perMode);
-                        await LeagueService.LeagueDashTeamPtShot(season, seasonType, perMode);
                         await LeagueService.LeagueHustleStatsPlayer(season, seasonType, perMode);
 
-                        await LeagueService.LeagueHustleStatsPlayerLeaders(season, seasonType, perMode);
                         await LeagueService.LeagueHustleStatsTeam(season, seasonType, perMode);
-                        await LeagueService.LeagueHustleStatsTeamLeaders(season, seasonType, perMode);
                         //LeagueService.LeagueSeasonMatchups(season, seasonType, perMode);
 
-                        await LeadersService.LeagueLeaders(season, seasonType, perMode); ///TODO: loop through stat category
 
-                        await MatchupsService.MatchupsRollup(season, seasonType, perMode);
+                        if(perMode != "Per36" && perMode != "Per48")
+                        {
+                            await LeagueService.LeagueDashPlayerBioStats(season, seasonType, perMode);
+
+                            if(seasonType != "Pre Season")
+                            {
+                                await LeagueService.LeagueDashOppPtShot(season, seasonType, perMode);
+                                await LeagueService.LeagueDashPlayerPTShot(season, seasonType, perMode);
+                                await LeagueService.LeagueDashTeamPtShot(season, seasonType, perMode);
+                                await MatchupsService.MatchupsRollup(season, seasonType, perMode);
+
+                                foreach (var ptMeasureType in PTMeasureTypeService.PTMeasureTypes)
+                                {
+                                    ///season type, per mode, pt measure type
+                                    await LeagueService.LeagueDashPTStats(season, seasonType, perMode, ptMeasureType);
+                                }
+
+                                foreach (var defensiveCategory in DefenseCategoryService.Categories)
+                                {
+                                    ///season type, per mode, defensive category
+                                    await LeagueService.LeagueDashPTDefend(season, seasonType, perMode, defensiveCategory);
+                                    await LeagueService.LeagueDashPTTeamDefend(season, seasonType, perMode, defensiveCategory);
+                                }
+                            }
+                    
+                            await LeagueService.LeagueHustleStatsPlayerLeaders(season, seasonType, perMode);
+                            await LeagueService.LeagueHustleStatsTeamLeaders(season, seasonType, perMode);
+                            await LeadersService.LeagueLeaders(season, seasonType, perMode); ///TODO: loop through stat category
+                        }
 
                         await LeagueService.LeagueDashPlayerShotLocations(season, seasonType, perMode);
                         await LeagueService.LeagueDashTeamShotLocations(season, seasonType, perMode);
@@ -59,37 +84,33 @@ namespace BBALL.LIB.Logic
                         foreach (var measureType in MeasureTypeService.LeagueMeasureTypes)
                         {
                             ///season type, per mode, measure type (teams might be different)
-                            await LeagueService.LeagueDashLineups(season, seasonType, perMode, measureType);
+                            if(measureType != "Usage")
+                            {
+                                await LeagueService.LeagueDashTeamStats(season, seasonType, perMode, measureType);
+                            }
 
-                            if (measureType != "Four Factors")
+                            if (measureType != "Four Factors" && measureType != "Opponent")
                             {
                                 await LeagueService.LeagueDashPlayerStats(season, seasonType, perMode, measureType);
                             }
 
-                            await LeagueService.LeagueDashTeamStats(season, seasonType, perMode, measureType);
                             await LeagueService.LeagueLineupViz(season, seasonType, perMode, measureType);
+
+                            if(measureType != "Defense" && measureType != "Four Factors")
+                            {
+                                await LeagueService.LeagueDashPlayerClutch(season, seasonType, perMode, measureType);
+                            }
+
 
                             if (measureType != "Defense" && measureType != "Usage")
                             {
-                                await LeagueService.LeagueDashPlayerClutch(season, seasonType, perMode, measureType);
+                                await LeagueService.LeagueDashLineups(season, seasonType, perMode, measureType);
                                 await LeagueService.LeagueDashTeamClutch(season, seasonType, perMode, measureType);
-                                await LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, measureType);
-                            }
-                        }
-
-                        if (perMode != "Per36" && perMode != "Per48")
-                        {
-                            foreach (var ptMeasureType in PTMeasureTypeService.PTMeasureTypes)
-                            {
-                                ///season type, per mode, pt measure type
-                                await LeagueService.LeagueDashPTStats(season, seasonType, perMode, ptMeasureType);
-                            }
-
-                            foreach (var defensiveCategory in DefenseCategoryService.Categories)
-                            {
-                                ///season type, per mode, defensive category
-                                await LeagueService.LeagueDashPTDefend(season, seasonType, perMode, defensiveCategory);
-                                await LeagueService.LeagueDashPTTeamDefend(season, seasonType, perMode, defensiveCategory);
+                                
+                                if(seasonType != "Pre Season")
+                                {
+                                    await LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, measureType);
+                                }
                             }
                         }
                     }

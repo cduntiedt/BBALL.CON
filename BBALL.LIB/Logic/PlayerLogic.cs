@@ -33,7 +33,7 @@ namespace BBALL.LIB.Logic
 
                     foreach (var perMode in PerModeService.PlayerPerModes)
                     {
-                        await PlayerService.PlayerCareerStats(playerID, perMode);
+                        //await PlayerService.PlayerCareerStats(playerID, perMode); //not needed because we are getting this at the league level
                         await PlayerService.PlayerProfileV2(playerID, perMode);
 
                         //LoadAdditionalPlayerData(playerID, season, seasonType, perMode);

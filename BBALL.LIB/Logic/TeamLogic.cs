@@ -48,11 +48,15 @@ namespace BBALL.LIB.Logic
                         //loop through different team per modes
                         foreach (var perMode in PerModeService.TeamPerModes)
                         {
-                            await FranchiseService.FranchisePlayers(teamID, perMode, seasonType);
 
-                            await TeamService.TeamDashPtPass(teamID, season, perMode, seasonType);
-                            await TeamService.TeamDashPtReb(teamID, season, perMode, seasonType);
-                            await TeamService.TeamDashPtShots(teamID, season, perMode, seasonType);
+                            if(seasonType != "Pre Season")
+                            {
+                                await FranchiseService.FranchisePlayers(teamID, perMode, seasonType);
+
+                                await TeamService.TeamDashPtPass(teamID, season, perMode, seasonType);
+                                await TeamService.TeamDashPtReb(teamID, season, perMode, seasonType);
+                                await TeamService.TeamDashPtShots(teamID, season, perMode, seasonType);
+                            }
 
                             await TeamService.TeamDashboardByShootingSplits(teamID, season, "Usage", perMode, seasonType);
                             await TeamService.TeamPlayerOnOffSummary(teamID, season, "Usage", perMode, seasonType);
@@ -64,7 +68,7 @@ namespace BBALL.LIB.Logic
                                 await TeamService.TeamDashboardByClutch(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByGameSplits(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByGeneralSplits(teamID, season, measureType, perMode, seasonType);
-                                await TeamService.TeamDashboardByLastNGames(teamID, season, measureType, perMode, seasonType);
+                                //await TeamService.TeamDashboardByLastNGames(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByOpponent(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByShootingSplits(teamID, season, measureType, perMode, seasonType);
                                 await TeamService.TeamDashboardByTeamPerformance(teamID, season, measureType, perMode, seasonType);

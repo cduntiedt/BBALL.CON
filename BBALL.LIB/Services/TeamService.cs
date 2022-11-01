@@ -887,9 +887,9 @@ namespace BBALL.LIB.Services
         public static async Task<List<BsonDocument>> TeamGameLogs(
             string TeamID = null,
             string Season = null,
+            string SeasonType = null,
             string MeasureType = null,
             string PerMode = null,
-            string SeasonType = null,
             string LastNGames = null,
             string Month = null,
             string OppTeamID = null,
