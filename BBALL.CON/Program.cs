@@ -18,10 +18,15 @@ namespace BBALL.CON
             var seasonType = "Regular Season";
             var games = await LeagueService.LeagueGameLog(season, seasonType);
 
-            //List<string> seasons = new List<string>();
-            //seasons.Add(season);
+            foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+            {
+                await PlayerService.PlayerGameLogs(season, seasonType, "Totals", measureType);
+            }
 
-            //DataLogic.LoadData(false, seasons);
+            foreach (var measureType in MeasureTypeService.TeamMeasureTypes)
+            {
+                await TeamService.TeamGameLogs(null, season, seasonType, measureType);
+            }
         }
     }
 }

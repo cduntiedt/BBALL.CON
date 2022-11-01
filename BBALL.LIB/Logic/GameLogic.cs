@@ -35,7 +35,7 @@ namespace BBALL.LIB.Logic
 
                     foreach(var measureType in MeasureTypeService.TeamMeasureTypes)
                     {
-                        await TeamService.TeamGameLogs(null, season, seasonType, "Totals", measureType);
+                        await TeamService.TeamGameLogs(null, season, seasonType, measureType);
                     }
 
                     foreach (var gameID in gameIDs)
