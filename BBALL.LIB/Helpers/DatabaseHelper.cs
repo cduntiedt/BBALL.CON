@@ -102,10 +102,31 @@ namespace BBALL.LIB.Helpers
                 {
                     BsonDocument statResultSets = response[resultSets].AsBsonDocument;
 
-                    statResultSets.Add("PARAMETERS", parameterObj);
-                    statResultSets.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+                    if (url.Contains("videodetailsasset"))
+                    {
+                        var videos = statResultSets["Meta"]["videoUrls"].AsBsonArray;
+                        for (int i = 0; i < videos.Count; i++)
+                        {
+                            //the videos
+                            var video = videos[i].AsBsonDocument;
+                            //event information
+                            var ev = statResultSets["playlist"][i].AsBsonDocument;
 
-                    documents.Add(statResultSets);
+                            video.Merge(ev);
+
+                            video.Add("PARAMETERS", parameterObj);
+                            video.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+
+                            documents.Add(video);
+                        }
+                    }
+                    else
+                    {
+                        statResultSets.Add("PARAMETERS", parameterObj);
+                        statResultSets.Add("DATE_UPDATED", DailyHelper.GetDate(0));
+
+                        documents.Add(statResultSets);
+                    }
                 }
 
                 return documents;
@@ -135,6 +156,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(url + " failed. Check log.");
+                WriteParametersToConsole(parameters);
                 ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
                 return null;
             }
@@ -155,6 +177,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(url + " failed. Check log.");
+                WriteParametersToConsole(parameters);
                 ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
                 return null;
             }
@@ -333,19 +356,24 @@ namespace BBALL.LIB.Helpers
                     dbCollection.InsertMany(documents);
                     Console.WriteLine($"{collection} inserted.");
 
-                    if(parameters != null)
-                    {
-                        foreach (var parameter in parameters)
-                        {
-                            var dataItem = parameter.ToObject<JObject>().ToObject<KeyValuePair<string, JToken>>();
-                            Console.WriteLine($"\t {dataItem.Key}: {dataItem.Value}");
-                        }
-                    }
+                    WriteParametersToConsole(parameters);
                 }
             }
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public static void WriteParametersToConsole(JArray parameters = null)
+        {
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                {
+                    var dataItem = parameter.ToObject<JObject>().ToObject<KeyValuePair<string, JToken>>();
+                    Console.WriteLine($"\t {dataItem.Key}: {dataItem.Value}");
+                }
             }
         }
 

@@ -43,12 +43,6 @@ namespace BBALL.LIB.Logic
                         int gameIndex = gameIDs.IndexOf(gameID) + 1;
                         Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})");
 
-                        //await BoxScoreService.BoxScoreTraditionalV2(gameID);
-                        //await BoxScoreService.BoxScoreAdvancedV2(gameID);
-                        //await BoxScoreService.BoxScoreMiscV2(gameID);
-                        //await BoxScoreService.BoxScoreScoringV2(gameID);
-                        //await BoxScoreService.BoxScoreUsageV2(gameID);
-                        await BoxScoreService.BoxScoreFourFactorsV2(gameID);
                         await BoxScoreService.BoxScorePlayerTrackV2(gameID);
                         await BoxScoreService.BoxScoreSummaryV2(gameID);
                         await BoxScoreService.HustleStatsBoxScore(gameID);
@@ -56,12 +50,10 @@ namespace BBALL.LIB.Logic
                         await BoxScoreService.BoxScoreMatchups(gameID);
                         await BoxScoreService.BoxScoreDefensive(gameID);
 
-
                         await PlayByPlayService.PlayByPlayV2(gameID);
 
                         await GameService.GameRotation(gameID);
                         await VideoService.VideoDetailAsset(gameID, season, seasonType);
-                        await ShotChartService.ShotChartDetail(season, gameID, "0", "0", seasonType);
                     }
                 }
             }

@@ -66,7 +66,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> BoxScoreDefensive(JArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoredefensivev2/", "boxscoredefensive", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscoredefensivev2/", "boxscoredefensive", parameters, false);
         }
 
         public static async Task<List<BsonDocument>> BoxScoreFourFactorsV2(
@@ -104,7 +104,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> BoxScoreMatchups(JArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorematchupsv3/", "boxscorematchups", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/boxscorematchupsv3/", "boxscorematchups", parameters, false);
         }
 
         public static async Task<List<BsonDocument>> BoxScoreMiscV2(

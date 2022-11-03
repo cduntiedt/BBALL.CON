@@ -33,7 +33,6 @@ namespace BBALL.LIB.Logic
 
                     foreach (var perMode in PerModeService.PlayerPerModes)
                     {
-                        //await PlayerService.PlayerCareerStats(playerID, perMode); //not needed because we are getting this at the league level
                         await PlayerService.PlayerProfileV2(playerID, perMode);
 
                         //LoadAdditionalPlayerData(playerID, season, seasonType, perMode);
@@ -49,19 +48,6 @@ namespace BBALL.LIB.Logic
 
         static async void LoadAdditionalPlayerData(string playerID, string season, string seasonType, string perMode)
         {
-            await PlayerService.PlayDashPTShotDefend(playerID, season, seasonType, perMode);
-
-            if (perMode == "Per36" || perMode == "Per48")
-            {
-                Console.WriteLine("skip");
-            }
-            else
-            {
-                await PlayerService.PlayDashPTPass(playerID, season, seasonType, perMode);
-                await PlayerService.PlayDashPTReb(playerID, season, seasonType, perMode);
-                await PlayerService.PlayDashPTShots(playerID, season, seasonType, perMode);
-            }
-
             foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
             {
                 await PlayerService.PlayerDashboardByClutch(playerID, season, seasonType, perMode, measureType);
