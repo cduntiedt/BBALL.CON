@@ -14,11 +14,7 @@ namespace BBALL.CON
     {
         static async Task Main(string[] args)
         {
-            var season = "2022-23";
-            var seasonType = "Regular Season";
-            var seasonTypes = new List<string>();
-            seasonTypes.Add(seasonType);
-            GameLogic.LoadGameData(season, seasonTypes);
+            await DatabaseHelper.EmptyDatabase();
         }
     }
 }

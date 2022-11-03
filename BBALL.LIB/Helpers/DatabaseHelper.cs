@@ -544,11 +544,10 @@ namespace BBALL.LIB.Helpers
                 var dbClient = new MongoClient(_connection);
                 //connect to the database
                 IMongoDatabase db = dbClient.GetDatabase(_database);
-
                 //get the database collection
                 var dbCollection = db.GetCollection<BsonDocument>(collection);
                 List<BsonDocument> dbDocuments = new List<BsonDocument>();
-                if(parameters == null)
+                if (parameters == null)
                 {
                     dbDocuments = dbCollection.Find(_ => true).ToList();
                 }
@@ -566,6 +565,31 @@ namespace BBALL.LIB.Helpers
                 Console.WriteLine(collection + " failed. Check log.");
                 ErrorDocument(ex, "GetAllDocuments", "", collection, parameters);
                 return null;
+            }
+        }
+
+        public static async Task EmptyDatabase()
+        {
+            try
+            {
+                var dbClient = new MongoClient(_connection);
+                //connect to the database
+                IMongoDatabase db = dbClient.GetDatabase(_database);
+
+                var collections = await db.ListCollectionNamesAsync();
+                var names = collections.ToList().Where(x => x != "filters").ToList();
+
+                for (int i = 0; i < names.Count; i++)
+                {
+                    var name = names[i];
+                    await db.DropCollectionAsync(name);
+                    Console.WriteLine($"{name} collections has been dropped.");
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
