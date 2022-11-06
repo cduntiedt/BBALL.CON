@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using static BBALL.LIB.Helpers.ParameterHelper;
 
 namespace BBALL.LIB.Helpers
@@ -27,7 +28,7 @@ namespace BBALL.LIB.Helpers
             return season;
         }
 
-        public static List<BsonDocument> GetSeasonDocuments(string PlayerOrTeam = "T", string Season = null, string DateFrom = null, string DateTo = null)
+        public static async Task<List<BsonDocument>> GetSeasonDocuments(string PlayerOrTeam = "T", string Season = null, string DateFrom = null, string DateTo = null)
         {
             List<BsonDocument> seasonDocuments = new List<BsonDocument>();
 
@@ -44,18 +45,18 @@ namespace BBALL.LIB.Helpers
                 parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
                 parameters.Add(CreateParameterObject("Sorter", "DATE"));
 
-                var seasonDocs = DatabaseHelper.GenerateDocuments("https://stats.nba.com/stats/leaguegamelog/", parameters, true);
+                var seasonDocs = await DatabaseHelper.GenerateDocumentsAsync("https://stats.nba.com/stats/leaguegamelog/", parameters, true);
                 seasonDocuments.AddRange(seasonDocs);
             }
 
             return seasonDocuments;
         }
 
-        public static List<string> GetSeasonTypes(string Season = null, string DateFrom = null, string DateTo = null)
+        public static async Task<List<string>> GetSeasonTypes(string Season = null, string DateFrom = null, string DateTo = null)
         {
             try
             {
-                List<BsonDocument> seasonDocuments = GetSeasonDocuments("T", Season, DateFrom, DateTo);
+                List<BsonDocument> seasonDocuments = await GetSeasonDocuments("T", Season, DateFrom, DateTo);
                 var seasonTypes = seasonDocuments.GroupBy(x => x["PARAMETERS"]["SeasonType"])
                         .Select(x => x.Key.ToString())
                         .ToList();

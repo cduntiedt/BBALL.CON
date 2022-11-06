@@ -17,7 +17,7 @@ namespace BBALL.LIB.Logic
         /// <param name="seasonTypes">The season types.</param>
         /// <param name="dateFrom">The start date.</param>
         /// <param name="dateTo">The end date.</param>
-        public static async void LoadPlayerData(string season, List<string> seasonTypes = null, string dateFrom = null, string dateTo = null)
+        public static async Task LoadPlayerData(string season, List<string> seasonTypes = null, string dateFrom = null, string dateTo = null)
         {
             try
             {
@@ -25,12 +25,12 @@ namespace BBALL.LIB.Logic
 
                 //obtain player data for current season
                 var seasonPlayers = await PlayerService.PlayerIndex(season, "0");
-                var playerIDs = DailyHelper.GetIDs("PLAYER_ID", "P", season, dateFrom, dateTo);
+                var playerIDs = await DailyHelper.GetIDs("PLAYER_ID", "P", season, dateFrom, dateTo);
 
                 foreach (var playerID in playerIDs)
                 {
                     int playerIndex = playerIDs.IndexOf(playerID) + 1;
-                    Console.WriteLine($"Loading {playerIndex} of {playerIDs.Count} players. ({playerID})");
+                    tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {playerIndex} of {playerIDs.Count} players. ({playerID})"); }));
 
                     tasks.Add(CommonService.CommonPlayerInfo(playerID)); ///TODO: FIX THIS!!!
 

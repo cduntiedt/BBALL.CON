@@ -48,7 +48,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 var error = ex;
-                DatabaseHelper.ErrorDocument(ex, "API", url, "");
+                await DatabaseHelper.ErrorDocumentAsync(ex, "API", url, "");
                 throw;
             }
             finally
@@ -59,18 +59,30 @@ namespace BBALL.LIB.Helpers
 
         public static string GenerateUrl(string url, JArray parameters)
         {
-            //add query parameters to url
-            url += "?";
-            foreach (var item in parameters)
+            try
             {
-                if (item != parameters.FirstOrDefault())
+                //add query parameters to url
+                if(parameters == null)
                 {
-                    url += "&";
+                    return url;
                 }
-                url += item["Key"].ToString() + "=" + item["Value"].ToString();
-            }
 
-            return url;
+                url += "?";
+                foreach (var item in parameters)
+                {
+                    if (item != parameters.FirstOrDefault())
+                    {
+                        url += "&";
+                    }
+                    url += item["Key"].ToString() + "=" + item["Value"].ToString();
+                }
+
+                return url;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

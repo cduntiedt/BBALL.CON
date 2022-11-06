@@ -15,7 +15,13 @@ namespace BBALL.CON
     {
         static async Task Main(string[] args)
         {
-            DataLogic.LoadData(false);
+            var daily = false;
+            var shutdown = false;
+            var dataSets = new List<string> { "team" };
+
+            await DatabaseHelper.DropCollectionAsync("errorlog");
+
+            await DataLogic.LoadData(daily, shutdown, dataSets);
         }
     }
 }

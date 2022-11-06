@@ -16,11 +16,11 @@ namespace BBALL.LIB.Logic
         /// <param name="seasonTypes">The season types.</param>
         /// <param name="dateFrom">The start date.</param>
         /// <param name="dateTo">The end date.</param>
-        public static async void LoadTeamData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
+        public static async Task LoadTeamData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
             try
             {
-                var teamIDs = DailyHelper.GetIDs("TEAM_ID", "T", season, dateFrom, dateTo);
+                var teamIDs = await DailyHelper.GetIDs("TEAM_ID", "T", season, dateFrom, dateTo);
                
                 var tasks = new List<Task>();
 
@@ -33,7 +33,7 @@ namespace BBALL.LIB.Logic
                 foreach (var teamID in teamIDs)
                 {
                     int teamIndex = teamIDs.IndexOf(teamID) + 1;
-                    Console.WriteLine($"Loading {teamIndex} of {teamCount} teams. ({teamID})");
+                    tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {teamIndex} of {teamCount} teams. ({teamID})"); }));
 
                     //get the team details
                     tasks.Add(TeamService.TeamDetails(teamID));

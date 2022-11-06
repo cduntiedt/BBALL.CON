@@ -14,7 +14,7 @@ namespace BBALL.LIB.Logic
         /// </summary>
         /// <param name="season">The season to load.</param>
         /// <param name="seasonTypes">The season types.</param>
-        public static async void LoadLeagueData(string season, List<string> seasonTypes)
+        public static async Task LoadLeagueData(string season, List<string> seasonTypes)
         {
             try
             {

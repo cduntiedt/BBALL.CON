@@ -26,11 +26,11 @@ namespace BBALL.LIB.Helpers
         /// <param name="DateFrom">The start date.</param>
         /// <param name="DateTo">The end date.</param>
         /// <returns>A list of team IDs.</returns>
-        public static List<string> GetIDs(string IDField, string PlayerOrTeam = "T", string Season = null, string DateFrom = null, string DateTo = null)
+        public static async Task<List<string>> GetIDs(string IDField, string PlayerOrTeam = "T", string Season = null, string DateFrom = null, string DateTo = null)
         {
             try
             {
-                List<BsonDocument> seasonDocuments = SeasonHelper.GetSeasonDocuments(PlayerOrTeam, Season, DateFrom, DateTo);
+                List<BsonDocument> seasonDocuments = await SeasonHelper.GetSeasonDocuments(PlayerOrTeam, Season, DateFrom, DateTo);
 
                 return seasonDocuments.GroupBy(x => x[IDField])
                     .Select(x => x.Key.ToString())

@@ -18,12 +18,12 @@ namespace BBALL.LIB.Logic
         /// <param name="seasonTypes">The season types.</param>
         /// <param name="dateFrom">The start date.</param>
         /// <param name="dateTo">The end date.</param>
-        public static async void LoadGameData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
+        public static async Task LoadGameData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
         {
             try
             {
                 var tasks = new List<Task>();
-                var gameIDs = DailyHelper.GetIDs("GAME_ID", "T", season, dateFrom, dateTo);
+                var gameIDs = await DailyHelper.GetIDs("GAME_ID", "T", season, dateFrom, dateTo);
 
                 foreach (var seasonType in seasonTypes)
                 {
@@ -43,7 +43,7 @@ namespace BBALL.LIB.Logic
                     foreach (var gameID in gameIDs)
                     {
                         int gameIndex = gameIDs.IndexOf(gameID) + 1;
-                        Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})");
+                        tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})"); }));
 
                         tasks.Add(BoxScoreService.BoxScorePlayerTrackV2(gameID));
                         tasks.Add(BoxScoreService.BoxScoreSummaryV2(gameID));

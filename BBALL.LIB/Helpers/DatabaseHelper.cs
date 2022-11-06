@@ -12,6 +12,7 @@ using System.Web;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace BBALL.LIB.Helpers
 {
@@ -20,23 +21,7 @@ namespace BBALL.LIB.Helpers
         private static string _connection { get; set; } = "mongodb://127.0.0.1:27017";
         private static string _database { get; set; } = "basketball";
 
-        public static List<BsonDocument> UpdateDatabase(string collection, JArray parameters)
-        {
-            try
-            {
-                var url = StatsHelper.BaseURL + collection + "/";
-
-                return UpdateDatabase(url, collection, parameters);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(collection + " failed. Check log.");
-                ErrorDocument(ex, "UpdateDatabase", "", collection, parameters);
-                return null;
-            }
-        }
-
-        public static List<BsonDocument> GenerateDocuments(string url, JArray parameters, bool parse = true, int timeout = 15, string resultSets = "resultSets")
+        public static async Task<List<BsonDocument>> GenerateDocumentsAsync(string url, JArray parameters, bool parse = true, int timeout = 15, string resultSets = "resultSets")
         {
             try
             {
@@ -57,7 +42,7 @@ namespace BBALL.LIB.Helpers
                 }
 
                 //get the data from stats.nba.com
-                BsonDocument response = BsonDocument.Parse(StatsHelper.API(url, timeout).Result);
+                BsonDocument response = BsonDocument.Parse(await StatsHelper.API(url, timeout));
 
                 BsonDocument parameterObj = new BsonDocument();
                 foreach (JObject parameter in parameters)
@@ -137,40 +122,13 @@ namespace BBALL.LIB.Helpers
             }
         }
 
-        /// <summary>
-        /// Create a collection if it does not exist. Insert or replace a document to the collection.
-        /// </summary>
-        /// <param name="url">The stats API url</param>
-        /// <param name="collection">The name of the collection</param>
-        public static List<BsonDocument> UpdateDatabase(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
-        {
-            try
-            {
-                //convert the stat document to bson
-                var documents = GenerateDocuments(url, parameters, parse, timeout, resultSets);
-
-                AddUpdateDocuments(collection, documents, parameters);
-
-                return documents;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(url + " failed. Check log.");
-                WriteParametersToConsole(parameters);
-                ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
-                return null;
-            }
-        }
-
         public static async Task<List<BsonDocument>> UpdateDatabaseAsync(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets")
         {
             try
             {
-                var documents = GenerateDocuments(url, parameters, parse, timeout, resultSets);
+                var documents = await GenerateDocumentsAsync(url, parameters, parse, timeout, resultSets);
 
-                AddUpdateDocuments(collection, documents, parameters);
-
-                await Task.CompletedTask;
+                await AddUpdateDocumentsAsync(collection, documents, parameters);
 
                 return documents;
             }
@@ -178,73 +136,7 @@ namespace BBALL.LIB.Helpers
             {
                 Console.WriteLine(url + " failed. Check log.");
                 WriteParametersToConsole(parameters);
-                ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
-                return null;
-            }
-        }
-
-        public static BsonDocument UpdateShotLocations(string url, string collection, JArray parameters = null, bool parse = true, int timeout = 15, string resultSets = "resultSets") 
-        {
-            try
-            {
-                //get the data from stats.nba.com
-                JObject response = JObject.Parse(StatsHelper.API(url, timeout).Result);
-
-                JObject statDocument = new JObject();
-                foreach (JObject parameter in parameters)
-                {
-                    var val = parameter["Value"].ToString();
-                    statDocument.Add(parameter["Key"].ToString(), val == "" ? null : val);
-                }
-
-                JObject resultSet = response[resultSets].ToObject<JObject>();
-                var name = resultSet["name"].ToString();
-                var categories = resultSet["headers"][0]["columnNames"].ToObject<JArray>();
-                var columns = resultSet["headers"][1]["columnNames"].ToObject<JArray>();
-                var rowSet = resultSet["rowSet"].ToObject<JArray>();
-
-                JObject resultObject = new JObject();
-
-                JArray dataArray = new JArray();
-                for (int rowIndex = 0; rowIndex < rowSet.Count; rowIndex++)
-                {
-                    JObject dataObject = new JObject();
-                    var row = rowSet[rowIndex];
-                    var columnsToSkip = 5;
-                    var categoryIndex = 0;
-                    for (int columnIndex = 0; columnIndex < columns.Count; columnIndex++)
-                    {
-                        var column = columns[columnIndex];
-                        var columnName = column.ToString();
-
-                        columnsToSkip -= 1;
-                        if (columnsToSkip == 0)
-                        {
-                            columnName += " " + categories[categoryIndex];
-                        }
-
-                        dataObject.Add(columnName, row[columnIndex]);
-                    }
-
-                    columnsToSkip = 5;
-
-                    dataArray.Add(dataObject);
-                }
-
-                resultObject.Add("name", name);
-                resultObject.Add("data", dataArray);
-
-                //convert the stat document to bson
-                var document = BsonSerializer.Deserialize<BsonDocument>(statDocument.ToString());
-
-                AddUpdateDocument(collection, document, parameters);
-
-                return document;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(url + " failed. Check log.");
-                ErrorDocument(ex, "UpdateDatabase", url, collection, parameters);
+                await ErrorDocumentAsync(ex, "UpdateDatabase", url, collection, parameters);
                 return null;
             }
         }
@@ -289,17 +181,18 @@ namespace BBALL.LIB.Helpers
         {
             try
             {
-                BsonDocument errorDocument = new BsonDocument();
-                errorDocument.Add(new BsonElement("Method", method));
-                errorDocument.Add(new BsonElement("URL", url));
-                errorDocument.Add(new BsonElement("Collection", collection));
-                errorDocument.Add(new BsonElement("Message", exception.Message));
-                errorDocument.Add(new BsonElement("StackTrace", exception.StackTrace));
-                errorDocument.Add(new BsonElement("Source", exception.Source));
-                string date = String.Format("{0:yyyyMMdd}", DateTime.Now);
-                errorDocument.Add(new BsonElement("Date", date));
-                errorDocument.Add(new BsonElement("Timestamp", String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now)));
-
+                BsonDocument errorDocument = new BsonDocument
+                {
+                    { "Method", method},
+                    { "URL", StatsHelper.GenerateUrl(url, parameters) },
+                    { "Collection", collection },
+                    { "Message", exception.Message },
+                    { "StackTrace", exception.StackTrace },
+                    { "Source", exception.Source },
+                    { "Date", DailyHelper.GetDate() },
+                    { "Timestamp", String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now) }
+                };
+            
                 BsonArray array = new BsonArray();
                 if(parameters != null)
                 {
@@ -317,6 +210,18 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+            }
+        }
+
+        public static async Task ErrorDocumentAsync(Exception exception, string method, string url, string collection, JArray parameters = null)
+        {
+            try
+            {
+                await Task.Run(() => { ErrorDocument(exception, method, url, collection, parameters); });
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -365,6 +270,17 @@ namespace BBALL.LIB.Helpers
             }
         }
 
+        public static async Task AddUpdateDocumentsAsync(string collection, List<BsonDocument> documents, JArray parameters = null)
+        {
+            try
+            {
+                await Task.Run(() => { AddUpdateDocuments(collection, documents, parameters); });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public static void WriteParametersToConsole(JArray parameters = null)
         {
             if (parameters != null)
@@ -453,6 +369,18 @@ namespace BBALL.LIB.Helpers
                 //insert a new document
                 dbCollection.InsertOne(document);
                 Console.WriteLine(collection + " inserted.");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static async Task AddDocumentAsync(string collection, BsonDocument document)
+        {
+            try
+            {
+                await Task.Run(() => { AddDocument(collection, document); });
             }
             catch (Exception)
             {
@@ -586,6 +514,22 @@ namespace BBALL.LIB.Helpers
                     Console.WriteLine($"{name} collections has been dropped.");
                 }
 
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public static async Task DropCollectionAsync(string collection)
+        {
+            try
+            {
+                var dbClient = new MongoClient(_connection);
+                //connect to the database
+                IMongoDatabase db = dbClient.GetDatabase(_database);
+                
+                await db.DropCollectionAsync(collection);
             }
             catch (Exception)
             {
