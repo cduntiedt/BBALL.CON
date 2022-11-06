@@ -17,7 +17,7 @@ namespace BBALL.LIB.Logic
         /// </summary>
         /// <param name="daily">Boolean field to load the current date.</param>
         /// <param name="seasons">A list of seasons to be loaded.</param>
-        public static async void LoadData(bool daily = true, List<string> seasons = null)
+        public static async void LoadData(bool daily = true, bool shutdown = true, List<string> seasons = null)
         {
             try
             {
@@ -38,6 +38,12 @@ namespace BBALL.LIB.Logic
                 }
                 else
                 {
+                    if(seasons == null)
+                    {
+                        seasons = new List<string>();
+                        seasons.Add(SeasonHelper.DefaultSeason());
+                    }
+
                     foreach (var season in seasons)
                     {
                         List<string> seasonTypes = SeasonHelper.GetSeasonTypes(season);
@@ -61,7 +67,7 @@ namespace BBALL.LIB.Logic
                 BsonDocument loadDocument = new BsonDocument
                 {
                     { "Daily", daily },
-                    { "Date", dt },
+                    { "Date", DailyHelper.GetDate() },
                     { "StartTime", startTime },
                     { "EndTime", endTime },
                     { "Elapsed", elapsedTime }
@@ -75,8 +81,11 @@ namespace BBALL.LIB.Logic
             }
             finally
             {
-                //shutdown computer
-                Process.Start("shutdown", "/f /s /t 0");
+                if (shutdown)
+                {
+                    //shutdown computer
+                    Process.Start("shutdown", "/f /s /t 0");
+                }
             }
         }
 

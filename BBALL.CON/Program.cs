@@ -7,6 +7,7 @@ using System.Linq;
 using BBALL.LIB.Helpers;
 using BBALL.LIB.Logic;
 using System.Collections.Generic;
+using MongoDB.Bson;
 
 namespace BBALL.CON
 {
@@ -14,7 +15,7 @@ namespace BBALL.CON
     {
         static async Task Main(string[] args)
         {
-            await DatabaseHelper.EmptyDatabase();
+            DataLogic.LoadData(false);
         }
     }
 }

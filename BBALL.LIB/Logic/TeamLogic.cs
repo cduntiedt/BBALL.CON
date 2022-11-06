@@ -3,6 +3,7 @@ using BBALL.LIB.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Logic
 {
@@ -19,10 +20,12 @@ namespace BBALL.LIB.Logic
         {
             try
             {
-                var teams = await TeamService.CommonTeamYears();
-                var franchisesDocument = await TeamService.FranchiseHistory();
-
                 var teamIDs = DailyHelper.GetIDs("TEAM_ID", "T", season, dateFrom, dateTo);
+               
+                var tasks = new List<Task>();
+
+                tasks.Add(TeamService.CommonTeamYears());
+                tasks.Add(TeamService.FranchiseHistory());
 
                 int teamCount = teamIDs.Count;
 
@@ -33,20 +36,22 @@ namespace BBALL.LIB.Logic
                     Console.WriteLine($"Loading {teamIndex} of {teamCount} teams. ({teamID})");
 
                     //get the team details
-                    await TeamService.TeamDetails(teamID);
-                    
-                    await TeamService.TeamYearByYearStats(teamID);
+                    tasks.Add(TeamService.TeamDetails(teamID));
 
-                    await CommonService.CommonTeamRoster(teamID, season);
+                    tasks.Add(TeamService.TeamYearByYearStats(teamID));
 
-                    await TeamService.TeamHistoricalLeaders(teamID, season);
+                    tasks.Add(CommonService.CommonTeamRoster(teamID, season));
+
+                    tasks.Add(TeamService.TeamHistoricalLeaders(teamID, season));
 
                     foreach (var seasonType in seasonTypes)
                     {
-                        await TeamService.TeamInfoCommon(teamID, season, seasonType);
-                        await ShotChartService.ShotChartDetail(season, null, teamID, "0", seasonType);
+                        tasks.Add(TeamService.TeamInfoCommon(teamID, season, seasonType));
+                        tasks.Add(ShotChartService.ShotChartDetail(season, null, "0", teamID, seasonType));
                     }
                 }
+
+                await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {

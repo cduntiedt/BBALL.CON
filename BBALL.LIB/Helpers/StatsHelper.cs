@@ -21,6 +21,8 @@ namespace BBALL.LIB.Helpers
             {
                 TimeoutHelper.Count();
 
+                Console.WriteLine($"GET: {url}");
+
                 client.Timeout = TimeSpan.FromSeconds(timeout);
                 client.BaseAddress = new Uri(url);
                 client.DefaultRequestHeaders.Add("Accept", "*/*");

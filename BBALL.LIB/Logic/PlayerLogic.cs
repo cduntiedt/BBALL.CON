@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Logic
 {
@@ -16,10 +17,12 @@ namespace BBALL.LIB.Logic
         /// <param name="seasonTypes">The season types.</param>
         /// <param name="dateFrom">The start date.</param>
         /// <param name="dateTo">The end date.</param>
-        public static async void LoadPlayerData(string season, List<string> seasonTypes, string dateFrom = null, string dateTo = null)
+        public static async void LoadPlayerData(string season, List<string> seasonTypes = null, string dateFrom = null, string dateTo = null)
         {
             try
             {
+                var tasks = new List<Task>();
+
                 //obtain player data for current season
                 var seasonPlayers = await PlayerService.PlayerIndex(season, "0");
                 var playerIDs = DailyHelper.GetIDs("PLAYER_ID", "P", season, dateFrom, dateTo);
@@ -29,15 +32,16 @@ namespace BBALL.LIB.Logic
                     int playerIndex = playerIDs.IndexOf(playerID) + 1;
                     Console.WriteLine($"Loading {playerIndex} of {playerIDs.Count} players. ({playerID})");
 
-                    await CommonService.CommonPlayerInfo(playerID); ///TODO: FIX THIS!!!
+                    tasks.Add(CommonService.CommonPlayerInfo(playerID)); ///TODO: FIX THIS!!!
 
                     foreach (var perMode in PerModeService.PlayerPerModes)
                     {
-                        await PlayerService.PlayerProfileV2(playerID, perMode);
-
+                        tasks.Add(PlayerService.PlayerProfileV2(playerID, perMode));
                         //LoadAdditionalPlayerData(playerID, season, seasonType, perMode);
                     }
                 }
+
+                await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {

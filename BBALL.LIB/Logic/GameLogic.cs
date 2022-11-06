@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using static BBALL.LIB.Helpers.ParameterHelper;
 
 namespace BBALL.LIB.Logic
@@ -21,21 +22,22 @@ namespace BBALL.LIB.Logic
         {
             try
             {
+                var tasks = new List<Task>();
                 var gameIDs = DailyHelper.GetIDs("GAME_ID", "T", season, dateFrom, dateTo);
 
                 foreach (var seasonType in seasonTypes)
                 {
                     ////load the games
-                    var games = await LeagueService.LeagueGameLog(season, seasonType);
+                    tasks.Add(LeagueService.LeagueGameLog(season, seasonType));
 
                     foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
                     {
-                        await PlayerService.PlayerGameLogs(season, seasonType, "Totals", measureType);
+                        tasks.Add(PlayerService.PlayerGameLogs(season, seasonType, "Totals", measureType));
                     }
 
                     foreach(var measureType in MeasureTypeService.TeamMeasureTypes)
                     {
-                        await TeamService.TeamGameLogs(null, season, seasonType, measureType);
+                        tasks.Add(TeamService.TeamGameLogs(null, season, seasonType, measureType));
                     }
 
                     foreach (var gameID in gameIDs)
@@ -43,19 +45,21 @@ namespace BBALL.LIB.Logic
                         int gameIndex = gameIDs.IndexOf(gameID) + 1;
                         Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})");
 
-                        await BoxScoreService.BoxScorePlayerTrackV2(gameID);
-                        await BoxScoreService.BoxScoreSummaryV2(gameID);
-                        await BoxScoreService.HustleStatsBoxScore(gameID);
+                        tasks.Add(BoxScoreService.BoxScorePlayerTrackV2(gameID));
+                        tasks.Add(BoxScoreService.BoxScoreSummaryV2(gameID));
+                        tasks.Add(BoxScoreService.HustleStatsBoxScore(gameID));
 
-                        await BoxScoreService.BoxScoreMatchups(gameID);
-                        await BoxScoreService.BoxScoreDefensive(gameID);
+                        tasks.Add(BoxScoreService.BoxScoreMatchups(gameID));
+                        tasks.Add(BoxScoreService.BoxScoreDefensive(gameID));
 
-                        await PlayByPlayService.PlayByPlayV2(gameID);
+                        tasks.Add(PlayByPlayService.PlayByPlayV2(gameID));
 
-                        await GameService.GameRotation(gameID);
-                        await VideoService.VideoDetailAsset(gameID, season, seasonType);
+                        tasks.Add(GameService.GameRotation(gameID));
+                        tasks.Add(VideoService.VideoDetailAsset(gameID, season, seasonType));
                     }
                 }
+
+                await Task.WhenAll(tasks);
             }
             catch (Exception ex)
             {
