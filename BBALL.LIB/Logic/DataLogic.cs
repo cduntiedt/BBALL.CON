@@ -113,7 +113,8 @@ namespace BBALL.LIB.Logic
                     { "Date", DailyHelper.GetDate() },
                     { "StartTime", startTime },
                     { "EndTime", endTime },
-                    { "Elapsed", elapsedTime }
+                    { "Elapsed", elapsedTime },
+                    { "CallsMade", TimeoutHelper.callCount }
                 };
                 await DatabaseHelper.AddDocumentAsync("dataload", loadDocument);
             }

@@ -17,7 +17,7 @@ namespace BBALL.LIB.Services
         {
             try
             {
-                TimeoutHelper.APICount(query.CallCount);
+                await TimeoutHelper.APICount(query.CallCount);
                 var updateParameters = new JArray();
                 foreach (JObject item in query.Parameters)
                 {

@@ -19,7 +19,7 @@ namespace BBALL.LIB.Helpers
             HttpClient client = new HttpClient();
             try
             {
-                TimeoutHelper.Count();
+                await TimeoutHelper.Count();
 
                 Console.WriteLine($"GET: {url}");
 

@@ -17,11 +17,12 @@ namespace BBALL.CON
         {
             var daily = false;
             var shutdown = false;
-            var dataSets = new List<string> { "team" };
+            var dataSets = new List<string> { "league" };
 
             await DatabaseHelper.DropCollectionAsync("errorlog");
 
             await DataLogic.LoadData(daily, shutdown, dataSets);
         }
     }
+
 }

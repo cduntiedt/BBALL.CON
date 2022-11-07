@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Helpers
 {
@@ -9,30 +10,28 @@ namespace BBALL.LIB.Helpers
     {
         public static int callCount = 0;
 
-        public static void Count()
+        public static async Task Count()
         {
             callCount += 1;
-            if (callCount >= 9)
+            var waitIncrement = callCount / 10;
+            if (waitIncrement >= 1)
             {
-                Wait(2000);
-                callCount = 0;
+                await Wait(4000 * waitIncrement);
             }
         }
 
-        public static void APICount(int count)
+        public static async Task APICount(int count)
         {
             count += 1;
             if (count >= 9)
             {
-                Wait(2000);
+                await Wait(2000);
             }
         }
 
-        public static void Wait(int milliseconds)
+        public static async Task Wait(int milliseconds)
         {
-            Console.WriteLine("Wait...");
-            Thread.Sleep(milliseconds);
-            Console.WriteLine("Continue...");
+            await Task.Delay(milliseconds);
         }
     }
 }
