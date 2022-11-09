@@ -3,6 +3,7 @@ using BBALL.LIB.Services;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using System.Threading.Tasks;
 using static BBALL.LIB.Helpers.ParameterHelper;
@@ -42,6 +43,31 @@ namespace BBALL.LIB.Logic
             catch (Exception ex)
             {
                 DatabaseHelper.ErrorDocument(ex, "LoadGameData", null, "load");
+                throw;
+            }
+        }
+
+        public static List<Task> LoadAdditionalGameData(string gameID)
+        {
+            try
+            {
+                var tasks = new List<Task>();
+
+                tasks.Add(BoxScoreService.BoxScorePlayerTrackV2(gameID));
+                tasks.Add(BoxScoreService.BoxScoreSummaryV2(gameID));
+                tasks.Add(BoxScoreService.HustleStatsBoxScore(gameID));
+
+                tasks.Add(BoxScoreService.BoxScoreMatchups(gameID));
+                tasks.Add(BoxScoreService.BoxScoreDefensive(gameID));
+
+                tasks.Add(PlayByPlayService.PlayByPlayV2(gameID));
+
+                tasks.Add(GameService.GameRotation(gameID));
+
+                return tasks;
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

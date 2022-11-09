@@ -14,16 +14,9 @@ namespace BBALL.LIB.Helpers
         public static async Task Count()
         {
             callCount += 1;
-            //var waitIncrement = callCount / 10;
-
-            if(callCount % 2 == 0)
+            if (callCount >= 1)
             {
-                timeoutCount += 1;
-            }
-
-            if (timeoutCount >= 1)
-            {
-                await Wait(2000 * timeoutCount);
+                await Wait(600 * callCount);
             }
         }
 

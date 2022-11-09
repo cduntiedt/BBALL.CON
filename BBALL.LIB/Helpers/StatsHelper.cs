@@ -14,6 +14,7 @@ namespace BBALL.LIB.Helpers
     {
         public static string LeagueID = "00";
         public static string BaseURL = "https://stats.nba.com/stats/";
+
         public static async Task<string> API(string url, int timeout = 15)
         {
             HttpClient client = new HttpClient();
@@ -47,7 +48,6 @@ namespace BBALL.LIB.Helpers
             }
             catch (Exception ex)
             {
-                var error = ex;
                 await DatabaseHelper.ErrorDocumentAsync(ex, "API", url, "");
                 throw;
             }

@@ -130,13 +130,15 @@ namespace BBALL.LIB.Helpers
 
                 await AddUpdateDocumentsAsync(collection, documents, parameters);
 
+                ErrorHelper.Reset();
+
                 return documents;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(url + " failed. Check log.");
                 WriteParametersToConsole(parameters);
-                await ErrorDocumentAsync(ex, "UpdateDatabase", url, collection, parameters);
+                await ErrorDocumentAsync(ex, "UpdateDatabaseAsync", url, collection, parameters);
                 return null;
             }
         }
@@ -206,6 +208,8 @@ namespace BBALL.LIB.Helpers
                 }
 
                 AddUpdateDocument("errorlog", errorDocument, parameters);
+
+                ErrorHelper.Increment();
             }
             catch (Exception ex)
             {
