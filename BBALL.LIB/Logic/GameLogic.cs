@@ -27,34 +27,12 @@ namespace BBALL.LIB.Logic
 
                 foreach (var seasonType in seasonTypes)
                 {
-                    ////load the games
-                    tasks.Add(LeagueService.LeagueGameLog(season, seasonType));
-
-                    foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
-                    {
-                        tasks.Add(PlayerService.PlayerGameLogs(season, seasonType, "Totals", measureType));
-                    }
-
-                    foreach(var measureType in MeasureTypeService.TeamMeasureTypes)
-                    {
-                        tasks.Add(TeamService.TeamGameLogs(null, season, seasonType, measureType));
-                    }
-
                     foreach (var gameID in gameIDs)
                     {
                         int gameIndex = gameIDs.IndexOf(gameID) + 1;
                         tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})"); }));
 
-                        tasks.Add(BoxScoreService.BoxScorePlayerTrackV2(gameID));
-                        tasks.Add(BoxScoreService.BoxScoreSummaryV2(gameID));
-                        tasks.Add(BoxScoreService.HustleStatsBoxScore(gameID));
-
-                        tasks.Add(BoxScoreService.BoxScoreMatchups(gameID));
-                        tasks.Add(BoxScoreService.BoxScoreDefensive(gameID));
-
                         tasks.Add(PlayByPlayService.PlayByPlayV2(gameID));
-
-                        tasks.Add(GameService.GameRotation(gameID));
                         tasks.Add(VideoService.VideoDetailAsset(gameID, season, seasonType));
                     }
                 }

@@ -30,18 +30,18 @@ namespace BBALL.LIB.Services
         public static void LoadFilter()
         {
             BsonArray array = new BsonArray {
-                new BsonDocument { { "label", "Speed Distance" }, { "value", "SpeedDistance" } },
+                new BsonDocument { { "label", "Speed & Distance" }, { "value", "SpeedDistance" } },
                 new BsonDocument { { "label", "Rebounding" }, { "value", "Rebounding" } },
                 new BsonDocument { { "label", "Possessions" }, { "value", "Possessions" } },
                 new BsonDocument { { "label", "Catch Shoot" }, { "value", "CatchShoot" } },
                 new BsonDocument { { "label", "Pull Up Shot" }, { "value", "PullUpShot" } },
-                new BsonDocument { { "label", "Defense" }, { "value", "Defense" } },
+                new BsonDocument { { "label", "Defensive Impact" }, { "value", "Defense" } },
                 new BsonDocument { { "label", "Drives" }, { "value", "Drives" } },
                 new BsonDocument { { "label", "Passing" }, { "value", "Passing" } },
-                new BsonDocument { { "label", "Elbow Touch" }, { "value", "ElbowTouch" } },
-                new BsonDocument { { "label", "Post Touch" }, { "value", "PostTouch" } },
-                new BsonDocument { { "label", "Paint Touch" }, { "value", "PaintTouch" } },
-                new BsonDocument { { "label", "Efficiency" }, { "value", "Efficiency" } },
+                new BsonDocument { { "label", "Elbow Touches" }, { "value", "ElbowTouch" } },
+                new BsonDocument { { "label", "Post Ups" }, { "value", "PostTouch" } },
+                new BsonDocument { { "label", "Paint Touches" }, { "value", "PaintTouch" } },
+                new BsonDocument { { "label", "Shooting Efficiency" }, { "value", "Efficiency" } },
             };
 
             DatabaseHelper.AddFilterCollection("ptMeasureTypes", array);

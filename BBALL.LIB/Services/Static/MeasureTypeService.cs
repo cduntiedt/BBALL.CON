@@ -17,6 +17,7 @@ namespace BBALL.LIB.Services
             measureTypes.Add("Misc");
             measureTypes.Add("Scoring");
             measureTypes.Add("Usage");
+            measureTypes.Add("Defense");
             return measureTypes;
         }
 
@@ -28,6 +29,7 @@ namespace BBALL.LIB.Services
                 new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
                 new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
                 new BsonDocument { { "label", "Usage" }, { "value", "Usage" } },
+                new BsonDocument { { "label", "Defense" }, { "value", "Defense" } },
             };
 
             DatabaseHelper.AddFilterCollection("playerMeasureTypes", array);
@@ -40,11 +42,11 @@ namespace BBALL.LIB.Services
             List<string> measureTypes = new List<string>();
             measureTypes.Add("Base"); //traditional
             measureTypes.Add("Advanced");
-            measureTypes.Add("Misc");
             measureTypes.Add("Four Factors");
+            measureTypes.Add("Misc");
             measureTypes.Add("Scoring");
-            //measureTypes.Add("Usage");
             measureTypes.Add("Opponent");
+            measureTypes.Add("Defense");
             return measureTypes;
         }
 
@@ -53,10 +55,11 @@ namespace BBALL.LIB.Services
             BsonArray array = new BsonArray {
                 new BsonDocument { { "label", "Base" }, { "value", "Base" } },
                 new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Four Factors" }, { "value", "Four Factors" } },
                 new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
                 new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
-                new BsonDocument { { "label", "Four Factors" }, { "value", "Four Factors" } },
                 new BsonDocument { { "label", "Opponent" }, { "value", "Opponent" } },
+                new BsonDocument { { "label", "Defense" }, { "value", "Defense" } },
             };
 
             DatabaseHelper.AddFilterCollection("teamMeasureTypes", array);
@@ -94,6 +97,61 @@ namespace BBALL.LIB.Services
             };
 
             DatabaseHelper.AddFilterCollection("leagueMeasureTypes", array);
+        }
+
+        /// <summary>
+        /// Used with clutch.
+        /// </summary>
+        public static List<string> ClutchMeasureTypes { get { return _ClutchMeasureTypes(); } }
+        private static List<string> _ClutchMeasureTypes()
+        {
+            List<string> measureTypes = new List<string>();
+            measureTypes.Add("Base"); //traditional
+            measureTypes.Add("Advanced");
+            measureTypes.Add("Misc");
+            measureTypes.Add("Scoring");
+            measureTypes.Add("Usage");
+            return measureTypes;
+        }
+
+        public static void LoadFilterClutch()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Base" }, { "value", "Base" } },
+                new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
+                new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
+                new BsonDocument { { "label", "Usage" }, { "value", "Usage" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("clutchMeasureTypes", array);
+        }
+
+        public static List<string> TeamClutchMeasureTypes { get { return _TeamClutchMeasureTypes(); } }
+        private static List<string> _TeamClutchMeasureTypes()
+        {
+            List<string> measureTypes = new List<string>();
+            measureTypes.Add("Base"); //traditional
+            measureTypes.Add("Advanced");
+            measureTypes.Add("Four Factors");
+            measureTypes.Add("Misc");
+            measureTypes.Add("Scoring");
+            measureTypes.Add("Opponent");
+            return measureTypes;
+        }
+
+        public static void LoadFilterTeamClutch()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Base" }, { "value", "Base" } },
+                new BsonDocument { { "label", "Advanced" }, { "value", "Advanced" } },
+                new BsonDocument { { "label", "Four Factors" }, { "value", "Four Factors" } },
+                new BsonDocument { { "label", "Misc" }, { "value", "Misc" } },
+                new BsonDocument { { "label", "Scoring" }, { "value", "Scoring" } },
+                new BsonDocument { { "label", "Opponent" }, { "value", "Opponent" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("teamClutchMeasureTypes", array);
         }
     }
 }

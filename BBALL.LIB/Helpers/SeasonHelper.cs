@@ -32,7 +32,7 @@ namespace BBALL.LIB.Helpers
         {
             List<BsonDocument> seasonDocuments = new List<BsonDocument>();
 
-            foreach (var seasonType in SeasonTypeService.TeamSeasonTypes)
+            foreach (var seasonType in SeasonTypeService.SeasonTypes)
             {
                 JArray parameters = new JArray();
                 parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(null)));

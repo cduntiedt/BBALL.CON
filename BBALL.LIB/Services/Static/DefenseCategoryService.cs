@@ -27,9 +27,9 @@ namespace BBALL.LIB.Services
                 new BsonDocument { { "label", "Overall" }, { "value", "Overall" } },
                 new BsonDocument { { "label", "3 Pointers" }, { "value", "3 Pointers" } },
                 new BsonDocument { { "label", "2 Pointers" }, { "value", "2 Pointers" } },
-                new BsonDocument { { "label", "Less Than 6Ft" }, { "value", "Less Than 6Ft" } },
-                new BsonDocument { { "label", "Less Than 10Ft" }, { "value", "Less Than 10Ft" } },
-                new BsonDocument { { "label", "Greater Than 15Ft" }, { "value", "Greater Than 15Ft" } }
+                new BsonDocument { { "label", "< 6Ft" }, { "value", "Less Than 6Ft" } },
+                new BsonDocument { { "label", "< 10Ft" }, { "value", "Less Than 10Ft" } },
+                new BsonDocument { { "label", "> 15Ft" }, { "value", "Greater Than 15Ft" } }
             };
 
             DatabaseHelper.AddFilterCollection("defenseCategory", array);

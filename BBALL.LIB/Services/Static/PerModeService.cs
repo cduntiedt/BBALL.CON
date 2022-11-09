@@ -52,13 +52,13 @@ namespace BBALL.LIB.Services
             DatabaseHelper.AddFilterCollection("playerPerModes", array);
         }
 
-
         public static List<string> TeamPerModes { get { return _TeamPerModes(); } }
         private static List<string> _TeamPerModes()
         {
             List<string> perModes = new List<string>();
             perModes.Add("Totals");
             perModes.Add("PerGame");
+            perModes.Add("Per100Possessions");
             return perModes;
         }
 
@@ -67,9 +67,30 @@ namespace BBALL.LIB.Services
             BsonArray array = new BsonArray {
                 new BsonDocument { { "label", "Totals" }, { "value", "Totals" } },
                 new BsonDocument { { "label", "Per Game" }, { "value", "PerGame" } },
+                new BsonDocument { { "label", "Per 100 Possessions" }, { "value", "Per100Possessions" } },
             };
 
             DatabaseHelper.AddFilterCollection("teamPerModes", array);
+        }
+
+
+        public static List<string> BasePerModes { get { return _BasePerModes(); } }
+        private static List<string> _BasePerModes()
+        {
+            List<string> perModes = new List<string>();
+            perModes.Add("Totals");
+            perModes.Add("PerGame");
+            return perModes;
+        }
+
+        public static void LoadFilterBase()
+        {
+            BsonArray array = new BsonArray {
+                new BsonDocument { { "label", "Totals" }, { "value", "Totals" } },
+                new BsonDocument { { "label", "Per Game" }, { "value", "PerGame" } },
+            };
+
+            DatabaseHelper.AddFilterCollection("basePerModes", array);
         }
 
         public static List<string> FranchisePerModes { get { return _FranchisePerModes(); } }

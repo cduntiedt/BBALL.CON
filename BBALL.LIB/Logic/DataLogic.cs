@@ -48,7 +48,7 @@ namespace BBALL.LIB.Logic
                 //load all data sets, if no specific data sets are provided
                 if(dataSets == null)
                 {
-                    dataSets = new List<string>() { "game", "league", "team", "player" };
+                    dataSets = new List<string>() { "game", "team", "player" };
                 }
 
                 var tasks = new List<Task>();
@@ -66,12 +66,6 @@ namespace BBALL.LIB.Logic
                                 Console.WriteLine("Game data load started.");
                                 tasks.Add(GameLogic.LoadGameData(season, seasonTypes, dateFrom, dateTo));
                                 Console.WriteLine("Game data load complete.");
-                                break;
-                            case "league":
-                                //Load season data
-                                Console.WriteLine("League data load started.");
-                                tasks.Add(LeagueLogic.LoadLeagueData(season, seasonTypes));
-                                Console.WriteLine("League data load complete.");
                                 break;
                             case "team":
                                 //Load team data 
@@ -132,34 +126,6 @@ namespace BBALL.LIB.Logic
             }
         }
 
-        /// <summary>
-        /// One time load of player data.
-        /// </summary>
-        public static async Task OneTimeLoad()
-        {
-            var season = SeasonService.CurrentSeason.FirstOrDefault();
-            //obtain player data for current season
-            var seasonPlayers = await PlayerService.PlayerIndex(season, "0");
-            var playerIDs = await DailyHelper.GetIDs("PLAYER_ID", "P", season);
-
-            foreach (var playerID in playerIDs)
-            {
-                var playerInfo = seasonPlayers.Where(x => x["PERSON_ID"] == playerID).FirstOrDefault();
-                Console.WriteLine(playerID + " | started");
-
-                foreach (var seasonType in SeasonTypeService.PlayerSeasonTypes)
-                {
-                    var totals = "Totals";
-                    foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
-                    {
-                        await PlayerService.PlayerGameLogs(season, seasonType, totals, measureType, playerID);
-                    }
-                }
-
-                Console.WriteLine(playerID + " | completed");
-            }
-        }
-
         public static async Task LoadStaticData()
         {
             var tasks = new List<Task>();
@@ -176,9 +142,13 @@ namespace BBALL.LIB.Logic
             tasks.Add(Task.Run(() => { MeasureTypeService.LoadFilterLeague();}));
             tasks.Add(Task.Run(() => { MeasureTypeService.LoadFilterPlayer();}));
             tasks.Add(Task.Run(() => { MeasureTypeService.LoadFilterTeam();}));
+            tasks.Add(Task.Run(() => { MeasureTypeService.LoadFilterClutch();}));
+            tasks.Add(Task.Run(() => { MeasureTypeService.LoadFilterTeamClutch();}));
+            tasks.Add(Task.Run(() => { OffensiveDefensiveService.LoadFilter();}));
             tasks.Add(Task.Run(() => { OutcomeService.LoadFilter();}));
             tasks.Add(Task.Run(() => { PaceAdjustService.LoadFilter();}));
             tasks.Add(Task.Run(() => { PerModeService.LoadFilterDefault();}));
+            tasks.Add(Task.Run(() => { PerModeService.LoadFilterBase();}));
             tasks.Add(Task.Run(() => { PerModeService.LoadFilterFranchise();}));
             tasks.Add(Task.Run(() => { PerModeService.LoadFilterTeam();}));
             tasks.Add(Task.Run(() => { PerModeService.LoadFilterPlayer();}));
@@ -186,15 +156,15 @@ namespace BBALL.LIB.Logic
             tasks.Add(Task.Run(() => { PlayerOrTeamService.LoadFilter();}));
             tasks.Add(Task.Run(() => { PlayerPositionService.LoadFilter();}));
             tasks.Add(Task.Run(() => { PlayerScopeService.LoadFilter();}));
+            tasks.Add(Task.Run(() => { PlayTypeService.LoadFilter();}));
             tasks.Add(Task.Run(() => { PTMeasureTypeService.LoadFilter();}));
             tasks.Add(Task.Run(() => { RankService.LoadFilter();}));
             tasks.Add(Task.Run(() => { ScopeService.LoadFilter();}));
             tasks.Add(Task.Run(() => { SeasonSegmentService.LoadFilter();}));
             tasks.Add(Task.Run(() => { SeasonService.LoadFilter();}));
-            tasks.Add(Task.Run(() => { SeasonTypeService.LoadFilterTeam();}));
-            tasks.Add(Task.Run(() => { SeasonTypeService.LoadFilterPlayer();}));
-            tasks.Add(Task.Run(() => { SeasonTypeService.LoadFilterLeague();}));
+            tasks.Add(Task.Run(() => { SeasonTypeService.LoadFilter(); ;}));
             tasks.Add(Task.Run(() => { ShotClockRangeService.LoadFilter();}));
+            tasks.Add(Task.Run(() => { ShotRangeService.LoadFilter();}));
             tasks.Add(Task.Run(() => { SorterService.LoadFilter();}));
             tasks.Add(Task.Run(() => { StarterBenchService.LoadFilter();}));
             tasks.Add(Task.Run(() => { StatCategoryService.LoadFilterDefault();}));
