@@ -943,8 +943,8 @@ namespace BBALL.LIB.Services
             string Season = null,
             string SeasonType = "Regular Season",
             string PerMode = "PerGame",
-            string MeasureType = "Opponent",
             string DistanceRange = "By Zone",
+            string MeasureType = "Opponent",
             string TeamID = "0",
             string LeagueID = null,
             string Conference = null,
@@ -964,7 +964,6 @@ namespace BBALL.LIB.Services
             string PlusMinus = "N",
             string Rank = "N",
             string PlayerExperience = null,
-            string PLayerOrTeam = "Player",
             string PlayerPosition = null,
             string SeasonSegment = null,
             string ShotClockRange = null,
@@ -990,14 +989,13 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("Month", Month));
             parameters.Add(CreateParameterObject("OpponentTeamID", OpponentTeamID));
             parameters.Add(CreateParameterObject("Outcome", Outcome));
+            parameters.Add(CreateParameterObject("PORound", PORound));
             parameters.Add(CreateParameterObject("PaceAdjust", PaceAdjust));
             parameters.Add(CreateParameterObject("Period", Period));
-            parameters.Add(CreateParameterObject("PORound", PORound));
+            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
+            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
             parameters.Add(CreateParameterObject("PlusMinus", PlusMinus));
             parameters.Add(CreateParameterObject("Rank", Rank));
-            parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
-            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam));
-            parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
             parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
             parameters.Add(CreateParameterObject("ShotClockRange", ShotClockRange));
             parameters.Add(CreateParameterObject("StarterBench", StarterBench));

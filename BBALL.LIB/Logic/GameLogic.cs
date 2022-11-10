@@ -31,7 +31,10 @@ namespace BBALL.LIB.Logic
                     foreach (var gameID in gameIDs)
                     {
                         int gameIndex = gameIDs.IndexOf(gameID) + 1;
-                        tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})"); }));
+                        tasks.Add(Task.Run(async() => {
+                            await TimeoutHelper.Count();
+                            Console.WriteLine($"Loading {gameIndex} of {gameIDs.Count} games. ({gameID})"); 
+                        }));
 
                         tasks.Add(PlayByPlayService.PlayByPlayV2(gameID));
                         tasks.Add(VideoService.VideoDetailAsset(gameID, season, seasonType));

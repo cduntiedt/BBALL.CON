@@ -111,7 +111,10 @@ namespace BBALL.LIB.Logic
                 foreach (var teamID in teamIDs)
                 {
                     int teamIndex = teamIDs.IndexOf(teamID) + 1;
-                    tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {teamIndex} of {teamCount} teams. ({teamID})"); }));
+                    tasks.Add(Task.Run(async () => {
+                        await TimeoutHelper.Count();
+                        Console.WriteLine($"Loading {teamIndex} of {teamCount} teams. ({teamID})"); 
+                    }));
 
                     //get the team details
                     tasks.Add(TeamService.TeamDetails(teamID));

@@ -256,14 +256,21 @@ namespace BBALL.LIB.Helpers
                 }
                 else
                 {
-                    //if there are any existing documents, delete em
-                    if(dbCollection.Find(x => x["PARAMETERS"] == documents.FirstOrDefault()["PARAMETERS"]).Any())
+                    if(documents.Count > 0)
                     {
-                        dbCollection.DeleteMany(x => x["PARAMETERS"] == documents.FirstOrDefault()["PARAMETERS"]);
-                    }
+                        //if there are any existing documents, delete em
+                        if (dbCollection.Find(x => x["PARAMETERS"] == documents.FirstOrDefault()["PARAMETERS"]).Any())
+                        {
+                            dbCollection.DeleteMany(x => x["PARAMETERS"] == documents.FirstOrDefault()["PARAMETERS"]);
+                        }
 
-                    dbCollection.InsertMany(documents);
-                    Console.WriteLine($"{collection} inserted.");
+                        dbCollection.InsertMany(documents);
+                        Console.WriteLine($"{collection} inserted.");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{collection} skipped.");
+                    }
 
                     WriteParametersToConsole(parameters);
                 }

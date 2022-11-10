@@ -48,6 +48,13 @@ namespace BBALL.LIB.Logic
                             tasks.Add(LeagueService.LeagueDashPlayerClutch(season, seasonType, perMode, measureType));
                         }
 
+                        tasks.Add(LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, "Opponent"));
+                        tasks.Add(LeagueService.LeagueHustleStatsPlayer(season, seasonType, perMode));
+
+                    }
+
+                    foreach (var perMode in PerModeService.BasePerModes)
+                    {
                         foreach (var playType in PlayTypeService.PlayTypes)
                         {
                             foreach (var type in OffensiveDefensiveService.OffensiveDefensive)
@@ -56,13 +63,6 @@ namespace BBALL.LIB.Logic
                             }
                         }
 
-                        tasks.Add(LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, "Opponent"));
-                        tasks.Add(LeagueService.LeagueHustleStatsPlayer(season, seasonType, perMode));
-
-                    }
-
-                    foreach (var perMode in PerModeService.BasePerModes)
-                    {
                         foreach (var measureType in PTMeasureTypeService.PTMeasureTypes)
                         {
                             tasks.Add(LeagueService.LeagueDashPTStats(season, seasonType, perMode, measureType, "Player"));
@@ -97,7 +97,10 @@ namespace BBALL.LIB.Logic
                 foreach (var playerID in playerIDs)
                 {
                     int playerIndex = playerIDs.IndexOf(playerID) + 1;
-                    tasks.Add(Task.Run(() => { Console.WriteLine($"Loading {playerIndex} of {playerIDs.Count} players. ({playerID})"); }));
+                    tasks.Add(Task.Run(async() => {
+                        await TimeoutHelper.Count();
+                        Console.WriteLine($"Loading {playerIndex} of {playerIDs.Count} players. ({playerID})"); 
+                    }));
 
                     tasks.Add(CommonService.CommonPlayerInfo(playerID)); ///TODO: FIX THIS!!!
 

@@ -17,7 +17,7 @@ namespace BBALL.CON
         {
             var daily = false;
             var shutdown = false;
-            var dataSets = new List<string> { "team" };
+            var dataSets = new List<string> { "game" };
 
             await DatabaseHelper.DropCollectionAsync("errorlog");
 

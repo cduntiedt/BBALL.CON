@@ -36,7 +36,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> SynergyPlayType(JArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytype/", "synergyplaytype", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytypes/", "synergyplaytype", parameters);
         }
     }
 }
