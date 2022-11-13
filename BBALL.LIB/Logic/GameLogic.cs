@@ -45,8 +45,7 @@ namespace BBALL.LIB.Logic
             }
             catch (Exception ex)
             {
-                DatabaseHelper.ErrorDocument(ex, "LoadGameData", null, "load");
-                throw;
+                await DatabaseHelper.ErrorDocumentAsync(ex, "LoadGameData", null, "load");
             }
         }
 

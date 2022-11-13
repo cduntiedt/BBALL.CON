@@ -44,7 +44,7 @@ namespace BBALL.LIB.Services
           string VsDivision = null
           )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -79,7 +79,7 @@ namespace BBALL.LIB.Services
             return await VideoDetails(parameters);
         }
 
-        public static async Task<List<BsonDocument>> VideoDetails(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoDetails(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videodetails/", "videodetails", parameters);
         }
@@ -89,13 +89,13 @@ namespace BBALL.LIB.Services
             string GameID
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("GameEventID", GameEventID));
             return await VideoEvents(parameters);
         }
 
-        public static async Task<List<BsonDocument>> VideoEvents(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoEvents(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videoevents/", "videoevents", parameters);
         }
@@ -105,13 +105,13 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("GameDate", GameDate));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             return await VideoStatus(parameters);
         }
 
-        public static async Task<List<BsonDocument>> VideoStatus(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoStatus(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videostatus/", "videostatus", parameters);
         }
@@ -149,7 +149,7 @@ namespace BBALL.LIB.Services
             string VsDivision = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -184,7 +184,7 @@ namespace BBALL.LIB.Services
             return await VideoDetailAsset(parameters);
         }
 
-        public static async Task<List<BsonDocument>> VideoDetailAsset(JArray parameters)
+        public static async Task<List<BsonDocument>> VideoDetailAsset(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/videodetailsasset/", "videodetailsasset", parameters, false, 30);
         }

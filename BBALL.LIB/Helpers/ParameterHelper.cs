@@ -1,9 +1,11 @@
 ﻿using BBALL.LIB.Models;
+using MongoDB.Bson;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BBALL.LIB.Helpers
 {
@@ -23,29 +25,44 @@ namespace BBALL.LIB.Helpers
         /// <param name="value"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static JObject CreateParameterObject(string key, JToken value, ParameterType type)
+        public static BsonDocument CreateParameterObject(string key, BsonValue value, ParameterType type = ParameterType.String)
         {
-            JObject obj = new JObject();
-            obj.Add("Key", key);
-            obj.Add("Value", value);
-
-            var parameterType = "";
-            switch (type)
+            try
             {
-                case ParameterType.Int:
-                    parameterType = "int";
-                    break;
-                case ParameterType.Bool:
-                    parameterType = "bool";
-                    break;
-                default:
-                    parameterType = "string";
-                    break;
+                BsonDocument obj = new BsonDocument();
+                obj.Add("Key", key);
+
+                if (value == null)
+                {
+                    obj.Add("Value", "");
+                }
+                else
+                {
+                    obj.Add("Value", value);
+                }
+
+                var parameterType = "";
+                switch (type)
+                {
+                    case ParameterType.Int:
+                        parameterType = "int";
+                        break;
+                    case ParameterType.Bool:
+                        parameterType = "bool";
+                        break;
+                    default:
+                        parameterType = "string";
+                        break;
+                }
+
+                obj.Add("Type", parameterType);
+
+                return obj;
             }
-
-            obj.Add("Type", parameterType);
-
-            return obj;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -54,16 +71,44 @@ namespace BBALL.LIB.Helpers
         /// <param name="key">The key of the object.</param>
         /// <param name="value">The value of the object.</param>
         /// <returns>The key/value pairing.</returns>
-        public static JObject CreateParameterObject(string key, string value)
+        public static BsonDocument CreateParameterObject(string key, string value)
         {
-            JObject obj = new JObject();
-            obj.Add("Key", key);
-            obj.Add("Value", value);
-            obj.Add("Type", "string");
-            return obj;
+            try
+            {
+                BsonDocument obj = new BsonDocument();
+                obj.Add("Key", key);
+
+                if(value == null)
+                {
+                    obj.Add("Value", "");
+                }
+                else
+                {
+                    obj.Add("Value", value);
+                }
+
+                obj.Add("Type", "string");
+                return obj;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+           
+        }
+        
+        public static void WriteParametersToConsole(BsonArray parameters = null)
+        {
+            if (parameters != null)
+            {
+                foreach (var parameter in parameters)
+                {
+                    Console.WriteLine($"\t {parameter["Key"]}: {parameter["Value"]}");
+                }
+            }
         }
 
-        public static JArray CreateBaseParameterArray(
+        public static BsonArray CreateBaseParameterArray(
            string leagueID,
            string season,
            string seasonType,
@@ -88,7 +133,7 @@ namespace BBALL.LIB.Helpers
            string vsConference,
            string vsDivision)
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
 
             parameters.Add(CreateParameterObject("Conference", conference, ParameterType.String));
             parameters.Add(CreateParameterObject("DateFrom", dateFrom, ParameterType.String));
@@ -117,9 +162,9 @@ namespace BBALL.LIB.Helpers
             return parameters;
         }
 
-        public static JArray ConvertBaseParametersToArray(BaseParameters baseParameters)
+        public static BsonArray ConvertBaseParametersToArray(BaseParameters baseParameters)
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
 
             parameters.Add(CreateParameterObject("Conference", baseParameters.Conference, ParameterType.String));
             parameters.Add(CreateParameterObject("DateFrom", baseParameters.DateFrom, ParameterType.String));
@@ -148,7 +193,7 @@ namespace BBALL.LIB.Helpers
             return parameters;
         }
 
-        public static JArray ConvertBaseParametersToArray(string leagueID, string season, string seasonType, string perMode, string measureType, BaseParameters baseParameters)
+        public static BsonArray ConvertBaseParametersToArray(string leagueID, string season, string seasonType, string perMode, string measureType, BaseParameters baseParameters)
         {
             baseParameters.LeagueID = leagueID;
             baseParameters.Season = season;
@@ -156,7 +201,7 @@ namespace BBALL.LIB.Helpers
             baseParameters.PerMode = perMode;
             baseParameters.MeasureType = measureType;
 
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
 
             parameters.Add(CreateParameterObject("Conference", baseParameters.Conference, ParameterType.String));
             parameters.Add(CreateParameterObject("DateFrom", baseParameters.DateFrom, ParameterType.String));
@@ -185,7 +230,7 @@ namespace BBALL.LIB.Helpers
             return parameters;
         }
 
-        public static JArray ConvertBaseParametersToArray(string leagueID, string season, string seasonType, string perMode, string measureType)
+        public static BsonArray ConvertBaseParametersToArray(string leagueID, string season, string seasonType, string perMode, string measureType)
         {
             return ConvertBaseParametersToArray(leagueID, season, seasonType, perMode, measureType, new BaseParameters());
         }

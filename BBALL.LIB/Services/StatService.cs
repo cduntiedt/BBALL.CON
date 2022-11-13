@@ -13,13 +13,13 @@ namespace BBALL.LIB.Services
 {
     public static class StatService
     {
-        public static async Task<JObject> Query(StatQuery query)
+        public static async Task<BsonDocument> Query(StatQuery query)
         {
             try
             {
                 await TimeoutHelper.APICount(query.CallCount);
-                var updateParameters = new JArray();
-                foreach (JObject item in query.Parameters)
+                var updateParameters = new BsonArray();
+                foreach (var item in query.Parameters)
                 {
                     var key = item["Key"].ToString();
                     var value = item["Value"].ToString();
@@ -33,7 +33,7 @@ namespace BBALL.LIB.Services
                 }
                 
                 //see if document exists and has been updated to the current date
-                var document = DatabaseHelper.GetJSONDocument(query.Collection, updateParameters);
+                var document = await DatabaseHelper.GetDocumentAsync(query.Collection, updateParameters);
 
                 //if it doesn't exist or isn't up to date
                 if (document == null)
@@ -46,15 +46,7 @@ namespace BBALL.LIB.Services
                     {
                         throw new Exception("No data");
                     }
-                    else
-                    {
-                        //convert bson document to json
-                        var jsonWriterSettings = new JsonWriterSettings { OutputMode = JsonOutputMode.Strict };
-                        document = JObject.Parse(dbDocument.ToJson(jsonWriterSettings));
-                    }
                 }
-
-                //var document = new BsonDocument();
 
                 return document;
             }

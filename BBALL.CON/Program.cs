@@ -15,13 +15,18 @@ namespace BBALL.CON
     {
         static async Task Main(string[] args)
         {
+            await RunProcess();
+        }
+
+
+        private static async Task RunProcess()
+        {
             var daily = false;
-            var shutdown = false;
-            var dataSets = new List<string> { "game" };
 
-            await DatabaseHelper.DropCollectionAsync("errorlog");
+            await DatabaseHelper.DropCollectionAsync("logerror");
+            await DatabaseHelper.DropCollectionAsync("logapi");
 
-            await DataLogic.LoadData(daily, shutdown, dataSets);
+            await DataLogic.LoadData(daily, true);
         }
     }
 

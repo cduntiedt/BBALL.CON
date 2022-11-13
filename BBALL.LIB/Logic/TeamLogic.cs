@@ -133,8 +133,7 @@ namespace BBALL.LIB.Logic
             }
             catch (Exception ex)
             {
-                DatabaseHelper.ErrorDocument(ex, "LoadTeamData", null, "load");
-                throw;
+                await DatabaseHelper.ErrorDocumentAsync(ex, "LoadTeamData", null, "load");
             }
         }
 

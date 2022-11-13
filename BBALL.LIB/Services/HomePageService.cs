@@ -22,7 +22,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("GameScope", GameScope));
@@ -33,7 +33,7 @@ namespace BBALL.LIB.Services
             return await HomePageLeaders(parameters);
         }
 
-        public static async Task<List<BsonDocument>> HomePageLeaders(JArray parameters)
+        public static async Task<List<BsonDocument>> HomePageLeaders(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/homepageleaders/", "homepageleaders", parameters);
         }
@@ -48,7 +48,7 @@ namespace BBALL.LIB.Services
            string LeagueID = null
            )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("GameScope", GameScope));
@@ -59,7 +59,7 @@ namespace BBALL.LIB.Services
             return await HomePageV2(parameters);
         }
 
-        public static async Task<List<BsonDocument>> HomePageV2(JArray parameters)
+        public static async Task<List<BsonDocument>> HomePageV2(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/homepagev2/", "homepagev2", parameters);
         }

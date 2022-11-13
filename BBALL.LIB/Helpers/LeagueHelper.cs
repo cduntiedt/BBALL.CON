@@ -11,7 +11,7 @@ namespace BBALL.LIB.Helpers
         /// </summary>
         /// <param name="id">The league ID value if provided.</param>
         /// <returns>The League ID.</returns>
-        public static string DefaultLeagueID(string id)
+        public static string DefaultLeagueID(string id = null)
         {
             if (id == null || id == "")
             {

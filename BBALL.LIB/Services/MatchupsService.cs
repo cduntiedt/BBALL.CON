@@ -32,7 +32,7 @@ namespace BBALL.LIB.Services
            string OffPlayerID = null,
            string OffTeamID = null)
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID));
@@ -44,7 +44,7 @@ namespace BBALL.LIB.Services
             return await LeagueSeasonMatchups(parameters);
         }
 
-        public static async Task<List<BsonDocument>> LeagueSeasonMatchups(JArray parameters)
+        public static async Task<List<BsonDocument>> LeagueSeasonMatchups(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leagueseasonmatchups/", "leagueseasonmatchups", parameters);
         }
@@ -59,7 +59,7 @@ namespace BBALL.LIB.Services
             string OffPlayerID = null,
             string OffTeamID = null)
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("DefPlayerID", DefPlayerID));
@@ -71,7 +71,7 @@ namespace BBALL.LIB.Services
             return await MatchupsRollup(parameters);
         }
 
-        public static async Task<List<BsonDocument>> MatchupsRollup(JArray parameters)
+        public static async Task<List<BsonDocument>> MatchupsRollup(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/matchupsrollup/", "matchupsrollup", parameters);
         }

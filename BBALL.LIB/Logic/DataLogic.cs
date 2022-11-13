@@ -3,12 +3,14 @@ using BBALL.LIB.Services;
 using BBALL.LIB.Services.Static;
 using MongoDB.Bson;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BBALL.LIB.Helpers.ParameterHelper;
 
 namespace BBALL.LIB.Logic
 {
@@ -21,12 +23,21 @@ namespace BBALL.LIB.Logic
         /// <param name="seasons">A list of seasons to be loaded.</param>
         public static async Task LoadData(bool daily = true, bool shutdown = true, List<string> dataSets = null, List<string> seasons = null)
         {
+            //start a stopwatch to take the length of the process
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            string startTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
+            string stopTime = "";
+            string restartTime = "";
+            int incompleteTaskCount = 0;
+
             try
             {
-                //start a stopwatch to take the length of the process
-                Stopwatch stopWatch = new Stopwatch();
-                stopWatch.Start();
-                string startTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
+                //add and verify the collections exist
+                await LoadCollections();
+
+                //add static filter data
+                await LoadStaticData();
 
                 //add default season if no season was provided
                 if (seasons == null)
@@ -88,6 +99,50 @@ namespace BBALL.LIB.Logic
 
                 await Task.WhenAll(tasks);
 
+                //check any records that could not be loaded due to errors
+                var parameters = new BsonArray();
+                parameters.Add(CreateParameterObject("completed", false, ParameterType.Bool));
+                var incompleteData = await DatabaseHelper.GetDocumentsAsync("logapi", parameters);
+                incompleteTaskCount = incompleteData.Count;
+
+                if (incompleteTaskCount > 0)
+                {
+                    Console.WriteLine("Wait to restart incompleted tasks...");
+                    stopTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
+
+                    //wait five minutes
+                    await TimeoutHelper.Wait(300000);
+                    TimeoutHelper.Reset();
+
+                    restartTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
+
+                    Console.WriteLine("Restarting...");
+                    var incompleteTasks = new List<Task>();
+                    for (int i = 0; i < incompleteData.Count; i++)
+                    {
+                        incompleteTasks.Add(
+                            DatabaseHelper.UpdateDatabaseAsync(
+                                incompleteData[i]["url"].ToString(),
+                                incompleteData[i]["collection"].ToString(),
+                                null, //no parameters needed as they are a part of the url at this point
+                                incompleteData[i]["parse"].ToBoolean(),
+                                incompleteData[i]["timeout"].ToInt32(),
+                                incompleteData[i]["resultSet"].ToString()
+                            )
+                        );
+                    }
+
+                    await Task.WhenAll(incompleteTasks);
+                }
+            }
+            catch (Exception ex)
+            {
+                await DatabaseHelper.ErrorDocumentAsync(ex, "LoadData");
+
+                Console.WriteLine("There was an error loading data...");
+            }
+            finally
+            {
                 stopWatch.Stop();
                 string endTime = String.Format("{0:yyyy-MM-dd hh:mm:ss}", DateTime.Now);
 
@@ -103,24 +158,24 @@ namespace BBALL.LIB.Logic
                 //log data load process results
                 BsonDocument loadDocument = new BsonDocument
                 {
-                    { "Daily", daily },
-                    { "Date", DailyHelper.GetDate() },
-                    { "StartTime", startTime },
-                    { "EndTime", endTime },
-                    { "Elapsed", elapsedTime },
-                    { "CallsMade", TimeoutHelper.callCount }
+                    { "daily", daily },
+                    { "date", DailyHelper.GetDate() },
+                    { "startTime", startTime },
+                    { "endTime", endTime },
+                    { "elapsed", elapsedTime },
+                    { "stopTime", stopTime },
+                    { "restartTime", restartTime },
+                    { "callsMade", TimeoutHelper.callCount },
+                    { "incompleteTasks", incompleteTaskCount }
                 };
-                await DatabaseHelper.AddDocumentAsync("dataload", loadDocument);
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("There was an error loading data...");
-            }
-            finally
-            {
+                await DatabaseHelper.AddDocumentAsync("logprocess", loadDocument);
+
+                Console.WriteLine("Process complete!");
+
                 //shutdown computer
                 if (shutdown)
                 {
+                    Console.WriteLine("Shutting down...");
                     Process.Start("shutdown", "/f /s /t 0");
                 }
             }
@@ -174,6 +229,65 @@ namespace BBALL.LIB.Logic
             tasks.Add(Task.Run(() => { VsDivisionService.LoadFilter();}));
 
             await Task.WhenAll(tasks);
+        }
+
+        public static async Task LoadCollections()
+        {
+            var collections = new[] {
+                "logprocess",
+                "logapi",
+                "logerror",
+                "playbyplayv2",
+                "videodetailsasset",
+                "draftboard",
+                "draftcombinedrillresults",
+                "draftcombinenonstationaryshooting",
+                "draftcombineplayeranthro",
+                "draftcombinespotshooting",
+                "draftcombinestats",
+                "leaguegamelog",
+                "playerestimatedmetrics",
+                "playergamelogs",
+                "leaguedashplayerstats",
+                "leaguedashplayerclutch",
+                "leagueplayerondetails",
+                "leaguehustlestatsplayer",
+                "synergyplaytypes",
+                "leaguedashptstats",
+                "leaguedashptdefend",
+                "leaguedashplayerptshot",
+                "leaguedashplayershotlocations",
+                "leaguehustlestatsplayerleaders",
+                "leaguedashplayerbiostats",
+                "commonplayerinfo",
+                "playerprofilev2",
+                "leaguestandingsv3",
+                "homepagev2",
+                "teamestimatedmetrics",
+                "teamgamelogs",
+                "leaguedashteamstats",
+                "leaguedashteamclutch",
+                "leaguedashlineups",
+                "leaguedashteamptshot",
+                "leaguedashoppptshot",
+                "leaguedashteamshotlocations",
+                "leaguehustlestatsteamleaders",
+                "leaguehustlestatsteam",
+                "leaguedashptteamdefend",
+                "commonteamyears",
+                "franchisehistory",
+                "teamdetails",
+                "teamyearbyyearstats",
+                "commonteamroster",
+                "teamhistoricalleaders",
+                "teaminfocommon",
+                "shotchartdetail",
+            };
+
+            for (int i = 0; i < collections.Length; i++)
+            {
+                await DatabaseHelper.CreateCollectionAsync(collections[i]);
+            }
         }
     }
 }

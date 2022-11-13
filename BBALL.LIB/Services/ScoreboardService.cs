@@ -17,7 +17,7 @@ namespace BBALL.LIB.Services
             string GameDate = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("DayOffset", DayOffset));
             parameters.Add(CreateParameterObject("GameDate", GameDate));
@@ -25,7 +25,7 @@ namespace BBALL.LIB.Services
             return await Scoreboard(parameters);
         }
 
-        public static async Task<List<BsonDocument>> Scoreboard(JArray parameters)
+        public static async Task<List<BsonDocument>> Scoreboard(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/scoreboard/", "scoreboard", parameters);
         }
@@ -36,7 +36,7 @@ namespace BBALL.LIB.Services
             string GameDate = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("DayOffset", DayOffset));
             parameters.Add(CreateParameterObject("GameDate", GameDate));
@@ -44,7 +44,7 @@ namespace BBALL.LIB.Services
             return await ScoreboardV2(parameters);
         }
 
-        public static async Task<List<BsonDocument>> ScoreboardV2(JArray parameters)
+        public static async Task<List<BsonDocument>> ScoreboardV2(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/scoreboardv2/", "scoreboardv2", parameters);
         }

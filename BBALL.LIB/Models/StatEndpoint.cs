@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MongoDB.Bson;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,6 +18,6 @@ namespace BBALL.LIB.Models
         /// <summary>
         /// The query parameters of the endpoint
         /// </summary>
-        public JArray parameters { get; set; }
+        public BsonArray parameters { get; set; }
     }
 }

@@ -35,12 +35,12 @@ namespace BBALL.LIB.Services
         //Player > Career
         public static async Task<List<BsonDocument>> PlayerAwards(string PlayerID)
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             return await PlayerAwards(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerAwards(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerAwards(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerawards/", "playerawards", parameters);
         }
@@ -53,7 +53,7 @@ namespace BBALL.LIB.Services
            string LeagueID = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("College", College));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -63,7 +63,7 @@ namespace BBALL.LIB.Services
             return await PlayerCareerByCollege(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerCareerByCollege(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerCareerByCollege(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playercareerbycollege/", "playercareerbycollege", parameters);
         }
@@ -75,7 +75,7 @@ namespace BBALL.LIB.Services
            string LeagueID = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
@@ -84,7 +84,7 @@ namespace BBALL.LIB.Services
             return await PlayerCareerByCollegeRollup(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerCareerByCollegeRollup(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerCareerByCollegeRollup(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playercareerbycollegerollup/", "playercareerbycollegerollup", parameters);
         }
@@ -96,14 +96,14 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
             return await PlayerCareerStats(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerCareerStats(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerCareerStats(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playercareerstats/", "playercareerstats", parameters);
         }
@@ -135,7 +135,7 @@ namespace BBALL.LIB.Services
            string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -163,7 +163,7 @@ namespace BBALL.LIB.Services
             return await PlayerCompare(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerCompare(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerCompare(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playercompare/", "playercompare", parameters);
         }
@@ -190,7 +190,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
          )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -213,7 +213,7 @@ namespace BBALL.LIB.Services
             return await PlayDashPTPass(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayDashPTPass(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayDashPTPass(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashptpass/", "playerdashptpass", parameters);
         }
@@ -239,7 +239,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
           )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -262,7 +262,7 @@ namespace BBALL.LIB.Services
             return await PlayDashPTReb(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayDashPTReb(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayDashPTReb(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashptreb/", "playerdashptreb", parameters);
         }
@@ -289,7 +289,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -312,7 +312,7 @@ namespace BBALL.LIB.Services
             return await PlayDashPTShotDefend(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayDashPTShotDefend(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayDashPTShotDefend(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashptshotdefend/", "playerdashptshotdefend", parameters);
         }
@@ -339,7 +339,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -362,7 +362,7 @@ namespace BBALL.LIB.Services
             return await PlayDashPTShots(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayDashPTShots(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayDashPTShots(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashptshots/", "playerdashptshots", parameters);
         }
@@ -393,7 +393,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -420,7 +420,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByClutch(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByClutch(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByClutch(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbyclutch/", "playerdashboardbyclutch", parameters);
         }
@@ -451,7 +451,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -478,7 +478,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByGameSplits(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByGameSplits(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByGameSplits(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbygamesplits/", "playerdashboardbygamesplits", parameters);
         }
@@ -510,7 +510,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -537,7 +537,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByGeneralSplits(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByGeneralSplits(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByGeneralSplits(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbygeneralsplits/", "playerdashboardbygeneralsplits", parameters);
         }
@@ -568,7 +568,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -595,7 +595,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByLastNGames(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByLastNGames(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByLastNGames(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbylastngames/", "playerdashboardbylastngames", parameters);
         }
@@ -626,7 +626,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -653,7 +653,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByOpponent(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByOpponent(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByOpponent(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbyopponent/", "playerdashboardbyopponent", parameters);
         }
@@ -684,7 +684,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -711,7 +711,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByShootingSplits(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByShootingSplits(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByShootingSplits(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbyshootingsplits/", "playerdashboardbyshootingsplits", parameters);
         }
@@ -742,7 +742,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -769,7 +769,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByTeamPerformance(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByTeamPerformance(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByTeamPerformance(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbyteamperformance/", "playerdashboardbyteamperformance", parameters);
         }
@@ -801,7 +801,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -828,7 +828,7 @@ namespace BBALL.LIB.Services
             return await PlayerDashboardByYearOverYear(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerDashboardByYearOverYear(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerDashboardByYearOverYear(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerdashboardbyyearoveryear/", "playerdashboardbyyearoveryear", parameters);
         }
@@ -839,7 +839,7 @@ namespace BBALL.LIB.Services
            string LeagueID = null
            )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
@@ -847,7 +847,7 @@ namespace BBALL.LIB.Services
             return await PlayerEstimatedMetrics(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerEstimatedMetrics(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerEstimatedMetrics(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerestimatedmetrics/", "playerestimatedmetrics", parameters, true, 15, "resultSet");
         }
@@ -861,7 +861,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
@@ -871,7 +871,7 @@ namespace BBALL.LIB.Services
             return await PlayerGameLog(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerGameLog(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerGameLog(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playergamelog/", "playergamelog", parameters);
         }
@@ -900,7 +900,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("MeasureType", MeasureType));
@@ -925,7 +925,7 @@ namespace BBALL.LIB.Services
             return await PlayerGameLogs(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerGameLogs(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerGameLogs(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playergamelogs/", "playergamelogs", parameters);
         }
@@ -947,7 +947,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("Active", Active));
@@ -965,7 +965,7 @@ namespace BBALL.LIB.Services
             return await PlayerIndex(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerIndex(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerIndex(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerindex/", "playerindex", parameters);
         }
@@ -978,7 +978,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
             parameters.Add(CreateParameterObject("SeasonType", SeasonType));
@@ -987,7 +987,7 @@ namespace BBALL.LIB.Services
             return await PlayerNextNGames(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerNextNGames(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerNextNGames(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playernextngames/", "playernextngames", parameters);
         }
@@ -999,14 +999,14 @@ namespace BBALL.LIB.Services
             string LeagueID = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
             return await PlayerProfileV2(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerProfileV2(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerProfileV2(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playerprofilev2/", "playerprofilev2", parameters);
         }
@@ -1035,7 +1035,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("VsPlayerID", VsPlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -1060,7 +1060,7 @@ namespace BBALL.LIB.Services
             return await PlayerVsPlayer(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayerVsPlayer(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayerVsPlayer(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playervsplayer/", "playervsplayer", parameters);
         }

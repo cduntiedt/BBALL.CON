@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using MongoDB.Bson;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -94,9 +95,9 @@ namespace BBALL.LIB.Helpers
             videoStatus
         }
 
-        public static JObject GetEndpoint(Endpoint endpoint)
+        public static BsonDocument GetEndpoint(Endpoint endpoint)
         {
-            JObject values = new JObject();
+            BsonDocument values = new BsonDocument();
 
             switch (endpoint)
             {

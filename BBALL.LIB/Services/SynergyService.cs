@@ -22,7 +22,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PerMode", PerMode));
             parameters.Add(CreateParameterObject("SeasonYear", SeasonHelper.DefaultSeason(SeasonYear)));
@@ -34,9 +34,9 @@ namespace BBALL.LIB.Services
             return await SynergyPlayType(parameters);
         }
 
-        public static async Task<List<BsonDocument>> SynergyPlayType(JArray parameters)
+        public static async Task<List<BsonDocument>> SynergyPlayType(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytypes/", "synergyplaytype", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytypes/", "synergyplaytypes", parameters);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace BBALL.LIB.Logic
             try
             {
                 var tasks = new List<Task>();
-                DraftService.DraftCombineAll(season);
+                await DraftService.DraftCombineAll(season);
 
                 foreach (var seasonType in seasonTypes)
                 {
@@ -114,8 +114,7 @@ namespace BBALL.LIB.Logic
             }
             catch (Exception ex)
             {
-                DatabaseHelper.ErrorDocument(ex, "LoadPlayerData", null, "load");
-                throw;
+                await DatabaseHelper.ErrorDocumentAsync(ex, "LoadPlayerData", null, "load");
             }
         }
 

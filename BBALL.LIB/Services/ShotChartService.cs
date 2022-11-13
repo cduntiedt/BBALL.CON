@@ -45,7 +45,7 @@ namespace BBALL.LIB.Services
             string LeagueID = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -81,7 +81,7 @@ namespace BBALL.LIB.Services
             return await ShotChartDetail(parameters);
         }
 
-        public static async Task<List<BsonDocument>> ShotChartDetail(JArray parameters)
+        public static async Task<List<BsonDocument>> ShotChartDetail(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/shotchartdetail/", "shotchartdetail", parameters);
         }

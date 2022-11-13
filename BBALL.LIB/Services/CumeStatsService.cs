@@ -19,7 +19,7 @@ namespace BBALL.LIB.Services
             string SeasonType = "Regular Season"
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("GameIDs", GameIDs));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
@@ -28,7 +28,7 @@ namespace BBALL.LIB.Services
             return await CumStatsPlayer(parameters);
         }
 
-        public static async Task<List<BsonDocument>> CumStatsPlayer(JArray parameters)
+        public static async Task<List<BsonDocument>> CumStatsPlayer(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsplayer/", "cumestatsplayer", parameters);
         }
@@ -45,7 +45,7 @@ namespace BBALL.LIB.Services
             string Location = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("PlayerID", PlayerID));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -58,7 +58,7 @@ namespace BBALL.LIB.Services
             return await CumeStatsPlayerGames(parameters);
         }
 
-        public static async Task<List<BsonDocument>> CumeStatsPlayerGames(JArray parameters)
+        public static async Task<List<BsonDocument>> CumeStatsPlayerGames(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsplayergames/", "cumestatsplayergames", parameters);
         }
@@ -71,7 +71,7 @@ namespace BBALL.LIB.Services
             string SeasonType = "Regular Season"
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("GameIDs", GameIDs));
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("TeamID", TeamID));
@@ -80,7 +80,7 @@ namespace BBALL.LIB.Services
             return await CumeStatsTeam(parameters);
         }
 
-        public static async Task<List<BsonDocument>> CumeStatsTeam(JArray parameters)
+        public static async Task<List<BsonDocument>> CumeStatsTeam(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsteam/", "cumestatsteam", parameters);
         }
@@ -97,7 +97,7 @@ namespace BBALL.LIB.Services
             string Location = null
             )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
@@ -110,7 +110,7 @@ namespace BBALL.LIB.Services
             return await CumeStatsTeamGames(parameters);
         }
 
-        public static async Task<List<BsonDocument>> CumeStatsTeamGames(JArray parameters)
+        public static async Task<List<BsonDocument>> CumeStatsTeamGames(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/cumestatsteamgames/", "cumestatsteamgames", parameters);
         }

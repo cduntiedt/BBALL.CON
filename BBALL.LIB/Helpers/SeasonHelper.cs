@@ -34,7 +34,7 @@ namespace BBALL.LIB.Helpers
 
             foreach (var seasonType in SeasonTypeService.SeasonTypes)
             {
-                JArray parameters = new JArray();
+                BsonArray parameters = new BsonArray();
                 parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(null)));
                 parameters.Add(CreateParameterObject("Season", DefaultSeason(Season)));
                 parameters.Add(CreateParameterObject("SeasonType", seasonType));
@@ -45,7 +45,7 @@ namespace BBALL.LIB.Helpers
                 parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
                 parameters.Add(CreateParameterObject("Sorter", "DATE"));
 
-                var seasonDocs = await DatabaseHelper.GenerateDocumentsAsync("https://stats.nba.com/stats/leaguegamelog/", parameters, true);
+                var seasonDocs = await DatabaseHelper.GenerateDocumentsAsync("https://stats.nba.com/stats/leaguegamelog/", "leaguegamelog", parameters, true);
                 seasonDocuments.AddRange(seasonDocs);
             }
 
@@ -57,7 +57,7 @@ namespace BBALL.LIB.Helpers
             try
             {
                 List<BsonDocument> seasonDocuments = await GetSeasonDocuments("T", Season, DateFrom, DateTo);
-                var seasonTypes = seasonDocuments.GroupBy(x => x["PARAMETERS"]["SeasonType"])
+                var seasonTypes = seasonDocuments.GroupBy(x => x[DatabaseHelper.Parameters]["SeasonType"])
                         .Select(x => x.Key.ToString())
                         .ToList();
 

@@ -23,14 +23,14 @@ namespace BBALL.LIB.Services
             string EndPeriod = "10"
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
             return await PlayByPlay(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayByPlay(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayByPlay(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playbyplay/", "playbyplay", parameters);
         }
@@ -41,14 +41,14 @@ namespace BBALL.LIB.Services
             string EndPeriod = "10"
         )
         {
-            JArray parameters = new JArray();
+            BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("GameID", GameID));
             parameters.Add(CreateParameterObject("StartPeriod", StartPeriod));
             parameters.Add(CreateParameterObject("EndPeriod", EndPeriod));
             return await PlayByPlayV2(parameters);
         }
 
-        public static async Task<List<BsonDocument>> PlayByPlayV2(JArray parameters)
+        public static async Task<List<BsonDocument>> PlayByPlayV2(BsonArray parameters)
         {
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/playbyplayv2/", "playbyplayv2", parameters);
         }

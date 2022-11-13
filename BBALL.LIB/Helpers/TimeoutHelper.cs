@@ -9,7 +9,6 @@ namespace BBALL.LIB.Helpers
     public static class TimeoutHelper
     {
         public static int callCount = 0;
-        public static int timeoutCount = 0;
 
         public static async Task Count()
         {
@@ -32,6 +31,11 @@ namespace BBALL.LIB.Helpers
         public static async Task Wait(int milliseconds)
         {
             await Task.Delay(milliseconds);
+        }
+
+        public static void Reset()
+        {
+            callCount = 0;
         }
     }
 }
