@@ -6,6 +6,7 @@ using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using MongoDB.Bson;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BBALL.LIB.Services
 {
@@ -36,7 +37,12 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> SynergyPlayType(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytypes/", "synergyplaytypes", parameters);
+            var collection = "player";
+            if (parameters.Where(x => x["Key"] == "playerOrTeam" && x["Value"] == "T").ToList().Count > 0)
+            {
+                collection = "team";
+            }
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/synergyplaytypes/", $"{collection}synergyplaytypes", parameters);
         }
     }
 }

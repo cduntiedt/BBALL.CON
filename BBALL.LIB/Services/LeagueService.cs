@@ -6,6 +6,7 @@ using BBALL.LIB.Helpers;
 using static BBALL.LIB.Helpers.ParameterHelper;
 using MongoDB.Bson;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BBALL.LIB.Services
 {
@@ -16,6 +17,7 @@ namespace BBALL.LIB.Services
             string SeasonType = "Regular Season",
             string PerMode = "Totals",
             string MeasureType = "Base",
+            string TeamID = null,
             string GroupQuantity = "5",
             string LastNGames = "0",
             string Month = "0",
@@ -27,7 +29,6 @@ namespace BBALL.LIB.Services
             string LeagueID = null,
             string VsConference = null,
             string VsDivision = null,
-            string TeamID = null,
             string ShotClockRange = null,
             string Conference = null,
             string DateFrom = null,
@@ -73,15 +74,15 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashLineups(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashlineups/", "leaguedashlineups", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashlineups/", "teamlineups", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueDashPlayerBioStats(
            string Season = null,
            string SeasonType = "Regular Season",
            string PerMode = "PerGame",
-           string LeagueID = null,
            string TeamID = null,
+           string LeagueID = null,
            string College = null,
            string Conference = null,
            string Country = null,
@@ -147,7 +148,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPlayerBioStats(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerbiostats/", "leaguedashplayerbiostats", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerbiostats/", "playerbiostats", parameters);
         }
 
         //Players > Clutch
@@ -156,10 +157,10 @@ namespace BBALL.LIB.Services
             string SeasonType = "Regular Season",
             string PerMode = "Totals",
             string MeasureType = "Base",
-            string AheadBehind = "Ahead or Behind",
-            string ClutchTime = "Last 5 Minutes",
-            string LeagueID = null,
             string TeamID = "0",
+            string ClutchTime = "Last 5 Minutes",
+            string AheadBehind = "Ahead or Behind",
+            string LeagueID = null,
             string College = null,
             string Conference = null,
             string Country = null,
@@ -236,7 +237,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPlayerClutch(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerclutch/", "leaguedashplayerclutch", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerclutch/", "playerclutch", parameters);
         }
 
         //Players > Shot Dashboard
@@ -325,7 +326,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashOppPtShot(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashoppptshot/", "leaguedashoppptshot", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashoppptshot/", "teamoppptshot", parameters);
         }
 
         //Players > Shot Dashboard
@@ -414,7 +415,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPlayerPTShot(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerptshot/", "leaguedashplayerptshot", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerptshot/", "playerptshot", parameters);
         }
 
         //Players > Shooting
@@ -499,7 +500,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPlayerShotLocations(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayershotlocations/", "leaguedashplayershotlocations", parameters, false);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayershotlocations/", "playershotlocations", parameters, false);
         }
 
         //Players > Traditional Stats
@@ -584,7 +585,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPlayerStats(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerstats/", "leaguedashplayerstats", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashplayerstats/", "playerstats", parameters);
         }
 
         //Players > Defensive Dashboard
@@ -669,7 +670,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPTDefend(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashptdefend/", "leaguedashptdefend", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashptdefend/", "playerptdefend", parameters);
         }
 
         //Players > Tracking
@@ -678,7 +679,7 @@ namespace BBALL.LIB.Services
             string SeasonType = "Regular Season",
             string PerMode = "Totals",
             string PtMeasureType = "CatchShoot",
-            string PLayerOrTeam = "Player",
+            string PlayerOrTeam = "Player",
             string TeamID = "0",
             string LeagueID = null,
             string College = null,
@@ -728,7 +729,7 @@ namespace BBALL.LIB.Services
             parameters.Add(CreateParameterObject("Outcome", Outcome));
             parameters.Add(CreateParameterObject("PORound", PORound));
             parameters.Add(CreateParameterObject("PlayerExperience", PlayerExperience));
-            parameters.Add(CreateParameterObject("PLayerOrTeam", PLayerOrTeam));
+            parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
             parameters.Add(CreateParameterObject("PlayerPosition", PlayerPosition));
             parameters.Add(CreateParameterObject("SeasonSegment", SeasonSegment));
             parameters.Add(CreateParameterObject("StarterBench", StarterBench));
@@ -742,7 +743,12 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPTStats(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashptstats/", "leaguedashptstats", parameters);
+            var collection = "player";
+            if(parameters.Where(x => x["Key"] == "playerOrTeam" && x["Value"] == "Team").ToList().Count > 0)
+            {
+                collection = "team";
+            }
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashptstats/", $"{collection}ptstats", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueDashPTTeamDefend(
@@ -796,7 +802,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashPTTeamDefend(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashptteamdefend/", "leaguedashptteamdefend", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashptteamdefend/", "teamptdefend", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueDashTeamClutch(
@@ -804,9 +810,9 @@ namespace BBALL.LIB.Services
             string SeasonType = "Regular Season",
             string PerMode = "Totals",
             string MeasureType = "Base",
+            string TeamID = "0",
             string AheadBehind = "Ahead or Behind",
             string ClutchTime = "Last 5 Minutes",
-            string TeamID = "0",
             string LeagueID = null,
             string Conference = null,
             string DateFrom = null,
@@ -872,7 +878,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashTeamClutch(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamclutch/", "leaguedashteamclutch", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamclutch/", "teamclutch", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueDashTeamPtShot(
@@ -936,7 +942,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashTeamPtShot(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamptshot/", "leaguedashteamptshot", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamptshot/", "teamptshot", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueDashTeamShotLocations(
@@ -1008,7 +1014,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashTeamShotLocations(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamshotlocations/", "leaguedashteamshotlocations", parameters, false);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamshotlocations/", "teamshotlocations", parameters, false);
         }
 
         public static async Task<List<BsonDocument>> LeagueDashTeamStats(
@@ -1082,7 +1088,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueDashTeamStats(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamstats/", "leaguedashteamstats", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguedashteamstats/", "teamstats", parameters);
         }
 
 
@@ -1216,7 +1222,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueHustleStatsPlayer(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsplayer/", "leaguehustlestatsplayer", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsplayer/", "playerhustlestats", parameters);
 
         }
 
@@ -1279,7 +1285,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueHustleStatsPlayerLeaders(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsplayerleaders/", "leaguehustlestatsplayerleaders", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsplayerleaders/", "playerleadershustlestats", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueHustleStatsTeam(
@@ -1341,7 +1347,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueHustleStatsTeam(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsteam/", "leaguehustlestatsteam", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsteam/", "teamhustlestats", parameters);
 
         }
 
@@ -1404,7 +1410,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueHustleStatsTeamLeaders(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsteamleaders/", "leaguehustlestatsteamleaders", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguehustlestatsteamleaders/", "teamhustlestatsleaders", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueGameLog(
@@ -1435,7 +1441,12 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeagueGameLog(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguegamelog/", "leaguegamelog", parameters);
+            var collection = "player";
+            if (parameters.Where(x => x["Key"] == "playerOrTeam" && x["Value"] == "T").ToList().Count > 0)
+            {
+                collection = "team";
+            }
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leaguegamelog/", $"{collection}leaguegamelog", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueLineupViz(
@@ -1559,7 +1570,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> LeaguePlayerOnDetails(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leagueplayerondetails/", "leagueplayerondetails", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/leagueplayerondetails/", "playerondetails", parameters);
         }
 
         public static async Task<List<BsonDocument>> LeagueSeasonMatchups(

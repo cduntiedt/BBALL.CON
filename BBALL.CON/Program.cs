@@ -8,6 +8,8 @@ using BBALL.LIB.Helpers;
 using BBALL.LIB.Logic;
 using System.Collections.Generic;
 using MongoDB.Bson;
+using System.Globalization;
+using System.Text.Json;
 
 namespace BBALL.CON
 {
@@ -26,7 +28,7 @@ namespace BBALL.CON
             await DatabaseHelper.DropCollectionAsync("logerror");
             await DatabaseHelper.DropCollectionAsync("logapi");
 
-            await DataLogic.LoadData(daily, true);
+            await DataLogic.LoadSingleSeasonData(daily);
         }
     }
 

@@ -9,10 +9,12 @@ namespace BBALL.LIB.Helpers
     public static class TimeoutHelper
     {
         public static int callCount = 0;
+        public static int apiCount = 0;
 
         public static async Task Count()
         {
             callCount += 1;
+            apiCount += 1;
             if (callCount >= 1)
             {
                 await Wait(600 * callCount);

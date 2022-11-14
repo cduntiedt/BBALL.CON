@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using BBALL.LIB.Models;
 using System.Collections;
+using System.Globalization;
+using System.Text.Json;
 
 namespace BBALL.LIB.Helpers
 {
@@ -36,8 +38,6 @@ namespace BBALL.LIB.Helpers
         {
             try
             {
-                List<BsonDocument> documents = new List<BsonDocument>();
-
                 //get the data from stats.nba.com
                 BsonDocument response = BsonDocument.Parse(await StatsHelper.API(query));
 
@@ -45,16 +45,18 @@ namespace BBALL.LIB.Helpers
                 foreach (var parameter in query.Parameters)
                 {
                     var val = parameter["Value"].ToString();
+                    var key = parameter["Key"].ToString();
                     if (val == "")
                     {
-                        parameterObj.Add(parameter["Key"].ToString(), BsonNull.Value);
+                        parameterObj.Add(key, BsonNull.Value);
                     }
                     else
                     {
-                        parameterObj.Add(parameter["Key"].ToString(), val);
+                        parameterObj.Add(key, val);
                     }
                 }
 
+                List<BsonDocument> documents = new List<BsonDocument>();
                 if (query.Parse)
                 {
                     //if there are multiple result sets
@@ -154,14 +156,24 @@ namespace BBALL.LIB.Helpers
                 BsonDocument dataObject = new BsonDocument();
                 dataObject.Add("resultName", name);
                 dataObject.Add(DateUpdated, DailyHelper.GetDate(0));
+                //the api parameters
                 dataObject.Add(Parameters, parameters);
 
                 var row = rowSet[rowIndex];
 
                 for (int headerIndex = 0; headerIndex < headers.Count; headerIndex++)
                 {
-                    var header = headers[headerIndex];
-                    dataObject.Add(header.ToString(), row[headerIndex]);
+                    var header = ToCamelCase(headers[headerIndex].ToString());
+                    dataObject.Add(header, row[headerIndex]);
+                }
+
+                //add api parameters to the root if they do not already exist
+                foreach (var parameter in parameters)
+                {
+                    if (!dataObject.Contains(parameter.Name) && parameter.Value != BsonNull.Value)
+                    {
+                        dataObject.Add(parameter.Name, parameter.Value);
+                    }
                 }
 
                 docs.Add(dataObject);
@@ -519,23 +531,25 @@ namespace BBALL.LIB.Helpers
                     //add query parameters to url
                     foreach (var item in parameters)
                     {
+                        //in the case of parameter filters, the items are being prefixed with an underscore to denote they were being used by the api
+                        var key = $"{item["Key"]}";
                         if (item["Type"] == null) { 
                             var val = item["Value"].ToString();
-                            filter &= builder.Eq(item["Key"].ToString(), val == "" ? null : val);
+                            filter &= builder.Eq(key, val == "" ? null : val);
                         }
                         else
                         {
                             switch (item["Type"].ToString())
                             {
                                 case "int":
-                                    filter &= builder.Eq(item["Key"].ToString(), item["Value"]);
+                                    filter &= builder.Eq(key, item["Value"]);
                                     break;
                                 case "bool":
-                                    filter &= builder.Eq(item["Key"].ToString(), item["Value"]);
+                                    filter &= builder.Eq(key, item["Value"]);
                                     break;
                                 default:
                                     var val = item["Value"].ToString();
-                                    filter &= builder.Eq(item["Key"].ToString(), val == "" ? null : val);
+                                    filter &= builder.Eq(key, val == "" ? null : val);
                                     break;
                             }
                         }
@@ -603,6 +617,11 @@ namespace BBALL.LIB.Helpers
                 ErrorDocument(ex, "AddFilterCollection", "", "filter");
             }
             
+        }
+
+        public static string ToCamelCase(string value)
+        {
+            return JsonNamingPolicy.CamelCase.ConvertName(new CultureInfo("en").TextInfo.ToTitleCase(value.ToString().ToLower().Replace("_", " ")).Replace(" ", ""));
         }
     }
 }

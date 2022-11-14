@@ -11,17 +11,9 @@ namespace BBALL.LIB.Services
 {
     public static class DraftService
     {
-        public static async Task DraftCombineAll(string SeasonYear = null, string LeagueID = null)
-        {
-            await DraftCombineDrillResults(LeagueID, SeasonYear);
-            await DraftCombineStationaryShooting(LeagueID, SeasonYear);
-            await DraftCombinePlayerAnthro(LeagueID, SeasonYear);
-            await DraftCombineSpotShooting(LeagueID, SeasonYear);
-            await DraftCombineStats(LeagueID, SeasonYear);
-        }
         public static async Task<List<BsonDocument>> DraftBoard(
-            string LeagueID = null, 
             string Season = null,
+            string LeagueID = null, 
             string TopX = null,
             string TeamID = null,
             string RoundPick = null,
@@ -46,7 +38,7 @@ namespace BBALL.LIB.Services
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftboard/", "draftboard", parameters);
         }
 
-        public static async Task<List<BsonDocument>> DraftCombineDrillResults(string LeagueID = null, string SeasonYear = null)
+        public static async Task<List<BsonDocument>> DraftCombineDrillResults(string SeasonYear = null, string LeagueID = null)
         {
             BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -59,7 +51,7 @@ namespace BBALL.LIB.Services
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinedrillresults/", "draftcombinedrillresults", parameters);
         }
 
-        public static async Task<List<BsonDocument>> DraftCombineStationaryShooting(string LeagueID = null, string SeasonYear = null)
+        public static async Task<List<BsonDocument>> DraftCombineStationaryShooting(string SeasonYear = null, string LeagueID = null)
         {
             BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -72,7 +64,7 @@ namespace BBALL.LIB.Services
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinenonstationaryshooting/", "draftcombinenonstationaryshooting", parameters);
         }
 
-        public static async Task<List<BsonDocument>> DraftCombinePlayerAnthro(string LeagueID = null, string SeasonYear = null)
+        public static async Task<List<BsonDocument>> DraftCombinePlayerAnthro(string SeasonYear = null, string LeagueID = null)
         {
             BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -85,7 +77,7 @@ namespace BBALL.LIB.Services
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombineplayeranthro/", "draftcombineplayeranthro", parameters);
         }
 
-        public static async Task<List<BsonDocument>> DraftCombineSpotShooting(string LeagueID = null, string SeasonYear = null)
+        public static async Task<List<BsonDocument>> DraftCombineSpotShooting(string SeasonYear = null, string LeagueID = null)
         {
             BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -98,7 +90,7 @@ namespace BBALL.LIB.Services
             return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/draftcombinespotshooting/", "draftcombinespotshooting", parameters);
         }
 
-        public static async Task<List<BsonDocument>> DraftCombineStats(string LeagueID = null, string SeasonYear = null)
+        public static async Task<List<BsonDocument>> DraftCombineStats(string SeasonYear = null, string LeagueID = null)
         {
             BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
@@ -124,7 +116,7 @@ namespace BBALL.LIB.Services
         {
             BsonArray parameters = new BsonArray();
             parameters.Add(CreateParameterObject("LeagueID", LeagueHelper.DefaultLeagueID(LeagueID)));
-            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season)));
+            parameters.Add(CreateParameterObject("Season", SeasonHelper.DefaultSeason(Season).Substring(0,4)));
             parameters.Add(CreateParameterObject("TopX", TopX));
             parameters.Add(CreateParameterObject("TeamID", TeamID));
             parameters.Add(CreateParameterObject("RoundPick", RoundPick));

@@ -34,7 +34,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> CommonPlayerInfo(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonplayerinfo/", "commonplayerinfo", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonplayerinfo/", "playerinfo", parameters);
         }
 
         public static async Task<List<BsonDocument>> CommonTeamRoster(string TeamID, string Season = null, string LeagueID = null)
@@ -49,7 +49,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> CommonTeamRoster(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonteamroster/", "commonteamroster", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonteamroster/", "teamroster", parameters);
         }
 
         public static async Task<List<BsonDocument>> CommonTeamYears(string LeagueID = null)
@@ -61,7 +61,7 @@ namespace BBALL.LIB.Services
 
         public static async Task<List<BsonDocument>> CommonTeamYears(BsonArray parameters)
         {
-            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonteamyears/", "commonteamyears", parameters);
+            return await DatabaseHelper.UpdateDatabaseAsync("https://stats.nba.com/stats/commonteamyears/", "teamyears", parameters);
         }
     }
 }

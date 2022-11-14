@@ -16,6 +16,23 @@ namespace BBALL.LIB.Logic
 {
     public static class DataLogic
     {
+        public static async Task LoadSingleSeasonData(bool daily = true, bool shutdown = true, List<string> dataSets = null, string season = null)
+        {
+            var seasons = new List<string>();
+
+            //add default season if no season was provided
+            if (season == null)
+            {
+                seasons.Add(SeasonHelper.DefaultSeason());
+            }
+            else
+            {
+                seasons.Add(season);
+            }
+
+            await LoadData(daily, shutdown, dataSets, seasons);
+        }
+
         /// <summary>
         /// The primary function to load data.
         /// </summary>
@@ -59,10 +76,8 @@ namespace BBALL.LIB.Logic
                 //load all data sets, if no specific data sets are provided
                 if(dataSets == null)
                 {
-                    dataSets = new List<string>() { "game", "team", "player" };
+                    dataSets = new List<string>() { "league", "game", "team", "player" };
                 }
-
-                var tasks = new List<Task>();
 
                 foreach (var season in seasons)
                 {
@@ -70,24 +85,203 @@ namespace BBALL.LIB.Logic
 
                     foreach (var dataSet in dataSets)
                     {
+                        TimeoutHelper.Reset();
+
                         switch (dataSet)
                         {
+                            case "league":
+                                //Load game data
+                                Console.WriteLine("League data load started.");
+                                var tasks = new List<Task>();
+
+                                tasks.Add(DraftService.DraftHistory(season));
+                                tasks.Add(DraftService.DraftCombineDrillResults(season));
+                                tasks.Add(DraftService.DraftCombineStationaryShooting(season));
+                                tasks.Add(DraftService.DraftCombinePlayerAnthro(season));
+                                tasks.Add(DraftService.DraftCombineSpotShooting(season));
+                                tasks.Add(DraftService.DraftCombineStats(season));
+
+                                foreach (var seasonType in seasonTypes)
+                                {
+                                    //team stuff
+                                    tasks.Add(LeagueService.LeagueStandingsV3(season, seasonType));
+
+                                    tasks.Add(LeagueService.LeagueGameLog(season, seasonType, "T"));
+                                    tasks.Add(LeagueService.LeagueGameLog(season, seasonType, "P"));
+
+                                    tasks.Add(TeamService.TeamEstimatedMetrics(season, seasonType));
+                                    tasks.Add(PlayerService.PlayerEstimatedMetrics(season, seasonType));
+
+                                    foreach (var measureType in MeasureTypeService.TeamClutchMeasureTypes)
+                                    {
+                                        if (measureType != "Opponent")
+                                        {
+                                            tasks.Add(TeamService.TeamGameLogs(season, seasonType, measureType));
+                                        }
+                                    }
+
+                                    foreach (var perMode in PerModeService.TeamPerModes)
+                                    {
+                                        foreach (var measureType in MeasureTypeService.TeamMeasureTypes)
+                                        {
+                                            tasks.Add(LeagueService.LeagueDashTeamStats(season, seasonType, perMode, measureType));
+                                        }
+
+                                        foreach (var measureType in MeasureTypeService.TeamClutchMeasureTypes)
+                                        {
+                                            tasks.Add(LeagueService.LeagueDashTeamClutch(season, seasonType, perMode, measureType));
+                                            tasks.Add(LeagueService.LeagueDashLineups(season, seasonType, perMode, measureType));
+                                        }
+                                    }
+
+                                    foreach (var perMode in PerModeService.BasePerModes)
+                                    {
+                                        //there is an additional play type for teams called Misc which is not included
+                                        foreach (var playType in PlayTypeService.PlayTypes)
+                                        {
+                                            foreach (var type in OffensiveDefensiveService.OffensiveDefensive)
+                                            {
+                                                tasks.Add(SynergyService.SynergyPlayType(perMode, seasonType, playType, "T", type, season));
+                                                tasks.Add(SynergyService.SynergyPlayType(perMode, seasonType, playType, "P", type, season));
+                                            }
+                                        }
+
+                                        foreach (var measureType in PTMeasureTypeService.PTMeasureTypes)
+                                        {
+                                            tasks.Add(LeagueService.LeagueDashPTStats(season, seasonType, perMode, measureType, "Team"));
+
+                                            tasks.Add(LeagueService.LeagueDashPTStats(season, seasonType, perMode, measureType, "Player"));
+                                        }
+
+                                        foreach (var defensiveCategory in DefenseCategoryService.Categories)
+                                        {
+                                            tasks.Add(LeagueService.LeagueDashPTDefend(season, seasonType, perMode, defensiveCategory));
+                                        }
+
+                                        //LeagueDashTeamPtShot && LeagueDashOppPtShot has other parameters to consider (Shot Clock, Dribbles, Touch Time, Closest Defender, Closest Defender +10) https://www.nba.com/stats/players/shots-shotclock
+                                        foreach (var shotRange in ShotRangeService.ShotRanges)
+                                        {
+                                            tasks.Add(LeagueService.LeagueDashTeamPtShot(season, seasonType, perMode, shotRange));
+                                            tasks.Add(LeagueService.LeagueDashOppPtShot(season, seasonType, perMode));
+
+                                            tasks.Add(LeagueService.LeagueDashPlayerPTShot(season, seasonType, perMode, shotRange));
+                                        }
+
+                                        foreach (var distanceRange in DistanceRangeService.DistanceRanges)
+                                        {
+                                            tasks.Add(LeagueService.LeagueDashTeamShotLocations(season, seasonType, perMode, distanceRange, "Base"));
+                                            tasks.Add(LeagueService.LeagueDashTeamShotLocations(season, seasonType, perMode, distanceRange, "Opponent"));
+
+                                            tasks.Add(LeagueService.LeagueDashPlayerShotLocations(season, seasonType, perMode, distanceRange, "Base"));
+                                            tasks.Add(LeagueService.LeagueDashPlayerShotLocations(season, seasonType, perMode, distanceRange, "Opponent"));
+                                        }
+
+                                        tasks.Add(LeagueService.LeagueHustleStatsTeamLeaders(season, seasonType, perMode));
+                                        tasks.Add(LeagueService.LeagueHustleStatsTeam(season, seasonType, perMode));
+
+                                        tasks.Add(LeagueService.LeagueHustleStatsPlayerLeaders(season, seasonType, perMode));
+                                        tasks.Add(LeagueService.LeagueDashPlayerBioStats(season, seasonType, perMode));
+                                    }
+
+
+                                    foreach (var defensiveCategory in DefenseCategoryService.Categories)
+                                    {
+                                        tasks.Add(LeagueService.LeagueDashPTTeamDefend(season, seasonType, "PerGame", defensiveCategory));
+                                    }
+                                }
+
+                                tasks.Add(TeamService.CommonTeamYears());
+                                tasks.Add(TeamService.FranchiseHistory());
+
+                                await Task.WhenAll(tasks);
+                                Console.WriteLine("League data load complete.");
+                                break;
                             case "game":
                                 //Load game data
                                 Console.WriteLine("Game data load started.");
-                                tasks.Add(GameLogic.LoadGameData(season, seasonTypes, dateFrom, dateTo));
+                                var gameTasks = new List<Task>();
+                                var gameIDs = await DailyHelper.GetIDs("gameId", "T", season, dateFrom, dateTo);
+
+                                foreach (var seasonType in seasonTypes)
+                                {
+                                    foreach (var gameID in gameIDs)
+                                    {
+                                        gameTasks.Add(PlayByPlayService.PlayByPlayV2(gameID));
+                                        gameTasks.Add(VideoService.VideoDetailAsset(gameID, season, seasonType));
+                                    }
+                                }
+
+                                await Task.WhenAll(gameTasks);
                                 Console.WriteLine("Game data load complete.");
                                 break;
                             case "team":
                                 //Load team data 
                                 Console.WriteLine("Team data load started.");
-                                tasks.Add(TeamLogic.LoadTeamData(season, seasonTypes, dateFrom, dateTo));
+                                var teamTasks = new List<Task>();
+
+                                var teamIDs = await DailyHelper.GetIDs("teamId", "T", season, dateFrom, dateTo);
+                                int teamCount = teamIDs.Count;
+
+                                //loop through all the teams
+                                foreach (var teamID in teamIDs)
+                                {
+                                    //get the team details
+                                    teamTasks.Add(TeamService.TeamDetails(teamID));
+                                    teamTasks.Add(TeamService.TeamYearByYearStats(teamID));
+                                    teamTasks.Add(CommonService.CommonTeamRoster(teamID, season));
+                                    teamTasks.Add(TeamService.TeamHistoricalLeaders(teamID, season));
+
+                                    foreach (var seasonType in seasonTypes)
+                                    {
+                                        teamTasks.Add(TeamService.TeamInfoCommon(teamID, season, seasonType));
+                                        teamTasks.Add(ShotChartService.ShotChartDetail(season, null, "0", teamID, seasonType));
+
+                                        foreach (var measureType in MeasureTypeService.ClutchMeasureTypes)
+                                        {
+                                            teamTasks.Add(PlayerService.PlayerGameLogs(season, seasonType, "Totals", measureType, teamID));
+                                        }
+
+                                        foreach (var perMode in PerModeService.PlayerPerModes)
+                                        {
+                                            foreach (var measureType in MeasureTypeService.PlayerMeasureTypes)
+                                            {
+                                                teamTasks.Add(LeagueService.LeagueDashPlayerStats(season, seasonType, perMode, measureType, teamID));
+                                            }
+
+                                            foreach (var measureType in MeasureTypeService.ClutchMeasureTypes)
+                                            {
+                                                teamTasks.Add(LeagueService.LeagueDashPlayerClutch(season, seasonType, perMode, measureType, teamID));
+                                            }
+
+                                            teamTasks.Add(LeagueService.LeaguePlayerOnDetails(season, seasonType, perMode, "Opponent", teamID));
+                                            teamTasks.Add(LeagueService.LeagueHustleStatsPlayer(season, seasonType, perMode, teamID));
+                                        }
+                                    }
+                                }
+
+                                await Task.WhenAll(teamTasks);
                                 Console.WriteLine("Team data load complete.");
                                 break;
                             case "player":
                                 //Load player data
                                 Console.WriteLine("Player data load started.");
-                                tasks.Add(PlayerLogic.LoadPlayerData(season, seasonTypes, dateFrom, dateTo));
+                                var playerTasks = new List<Task>();
+
+                                //obtain player data for current season
+                                var seasonPlayers = await PlayerService.PlayerIndex(season, "0");
+                                var playerIDs = await DailyHelper.GetIDs("playerId", "P", season, dateFrom, dateTo);
+
+                                foreach (var playerID in playerIDs)
+                                {
+                                    playerTasks.Add(CommonService.CommonPlayerInfo(playerID)); ///TODO: FIX THIS!!!
+
+                                    foreach (var perMode in PerModeService.PlayerPerModes)
+                                    {
+                                        playerTasks.Add(PlayerService.PlayerProfileV2(playerID, perMode));
+                                    }
+                                }
+
+                                await Task.WhenAll(playerTasks);
                                 Console.WriteLine("Player data load complete.");
                                 break;
                             default:
@@ -96,8 +290,6 @@ namespace BBALL.LIB.Logic
                         }
                     }
                 }
-
-                await Task.WhenAll(tasks);
 
                 //check any records that could not be loaded due to errors
                 var parameters = new BsonArray();
@@ -165,8 +357,8 @@ namespace BBALL.LIB.Logic
                     { "elapsed", elapsedTime },
                     { "stopTime", stopTime },
                     { "restartTime", restartTime },
-                    { "callsMade", TimeoutHelper.callCount },
-                    { "incompleteTasks", incompleteTaskCount }
+                    { "incompleteTasks", incompleteTaskCount },
+                    { "apiCallsMade", TimeoutHelper.apiCount }
                 };
                 await DatabaseHelper.AddDocumentAsync("logprocess", loadDocument);
 
@@ -183,6 +375,10 @@ namespace BBALL.LIB.Logic
 
         public static async Task LoadStaticData()
         {
+            var filtersCollection = "filters";
+            await DatabaseHelper.DropCollectionAsync(filtersCollection);
+            await DatabaseHelper.CreateCollectionAsync(filtersCollection);
+
             var tasks = new List<Task>();
 
             tasks.Add(Task.Run(() => { ConferenceService.LoadFilter(); }));
@@ -245,40 +441,42 @@ namespace BBALL.LIB.Logic
                 "draftcombineplayeranthro",
                 "draftcombinespotshooting",
                 "draftcombinestats",
-                "leaguegamelog",
+                "playerleaguegamelog",
                 "playerestimatedmetrics",
                 "playergamelogs",
-                "leaguedashplayerstats",
-                "leaguedashplayerclutch",
-                "leagueplayerondetails",
-                "leaguehustlestatsplayer",
-                "synergyplaytypes",
-                "leaguedashptstats",
-                "leaguedashptdefend",
-                "leaguedashplayerptshot",
-                "leaguedashplayershotlocations",
-                "leaguehustlestatsplayerleaders",
-                "leaguedashplayerbiostats",
-                "commonplayerinfo",
+                "playerstats",
+                "playerclutch",
+                "playerondetails",
+                "playerhustlestats",
+                "playersynergyplaytypes",
+                "playerptstats",
+                "playerptdefend",
+                "playerptshot",
+                "playershotlocations",
+                "playerhustlestatsleaders",
+                "playerbiostats",
+                "playerinfo",
                 "playerprofilev2",
                 "leaguestandingsv3",
-                "homepagev2",
+                "teamleaguegamelog",
                 "teamestimatedmetrics",
                 "teamgamelogs",
-                "leaguedashteamstats",
-                "leaguedashteamclutch",
-                "leaguedashlineups",
-                "leaguedashteamptshot",
-                "leaguedashoppptshot",
-                "leaguedashteamshotlocations",
-                "leaguehustlestatsteamleaders",
-                "leaguehustlestatsteam",
-                "leaguedashptteamdefend",
-                "commonteamyears",
-                "franchisehistory",
+                "teamstats",
+                "teamclutch",
+                "teamlineups",
+                "teamptshot",
+                "teamoppptshot",
+                "teamshotlocations",
+                "teamhustlestatsleaders",
+                "teamhustlestats",
+                "teamptdefend",
+                "teamsynergyplaytypes",
+                "teamptstats",
+                "teamyears",
+                "teamhistory",
                 "teamdetails",
                 "teamyearbyyearstats",
-                "commonteamroster",
+                "teamroster",
                 "teamhistoricalleaders",
                 "teaminfocommon",
                 "shotchartdetail",

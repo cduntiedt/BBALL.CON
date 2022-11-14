@@ -3,6 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,7 +46,13 @@ namespace BBALL.LIB.Helpers
                 parameters.Add(CreateParameterObject("PlayerOrTeam", PlayerOrTeam));
                 parameters.Add(CreateParameterObject("Sorter", "DATE"));
 
-                var seasonDocs = await DatabaseHelper.GenerateDocumentsAsync("https://stats.nba.com/stats/leaguegamelog/", "leaguegamelog", parameters, true);
+                var collection = "player";
+                if(PlayerOrTeam == "T")
+                {
+                    collection = "team";
+                }
+
+                var seasonDocs = await DatabaseHelper.GenerateDocumentsAsync("https://stats.nba.com/stats/leaguegamelog/", $"{collection}leaguegamelog", parameters, true);
                 seasonDocuments.AddRange(seasonDocs);
             }
 
@@ -57,14 +64,16 @@ namespace BBALL.LIB.Helpers
             try
             {
                 List<BsonDocument> seasonDocuments = await GetSeasonDocuments("T", Season, DateFrom, DateTo);
-                var seasonTypes = seasonDocuments.GroupBy(x => x[DatabaseHelper.Parameters]["SeasonType"])
+                var seasonTypes = seasonDocuments.GroupBy(x => x[DatabaseHelper.Parameters]["seasonType"])
                         .Select(x => x.Key.ToString())
+                        .Where(x => x == "Playoffs" || x == "Regular Season")
                         .ToList();
 
                 return seasonTypes;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                await DatabaseHelper.ErrorDocumentAsync(ex, "GetSeasonTypes", "https://stats.nba.com/stats/leaguegamelog/", "leaguegamelog");
                 throw;
             }
         }

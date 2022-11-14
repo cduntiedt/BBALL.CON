@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace BBALL.LIB.Helpers
@@ -30,7 +31,7 @@ namespace BBALL.LIB.Helpers
             try
             {
                 BsonDocument obj = new BsonDocument();
-                obj.Add("Key", key);
+                obj.Add("Key", JsonNamingPolicy.CamelCase.ConvertName(key));
 
                 if (value == null)
                 {
@@ -76,7 +77,7 @@ namespace BBALL.LIB.Helpers
             try
             {
                 BsonDocument obj = new BsonDocument();
-                obj.Add("Key", key);
+                obj.Add("Key", JsonNamingPolicy.CamelCase.ConvertName(key));
 
                 if(value == null)
                 {

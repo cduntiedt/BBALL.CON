@@ -82,7 +82,7 @@ namespace BBALL.LIB.Helpers
             catch (Exception ex)
             {
                 await DatabaseHelper.ErrorDocumentAsync(ex, "API", query.Url, "");
-                throw;
+                return null;
             }
             finally
             {
